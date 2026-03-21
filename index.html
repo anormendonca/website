@@ -7,22 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#000;
-  --surface2:#0d0d0d;
-  --border:rgba(255,255,255,0.12);
-  --border2:rgba(255,255,255,0.22);
-  --text:#f0ede8;
-  --muted:#777773;
-  --muted2:#3a3a38;
-}
+:root{--bg:#000;--surface2:#0d0d0d;--border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.22);--text:#f0ede8;--muted:#777773;--muted2:#3a3a38}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:56px;background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);border-bottom:0.5px solid var(--border)}
 .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.02em}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s}
+.nav-links{display:flex;gap:1.6rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s}
 .nav-links a:hover{color:var(--text)}
 .nav-cta{border:0.5px solid var(--border2);color:var(--text);padding:7px 16px;border-radius:6px;font-size:12px;font-weight:500;text-decoration:none;transition:background 0.2s}
 .nav-cta:hover{background:var(--surface2)}
@@ -35,7 +27,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .hero-eyebrow::before{content:'';width:28px;height:0.5px;background:var(--muted)}
 .hero h1{font-family:'Syne',sans-serif;font-size:clamp(3rem,8vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-0.04em;margin-bottom:1.5rem}
 .hero h1 .dim{color:var(--muted2)}
-.hero-desc{font-size:15px;color:var(--muted);max-width:480px;line-height:1.75;margin-bottom:2.5rem}
+.hero-desc{font-size:15px;color:var(--muted);max-width:500px;line-height:1.75;margin-bottom:2.5rem}
 .hero-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .btn-primary{background:var(--text);color:#000;padding:11px 22px;border-radius:7px;font-size:13px;font-weight:500;border:none;cursor:pointer;transition:opacity 0.2s}
 .btn-primary:hover{opacity:0.85}
@@ -65,7 +57,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .tutor-rate-num{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;letter-spacing:-0.04em;line-height:1}
 .tutor-rate-sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:4px}
 
-.offers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:1.5rem}
+.offers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .offer-card{background:#000;border:0.5px solid var(--border);border-radius:12px;padding:1.6rem 1.5rem;transition:border-color 0.2s,background 0.2s}
 .offer-card:hover{border-color:var(--border2);background:var(--surface2)}
 .offer-icon{font-size:18px;margin-bottom:0.8rem;display:block}
@@ -77,7 +69,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .item-card:hover{border-color:var(--border2);background:var(--surface2)}
 .card-left h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.01em}
 .card-left p{font-size:11px;color:var(--muted);margin-top:2px}
-.card-right-big{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:rgba(240,237,232,0.2);letter-spacing:-0.03em}
+.card-right-big{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:rgba(240,237,232,0.2);letter-spacing:-0.03em}
+
+.exp-list{display:flex;flex-direction:column;gap:1px;border:0.5px solid var(--border);border-radius:14px;overflow:hidden}
+.exp-row{background:#000;padding:1.6rem 1.8rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;transition:background 0.2s}
+.exp-row:hover{background:var(--surface2)}
+.exp-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.01em;margin-bottom:3px}
+.exp-org{font-size:12px;color:var(--muted);margin-bottom:8px}
+.exp-desc{font-size:13px;color:rgba(240,237,232,0.65);line-height:1.65;max-width:620px}
+.exp-date{font-size:11px;color:var(--muted2);text-align:right;white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em;padding-top:3px}
+
+.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.proj-card{background:#000;border:0.5px solid var(--border);border-radius:12px;padding:1.6rem 1.8rem;transition:border-color 0.2s,background 0.2s}
+.proj-card:hover{border-color:var(--border2);background:var(--surface2)}
+.proj-card h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px}
+.proj-card p{font-size:12px;color:var(--muted);line-height:1.6}
+
+.vol-card{background:#000;border:0.5px solid var(--border);border-radius:12px;padding:1.8rem;transition:border-color 0.2s,background 0.2s}
+.vol-card:hover{border-color:var(--border2);background:var(--surface2)}
+.vol-card h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px}
+.vol-card .vol-org{font-size:12px;color:var(--muted);margin-bottom:10px}
+.vol-card p{font-size:13px;color:rgba(240,237,232,0.65);line-height:1.65}
+.vol-roles{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.vol-role{font-size:11px;color:var(--muted);border:0.5px solid var(--border);border-radius:20px;padding:3px 10px}
 
 .side-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border-radius:14px;overflow:hidden}
 .side-tile{background:#000;padding:1.8rem;transition:background 0.2s}
@@ -93,8 +107,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .contact-right{display:flex;flex-direction:column;align-items:flex-end;gap:1.2rem}
 .contact-btn{background:var(--text);color:#000;border:none;padding:12px 28px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity 0.2s;font-family:'Inter',sans-serif}
 .contact-btn:hover{opacity:0.85}
-.socials{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.social-link{display:flex;align-items:center;gap:7px;color:var(--muted);text-decoration:none;font-size:12px;transition:color 0.2s;border:0.5px solid var(--border);border-radius:8px;padding:7px 13px}
+.socials{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.social-link{display:flex;align-items:center;gap:7px;color:var(--muted);text-decoration:none;font-size:12px;transition:color 0.2s;border:0.5px solid var(--border);border-radius:8px;padding:7px 12px}
 .social-link:hover{color:var(--text);border-color:var(--border2)}
 .social-link svg{width:14px;height:14px;fill:currentColor;flex-shrink:0}
 
@@ -111,6 +125,7 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#tutor">Tutoring</a></li>
+    <li><a href="#experience">Experience</a></li>
     <li><a href="#music">Music</a></li>
     <li><a href="#sports">Sports</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -124,10 +139,10 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
   <div class="hero-content">
     <div class="hero-eyebrow">Dubai, UAE &nbsp;·&nbsp; Available for lessons</div>
     <h1>Anor<br>Mendonca<span class="dim">.</span></h1>
-    <p class="hero-desc">Music tutor, athlete, and designer. A learning Grade 8 pianist and Grade 6 violinist offering lessons in Dubai — with a side in graphic and web design.</p>
+    <p class="hero-desc">Music tutor, athlete, and designer. A Grade 8 pianist and Grade 6 violinist offering lessons in Dubai — with a side in graphic and web design.</p>
     <div class="hero-btns">
       <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a lesson</button>
-      <button class="btn-ghost" onclick="document.getElementById('tutor').scrollIntoView({behavior:'smooth'})">Learn more ↓</button>
+      <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Learn more ↓</button>
     </div>
   </div>
   <div class="hero-scroll">Scroll</div>
@@ -137,12 +152,13 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
   <div class="section-inner">
     <div class="section-header"><span class="section-num">01</span><h2 class="section-title">About me</h2></div>
     <div class="about-grid">
-      <p class="about-text">Year 11 student in Dubai with a lifelong passion for music, sports, and design. I hold Trinity College London certifications across four instruments and have been playing since I was young. Outside of music I play basketball, sprint, and take on the design and web projects.</p>
+      <p class="about-text">Year 11 student in Dubai with a lifelong passion for music, sports, and design. I hold Trinity College London certifications across four instruments and have been playing since I was young. Outside of music I play basketball, sprint, and take on design and web projects.</p>
       <div class="about-facts">
+        <div class="fact-row"><span class="fact-label">School</span><span class="fact-value">St. Mary's Catholic HS, Dubai</span></div>
         <div class="fact-row"><span class="fact-label">Based in</span><span class="fact-value">Dubai, UAE</span></div>
         <div class="fact-row"><span class="fact-label">Background</span><span class="fact-value">Indian · Roman Catholic</span></div>
         <div class="fact-row"><span class="fact-label">Languages</span><span class="fact-value">English, Konkani, Hindi</span></div>
-        <div class="fact-row"><span class="fact-label">Education</span><span class="fact-value">Edexcel GCSE 2026</span></div>
+        <div class="fact-row"><span class="fact-label">Education</span><span class="fact-value">Edexcel GCSE/IGCSE 2026</span></div>
         <div class="fact-row"><span class="fact-label">Status</span><span class="fact-value">Open for work</span></div>
       </div>
     </div>
@@ -171,23 +187,47 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
   </div>
 </div>
 
+<div class="section fade" id="experience">
+  <div class="section-inner">
+    <div class="section-header"><span class="section-num">03</span><h2 class="section-title">Experience</h2></div>
+    <div class="exp-list">
+      <div class="exp-row">
+        <div>
+          <div class="exp-title">Music Teacher</div>
+          <div class="exp-org">Freelance · Dubai, UAE · Hybrid</div>
+          <p class="exp-desc">One-to-one lessons in piano, violin, keyboard, and music theory for beginner and intermediate students. Prepare students for Trinity College London examinations — graded pieces, technical work, and theory. Support learners in building confidence for performances, school events, and formal assessments.</p>
+        </div>
+        <div class="exp-date">Jan 2024 – Present</div>
+      </div>
+      <div class="exp-row">
+        <div>
+          <div class="exp-title">Graphic Designer</div>
+          <div class="exp-org">Jesus Youth Teens · Part-time · Dubai, UAE · Remote</div>
+          <p class="exp-desc">Designed posters, event branding, digital media, and social content for youth programmes. Coordinated with team leaders to deliver visuals on short deadlines. Gained experience in layout, colour strategy, and audience-focused design.</p>
+        </div>
+        <div class="exp-date">Sep 2025 – Present</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="section fade" id="music">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">03</span><h2 class="section-title">My Musical Grades</h2></div>
+    <div class="section-header"><span class="section-num">04</span><h2 class="section-title">My musical grades</h2></div>
     <div class="cards-grid">
       <div class="item-card"><div class="card-left"><h4>Piano</h4><p>Trinity College London</p></div><span class="card-right-big">G6→G8</span></div>
       <div class="item-card"><div class="card-left"><h4>Violin</h4><p>Trinity College London</p></div><span class="card-right-big">G6</span></div>
       <div class="item-card"><div class="card-left"><h4>Keyboard</h4><p>Trinity College London</p></div><span class="card-right-big">G3</span></div>
       <div class="item-card"><div class="card-left"><h4>Music Theory</h4><p>Trinity College London</p></div><span class="card-right-big">G4</span></div>
-      <div class="item-card"><div class="card-left"><h4>Recorder</h4><p>School Level</p></div><span class="card-right-big"></span></div>
-      <div class="item-card"><div class="card-left"><h4>Pianica</h4><p>Self Learnt</p></div><span class="card-right-big"></span></div>
+      <div class="item-card"><div class="card-left"><h4>Recorder</h4><p>School level</p></div><span class="card-right-big"></span></div>
+      <div class="item-card"><div class="card-left"><h4>Pianica</h4><p>Self-taught</p></div><span class="card-right-big"></span></div>
     </div>
   </div>
 </div>
 
 <div class="section fade" id="sports">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">04</span><h2 class="section-title">Sports</h2></div>
+    <div class="section-header"><span class="section-num">05</span><h2 class="section-title">Sports</h2></div>
     <div class="cards-grid">
       <div class="item-card"><div class="card-left"><h4>Basketball</h4><p>Position</p></div><span class="card-right-big">C</span></div>
       <div class="item-card"><div class="card-left"><h4>Sprinting</h4><p>Track & Field</p></div><span class="card-right-big">S</span></div>
@@ -199,10 +239,45 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
 
 <div class="section fade">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">05</span><h2 class="section-title">Also available</h2></div>
+    <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Projects</h2></div>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <h4>GCSE & IGCSE Resource Drive</h4>
+        <p>Built a fully organised Google Drive system for GCSE and IGCSE students covering all core sciences, maths, psychology, English, CS, and religious studies. Includes topic notes, past papers, markschemes, revision templates, and study planners.</p>
+      </div>
+      <div class="proj-card">
+        <h4>Minecraft Server Hosting & Management</h4>
+        <p>Set up and managed a multiplayer Minecraft server — hosting, configuration, performance optimisation, plugin integration, user permissions, and automated backups. Developed practical skills in server administration and digital community management.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section fade">
+  <div class="section-inner">
+    <div class="section-header"><span class="section-num">07</span><h2 class="section-title">Volunteering</h2></div>
+    <div class="vol-card">
+      <h4>St. Mary's Catholic Church, Dubai</h4>
+      <div class="vol-org">Jesus Youth Teens · Core Team Member</div>
+      <p>Contributed actively to church and youth ministry — organising events, supporting liturgical activities, reading scripture, performing in musical ensembles, and leading youth initiatives.</p>
+      <div class="vol-roles">
+        <span class="vol-role">Altar Server</span>
+        <span class="vol-role">Usher</span>
+        <span class="vol-role">Lector</span>
+        <span class="vol-role">Choir Member</span>
+        <span class="vol-role">Musician</span>
+        <span class="vol-role">Core Team Member</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section fade">
+  <div class="section-inner">
+    <div class="section-header"><span class="section-num">08</span><h2 class="section-title">Also available</h2></div>
     <div class="side-grid">
       <div class="side-tile"><span class="side-tile-icon">✦</span><h3>Graphic design</h3><p>Logos, branding, and social media content. Self-taught with real client work.</p></div>
-      <div class="side-tile"><span class="side-tile-icon">✦</span><h3>Web design</h3><p>Clean, functional websites built from scratch.</p></div>
+      <div class="side-tile"><span class="side-tile-icon">◻</span><h3>Web design</h3><p>Clean, functional websites built from scratch.</p></div>
     </div>
   </div>
 </div>
@@ -226,7 +301,7 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
         </a>
         <a class="social-link" href="mailto:anort.mendonca@gmail.com">
           <svg viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.910 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
-          anort.mendonca@gmail.com
+          Email
         </a>
         <a class="social-link" href="https://linkedin.com/in/anormendonca" target="_blank">
           <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
