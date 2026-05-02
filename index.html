@@ -12,12 +12,24 @@ html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:56px;background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);border-bottom:0.5px solid var(--border)}
-.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.02em}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:-0.02em; cursor:pointer; display:inline-block; transition: color 0.2s;}
+.nav-logo:hover{color: var(--muted);}
 .nav-links{display:flex;gap:1.6rem;list-style:none}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s}
 .nav-links a:hover{color:var(--text)}
 .nav-cta{border:0.5px solid var(--border2);color:var(--text);padding:7px 16px;border-radius:6px;font-size:12px;font-weight:500;text-decoration:none;transition:background 0.2s}
 .nav-cta:hover{background:var(--surface2)}
+
+/* --- EXPLOSION ANIMATION --- */
+@keyframes explode {
+  0% { transform: scale(1); opacity: 1; filter: blur(0); letter-spacing: -0.02em; }
+  50% { transform: scale(1.5); opacity: 0.8; filter: blur(2px); letter-spacing: 10px; }
+  100% { transform: scale(2.5); opacity: 0; filter: blur(8px); letter-spacing: 25px; }
+}
+.exploding {
+  animation: explode 0.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+  pointer-events: none;
+}
 
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden}
 .hero-line{position:absolute;top:0;right:20%;width:0.5px;height:100%;background:linear-gradient(to bottom,transparent,var(--border) 30%,var(--border) 70%,transparent)}
@@ -31,7 +43,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .hero-btns{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .btn-primary{background:var(--text);color:#000;padding:11px 22px;border-radius:7px;font-size:13px;font-weight:500;border:none;cursor:pointer;transition:opacity 0.2s}
 .btn-primary:hover{opacity:0.85}
-.btn-ghost{background:transparent;color:var(--muted);padding:11px 22px;border-radius:7px;font-size:13px;border:0.5px solid var(--border);cursor:pointer;transition:all 0.2s}
+.btn-ghost{background:transparent;color:var(--muted);padding:11px 22px;border-radius:7px;font-size:13px;border:0.5px solid var(--border);cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;}
 .btn-ghost:hover{color:var(--text);border-color:var(--border2)}
 .hero-scroll{position:absolute;bottom:2.5rem;right:3rem;writing-mode:vertical-rl;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted2);display:flex;align-items:center;gap:10px}
 .hero-scroll::after{content:'';width:0.5px;height:40px;background:var(--muted2)}
@@ -41,6 +53,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:2.5rem}
 .section-num{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--muted2);letter-spacing:0.08em}
 .section-title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;letter-spacing:-0.03em}
+.carousel-title {font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text);}
 
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
 .about-text{font-size:16px;color:rgba(240,237,232,0.7);line-height:1.8}
@@ -79,6 +92,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .exp-desc{font-size:13px;color:rgba(240,237,232,0.65);line-height:1.65;max-width:620px}
 .exp-date{font-size:11px;color:var(--muted2);text-align:right;white-space:nowrap;text-transform:uppercase;letter-spacing:0.05em;padding-top:3px}
 
+/* --- TEXT ONLY POPUP BUTTONS --- */
+.report-links-row {
+  display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;
+}
+.text-popup-wrapper {
+  display: inline-block;
+}
+.text-popup-btn {
+  font-size: 11px; font-weight: 500; color: var(--muted); border: 0.5px solid var(--border); 
+  padding: 5px 12px; border-radius: 20px; cursor: pointer; transition: all 0.2s; 
+  text-transform: uppercase; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 6px;
+}
+.text-popup-btn:hover {
+  color: var(--text); border-color: var(--border2); background: var(--surface2);
+}
+
 .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .proj-card{background:#000;border:0.5px solid var(--border);border-radius:12px;padding:1.6rem 1.8rem;transition:border-color 0.2s,background 0.2s}
 .proj-card:hover{border-color:var(--border2);background:var(--surface2)}
@@ -116,15 +145,86 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
 
 .fade{opacity:0;transform:translateY(22px);transition:opacity 0.7s ease,transform 0.7s ease}
 .fade.visible{opacity:1;transform:none}
+
+/* --- MULTI-ITEM GALLERY SLIDER CSS --- */
+.slider-wrapper {
+  display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; width: 100%;
+}
+.slider-arrow {
+  background: transparent; border: 0.5px solid var(--border); color: var(--muted); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s; flex-shrink: 0;
+}
+.slider-arrow:hover { color: var(--text); border-color: var(--border2); background: var(--surface2); }
+.slider-viewport {
+  overflow: hidden; flex-grow: 1; border-radius: 12px;
+}
+.slider-track {
+  display: flex; gap: 15px; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.slide {
+  flex: 0 0 calc(33.333% - 10px); /* Shows 3 items at once */
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for smaller screens so it doesn't break */
+@media (max-width: 900px) {
+  .slide { flex: 0 0 calc(50% - 7.5px); } /* 2 items on tablet */
+}
+@media (max-width: 600px) {
+  .slide { flex: 0 0 100%; } /* 1 item on phone */
+}
+
+.achievement-card {
+  background: #000; border: 0.5px solid var(--border); border-radius: 12px; padding: 12px; cursor: pointer; transition: background 0.2s, border-color 0.2s; height: 100%;
+}
+.achievement-card:hover { background: var(--surface2); border-color: var(--border2); }
+.achievement-img-wrapper {
+  width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-bottom: 12px;
+}
+.achievement-card img.main-img {
+  width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
+}
+.achievement-card:hover img.main-img { transform: scale(1.06); }
+.achievement-card p {
+  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; text-align: center; color: var(--text); letter-spacing: -0.01em; margin-bottom: 2px;
+}
+.achievement-card span.sub { display: block; font-size: 11px; color: var(--muted); text-align: center; }
+
+/* --- FIXED POPUP CSS --- */
+.popup-overlay {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.8); backdrop-filter: blur(4px);
+  z-index: 900; opacity: 0; visibility: hidden; pointer-events: none;
+  transition: all 0.2s ease;
+}
+.popup-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+
+.card-popup {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95);
+  background: var(--surface2); border: 1px solid var(--border2); border-radius: 12px; 
+  padding: 12px; box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+  z-index: 1000; opacity: 0; visibility: hidden; pointer-events: none;
+  width: 750px; max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.achievement-card.active-popup .card-popup, 
+.text-popup-wrapper.active-popup .card-popup {
+  opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); pointer-events: auto;
+}
+
+.card-popup img { width: 100%; max-height: 75vh; object-fit: contain; border-radius: 6px; display: block; }
+.card-popup iframe { width: 100%; height: 75vh; border-radius: 6px; border: none; display: block; }
+.popup-close-hint { font-size: 10px; color: var(--muted); text-align: center; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
 </style>
 </head>
 <body>
 
 <nav>
-  <span class="nav-logo">AM</span>
+  <span class="nav-logo" id="amLogo">AM</span>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#tutor">Tutoring</a></li>
+    <li><a href="#education">Education</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#music">Music</a></li>
     <li><a href="#sports">Sports</a></li>
@@ -141,8 +241,8 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
     <h1>Anor<br>Mendonca<span class="dim">.</span></h1>
     <p class="hero-desc">Aspiring medic, music tutor, and designer. Student at Jnanasudha Pre-University College, Udupi — teaching piano and violin while building toward a future in medicine.</p>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a lesson</button>
-      <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Learn more ↓</button>
+      <a class="btn-primary" href="#contact">Book a lesson</a>
+      <a class="btn-ghost" href="#about">Learn more ↓</a>
     </div>
   </div>
   <div class="hero-scroll">Scroll</div>
@@ -158,7 +258,7 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
         <div class="fact-row"><span class="fact-label">Based in</span><span class="fact-value">Dubai, UAE / Udupi, India</span></div>
         <div class="fact-row"><span class="fact-label">Background</span><span class="fact-value">Indian · Roman Catholic</span></div>
         <div class="fact-row"><span class="fact-label">Languages</span><span class="fact-value">English, Konkani, Hindi</span></div>
-        <div class="fact-row"><span class="fact-label">Education</span><span class="fact-value">Edexcel GCSE/IGCSE 2026 </n>KSEAB </span></div>
+        <div class="fact-row"><span class="fact-label">Education</span><span class="fact-value">Edexcel GCSE/IGCSE 2026<br>KSEAB</span></div>
         <div class="fact-row"><span class="fact-label">Status</span><span class="fact-value">Open for work</span></div>
       </div>
     </div>
@@ -187,9 +287,63 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
   </div>
 </div>
 
+<div class="section fade" id="education">
+  <div class="section-inner">
+    <div class="section-header"><span class="section-num">03</span><h2 class="section-title">Education</h2></div>
+    
+    <div class="exp-list">
+      <div class="exp-row">
+        <div>
+          <div class="exp-title">11th & 12th (KSEAB + NEET)</div>
+          <div class="exp-org">Jnanasudha Pre-University College, Udupi</div>
+          <p class="exp-desc">Focused on advanced sciences preparing for medical school entrance (NEET).</p>
+        </div>
+        <div class="exp-date">Jun 2026 – Present</div>
+      </div>
+      
+      <div class="exp-row">
+        <div>
+          <div class="exp-title">High School Diploma, GCSEs/IGCSEs</div>
+          <div class="exp-org">St. Mary's Catholic High School, Dubai</div>
+          <p class="exp-desc">Subjects include Biology, Chemistry, Physics, Psychology, Maths, English Language, Computer Science, and Religious Studies. Active in science clubs, public speaking, competitive sports (School Basketball Team Center, Track & Field), and music performance.</p>
+          
+          <div class="report-links-row">
+            <div class="text-popup-wrapper" onclick="openPopup(this, event)">
+              <div class="text-popup-btn">📄 Grade 9 Report</div>
+              <div class="card-popup">
+                <iframe src="https://drive.google.com/file/d/1oZya6UrianhHwpaz97p2ARbL6AdducIE/preview" title="Grade 9 Report" allow="autoplay"></iframe>
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+
+            <div class="text-popup-wrapper" onclick="openPopup(this, event)">
+              <div class="text-popup-btn">📄 Grade 10 Report</div>
+              <div class="card-popup">
+                <iframe src="https://drive.google.com/file/d/11lavWog1DA3vGptl4vB7K5GiTzFKcqQs/preview" title="Grade 10 Report" allow="autoplay"></iframe>
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+
+            <div class="text-popup-wrapper" onclick="openPopup(this, event)">
+              <div class="text-popup-btn">📄 Grade 11 Report</div>
+              <div class="card-popup">
+                <img src="https://via.placeholder.com/600x800/111111/555555?text=Grade+11+Report+PDF+Here" alt="Grade 11 Grades">
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="exp-date">Sep 2015 – Jun 2026</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="section fade" id="experience">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">03</span><h2 class="section-title">Experience</h2></div>
+    <div class="section-header"><span class="section-num">04</span><h2 class="section-title">Experience</h2></div>
     <div class="exp-list">
       <div class="exp-row">
         <div>
@@ -213,7 +367,7 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
 
 <div class="section fade" id="music">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">04</span><h2 class="section-title">My musical grades</h2></div>
+    <div class="section-header"><span class="section-num">05</span><h2 class="section-title">My musical grades</h2></div>
     <div class="cards-grid">
       <div class="item-card"><div class="card-left"><h4>Piano</h4><p>Trinity College London</p></div><span class="card-right-big">G6→G8</span></div>
       <div class="item-card"><div class="card-left"><h4>Violin</h4><p>Trinity College London</p></div><span class="card-right-big">G6</span></div>
@@ -227,7 +381,7 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
 
 <div class="section fade" id="sports">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">05</span><h2 class="section-title">Sports</h2></div>
+    <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Sports</h2></div>
     <div class="cards-grid">
       <div class="item-card"><div class="card-left"><h4>Basketball</h4><p>Position</p></div><span class="card-right-big">C</span></div>
       <div class="item-card"><div class="card-left"><h4>Sprinting</h4><p>Track & Field</p></div><span class="card-right-big">S</span></div>
@@ -239,7 +393,7 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
 
 <div class="section fade">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Projects</h2></div>
+    <div class="section-header"><span class="section-num">07</span><h2 class="section-title">Projects</h2></div>
     <div class="proj-grid">
       <div class="proj-card">
         <h4>GCSE & IGCSE Resource Drive</h4>
@@ -249,13 +403,137 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
         <h4>Minecraft Server Hosting & Management</h4>
         <p>Set up and managed a multiplayer Minecraft server — hosting, configuration, performance optimisation, plugin integration, user permissions, and automated backups. Developed practical skills in server administration and digital community management.</p>
       </div>
+      <div class="proj-card">
+        <h4>Adnoc STEM & Digital Energy Challenges</h4>
+        <p>Completed a series of STEM e-learning programs including Formula Ethara at Home, COP28 UAE Challenge, Mission Digital Energy, and Ready, Set, Data! Developed problem-solving and data analysis skills through sustainability initiatives.</p>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="section fade">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">07</span><h2 class="section-title">Volunteering</h2></div>
+    <div class="section-header"><span class="section-num">08</span><h2 class="section-title">Achievements & Highlights</h2></div>
+    <div class="exp-list" style="margin-bottom: 3rem;">
+      <div class="exp-row">
+        <div>
+          <div class="exp-title">Youth Leadership Programme</div>
+          <div class="exp-org">Toastmasters</div>
+          <p class="exp-desc">Developed structured public speaking, speech evaluations, and impromptu speaking skills. Served in key roles including Secretary, Timer, and Ah-Counter.</p>
+        </div>
+        <div class="exp-date">Oct 2025 – Feb 2026</div>
+      </div>
+      <div class="exp-row">
+        <div>
+          <div class="exp-title">Communication & Presentation Training</div>
+          <div class="exp-org">Sandesha Foundation</div>
+          <p class="exp-desc">Trained in speech delivery, articulation, and structured presentations. Gained experience speaking to groups and strengthened communication skills.</p>
+        </div>
+        <div class="exp-date">Completed</div>
+      </div>
+    </div>
+    
+    <h3 class="carousel-title">Gallery & Certificates</h3>
+
+    <div class="slider-wrapper">
+      <button class="slider-arrow" onclick="prevGallerySlide()">&#10094;</button>
+      
+      <div class="slider-viewport">
+        <div class="slider-track" id="galleryTrack">
+          <div class="slide">
+            <div class="achievement-card" onclick="openPopup(this, event)">
+              <div class="achievement-img-wrapper">
+                <img class="main-img" src="https://media.licdn.com/dms/image/v2/D4D2DAQHJDOAmuHH2DQ/profile-treasury-image-shrink_1280_1280/B4DZq2O7bQIkAU-/0/1763993980204?e=1778320800&v=beta&t=pkGW9RlQOOh_Gn7qNHsw9Cckxe-zAhQTiaT4n3oDj2E" alt="School Basketball Team">
+              </div>
+              <p>School Basketball Team</p>
+              <div class="card-popup">
+                <img src="https://media.licdn.com/dms/image/v2/D4D2DAQHJDOAmuHH2DQ/profile-treasury-image-shrink_1280_1280/B4DZq2O7bQIkAU-/0/1763993980204?e=1778320800&v=beta&t=pkGW9RlQOOh_Gn7qNHsw9Cckxe-zAhQTiaT4n3oDj2E" alt="School Basketball Team Full">
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="achievement-card" onclick="openPopup(this, event)">
+              <div class="achievement-img-wrapper">
+                <img class="main-img" src="https://media.licdn.com/dms/image/v2/D4D2DAQEgE8PxMLI1jA/profile-treasury-image-shrink_1280_1280/B4DZqwlgdfHsAQ-/0/1763899215269?e=1778320800&v=beta&t=Sux9OpTikVcy2klPavs6IHmNGJUH55EgoAZJKZtOExk" alt="Saintz MUN Honourable Mention">
+              </div>
+              <p>Saintz MUN</p>
+              <span class="sub">Honourable Mention</span>
+              <div class="card-popup">
+                <img src="https://media.licdn.com/dms/image/v2/D4D2DAQEgE8PxMLI1jA/profile-treasury-image-shrink_1280_1280/B4DZqwlgdfHsAQ-/0/1763899215269?e=1778320800&v=beta&t=Sux9OpTikVcy2klPavs6IHmNGJUH55EgoAZJKZtOExk" alt="Saintz MUN Honourable Mention Full">
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="achievement-card" onclick="openPopup(this, event)">
+              <div class="achievement-img-wrapper">
+                <img class="main-img" src="https://media.licdn.com/dms/image/v2/D4D2DAQFh3LNIA9PQQg/profile-treasury-image-shrink_800_800/B4DZqwmAk6GkAY-/0/1763899346734?e=1778320800&v=beta&t=Bbvc_8uQvTYsb2UuLuSav3ce-0gWG_By1RlFBtTeu0s" alt="Saintz Talent Show 3rd Place Violin">
+              </div>
+              <p>Saintz Talent Show</p>
+              <span class="sub">3rd Place</span>
+              <div class="card-popup">
+                <img src="https://media.licdn.com/dms/image/v2/D4D2DAQFh3LNIA9PQQg/profile-treasury-image-shrink_800_800/B4DZqwmAk6GkAY-/0/1763899346734?e=1778320800&v=beta&t=Bbvc_8uQvTYsb2UuLuSav3ce-0gWG_By1RlFBtTeu0s" alt="Saintz Talent Show 3rd Place Violin Full">
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="achievement-card" onclick="openPopup(this, event)">
+              <div class="achievement-img-wrapper">
+                <img class="main-img" src="https://media.licdn.com/dms/image/v2/D4D2DAQHgocPnHbiADg/profile-treasury-document-images_1920/B4DZqwnZfsKQAw-/1/1763899711067?e=1778716800&v=beta&t=vWFyVe7q90WWQONb9t9QvEhIYTRvXuftp9oWQrhyQSQ" alt="GL English Assessment">
+              </div>
+              <p>GL Assessment</p>
+              <span class="sub">English</span>
+              <div class="card-popup">
+                <img src="https://media.licdn.com/dms/image/v2/D4D2DAQHgocPnHbiADg/profile-treasury-document-images_1920/B4DZqwnZfsKQAw-/1/1763899711067?e=1778716800&v=beta&t=vWFyVe7q90WWQONb9t9QvEhIYTRvXuftp9oWQrhyQSQ" alt="GL English Assessment Full">
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="slide">
+            <div class="achievement-card" onclick="openPopup(this, event)">
+              <div class="achievement-img-wrapper">
+                <img class="main-img" src="https://media.licdn.com/dms/image/v2/D4D2DAQH6QZAXE2_AXw/profile-treasury-document-images_1920/B4DZqwnWF4HwAs-/1/1763899697841?e=1778716800&v=beta&t=6bdGdD9wx0P90fAFxsFpQVkonw8DgvmtyWa4GKC_8to" alt="GL Math Assessment">
+              </div>
+              <p>GL Assessment</p>
+              <span class="sub">Math</span>
+              <div class="card-popup">
+                <img src="https://media.licdn.com/dms/image/v2/D4D2DAQH6QZAXE2_AXw/profile-treasury-document-images_1920/B4DZqwnWF4HwAs-/1/1763899697841?e=1778716800&v=beta&t=6bdGdD9wx0P90fAFxsFpQVkonw8DgvmtyWa4GKC_8to" alt="GL Math Assessment Full">
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="achievement-card" onclick="openPopup(this, event)">
+              <div class="achievement-img-wrapper">
+                <img class="main-img" src="https://media.licdn.com/dms/image/v2/D4D2DAQFYb4vfWPtk7A/profile-treasury-document-cover-images_800/B4DZqwnEuNJcA8-/0/1763899625720?e=1778320800&v=beta&t=K-8jDDE_ZOMTAACuflZ5ORf8HMCXtJNsgmYh1Kuhr90" alt="GL Science Assessment">
+              </div>
+              <p>GL Assessment</p>
+              <span class="sub">Science</span>
+              <div class="card-popup">
+                <img src="https://media.licdn.com/dms/image/v2/D4D2DAQFYb4vfWPtk7A/profile-treasury-document-cover-images_800/B4DZqwnEuNJcA8-/0/1763899625720?e=1778320800&v=beta&t=K-8jDDE_ZOMTAACuflZ5ORf8HMCXtJNsgmYh1Kuhr90" alt="GL Science Assessment Full">
+                <div class="popup-close-hint">Click anywhere to close</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="slider-arrow" onclick="nextGallerySlide()">&#10095;</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="section fade">
+  <div class="section-inner">
+    <div class="section-header"><span class="section-num">09</span><h2 class="section-title">Volunteering</h2></div>
     <div class="vol-card">
       <h4>St. Mary's Catholic Church, Dubai</h4>
       <div class="vol-org">Jesus Youth Teens · Core Team Member</div>
@@ -273,7 +551,7 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
 
 <div class="section fade">
   <div class="section-inner">
-    <div class="section-header"><span class="section-num">08</span><h2 class="section-title">Also available for</h2></div>
+    <div class="section-header"><span class="section-num">10</span><h2 class="section-title">Also available for</h2></div>
     <div class="side-grid">
       <div class="side-tile"><span class="side-tile-icon">✦</span><h3>Graphic design</h3><p>Logos, branding, and social media content. Self-taught with real client work.</p></div>
       <div class="side-tile"><span class="side-tile-icon">✦</span><h3>Web design</h3><p>Clean, functional websites built from scratch.</p></div>
@@ -303,7 +581,7 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
           Email
         </a>
         <a class="social-link" href="https://linkedin.com/in/anormendonca" target="_blank">
-          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 23.227 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
         </a>
       </div>
@@ -316,11 +594,100 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
   <span>Dubai, UAE / Udupi, India</span>
 </footer>
 
+<div class="popup-overlay" id="popupOverlay"></div>
+
 <script>
+// --- SCROLL ANIMATIONS ---
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})
 },{threshold:0.08});
 document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+// --- JAVASCRIPT SMOOTH SCROLL OVERRIDE FOR NAV ---
+document.querySelectorAll('.nav-links a, .nav-cta, .hero-btns a').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const targetId = this.getAttribute('href');
+    if(targetId.startsWith('#')) {
+      e.preventDefault();
+      const targetElement = document.querySelector(targetId);
+      if(targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  });
+});
+
+// --- MULTI-ITEM GALLERY SLIDER LOGIC ---
+let currentSlideIndex = 0;
+
+function updateGallerySlider() {
+  const track = document.getElementById('galleryTrack');
+  const slide = document.querySelector('.slide');
+  
+  if(!slide) return;
+
+  // Calculate width of one slide + the gap (15px)
+  const slideWidth = slide.offsetWidth + 15; 
+  track.style.transform = `translateX(-${currentSlideIndex * slideWidth}px)`;
+}
+
+function nextGallerySlide() {
+  const track = document.getElementById('galleryTrack');
+  const slide = document.querySelector('.slide');
+  const trackContainerWidth = track.parentElement.offsetWidth;
+  const slideWidth = slide.offsetWidth + 15;
+  
+  // Calculate how many slides are currently visible on screen
+  const visibleSlides = Math.round(trackContainerWidth / slideWidth);
+  const totalSlides = document.querySelectorAll('.slide').length;
+  
+  // Only slide if we haven't reached the end
+  if (currentSlideIndex < totalSlides - visibleSlides) {
+    currentSlideIndex++;
+    updateGallerySlider();
+  }
+}
+
+function prevGallerySlide() {
+  if (currentSlideIndex > 0) {
+    currentSlideIndex--;
+    updateGallerySlider();
+  }
+}
+
+// Recalculate slider position if the window is resized
+window.addEventListener('resize', updateGallerySlider);
+
+// --- POPUP LOGIC ---
+const overlay = document.getElementById('popupOverlay');
+
+function openPopup(triggerElement, event) {
+  event.stopPropagation();
+  closeAllPopups();
+  triggerElement.classList.add('active-popup');
+  overlay.classList.add('active');
+}
+
+function closeAllPopups() {
+  document.querySelectorAll('.active-popup').forEach(el => el.classList.remove('active-popup'));
+  overlay.classList.remove('active');
+}
+
+document.addEventListener('click', (event) => {
+  if (event.target.closest('.card-popup') || event.target.closest('.slider-arrow')) return;
+  closeAllPopups();
+});
+
+// --- AM EXPLOSION ANIMATION ---
+document.getElementById('amLogo').addEventListener('click', function(e) {
+  e.preventDefault();
+  this.classList.add('exploding');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => { this.classList.remove('exploding'); }, 500);
+});
 </script>
 </body>
 </html>
