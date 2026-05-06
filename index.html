@@ -61,7 +61,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .fact-row{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:#000;transition:background 0.2s}
 .fact-row:hover{background:var(--surface2)}
 .fact-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
-.fact-value{font-size:13px;font-weight:500;color:var(--text)}
+.fact-value{font-size:13px;font-weight:500;color:var(--text); text-align: right;}
 
 .tutor-hero{background:var(--surface2);border:0.5px solid var(--border);border-radius:16px;padding:2.5rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;margin-bottom:2rem}
 .tutor-hero h3{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:8px}
@@ -161,33 +161,9 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
   display: flex; gap: 15px; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .slide {
-  flex: 0 0 calc(33.333% - 10px); /* Shows 3 items at once */
+  flex: 0 0 calc(33.333% - 10px); /* Shows 3 items at once on PC */
   box-sizing: border-box;
 }
-
-/* Responsive adjustments for smaller screens so it doesn't break */
-@media (max-width: 900px) {
-  .slide { flex: 0 0 calc(50% - 7.5px); } /* 2 items on tablet */
-}
-@media (max-width: 600px) {
-  .slide { flex: 0 0 100%; } /* 1 item on phone */
-}
-
-.achievement-card {
-  background: #000; border: 0.5px solid var(--border); border-radius: 12px; padding: 12px; cursor: pointer; transition: background 0.2s, border-color 0.2s; height: 100%;
-}
-.achievement-card:hover { background: var(--surface2); border-color: var(--border2); }
-.achievement-img-wrapper {
-  width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-bottom: 12px;
-}
-.achievement-card img.main-img {
-  width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
-}
-.achievement-card:hover img.main-img { transform: scale(1.06); }
-.achievement-card p {
-  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; text-align: center; color: var(--text); letter-spacing: -0.01em; margin-bottom: 2px;
-}
-.achievement-card span.sub { display: block; font-size: 11px; color: var(--muted); text-align: center; }
 
 /* --- FIXED POPUP CSS --- */
 .popup-overlay {
@@ -215,6 +191,107 @@ footer{border-top:0.5px solid var(--border);padding:1.5rem 3rem 2.5rem;display:f
 .card-popup img { width: 100%; max-height: 75vh; object-fit: contain; border-radius: 6px; display: block; }
 .card-popup iframe { width: 100%; height: 75vh; border-radius: 6px; border: none; display: block; }
 .popup-close-hint { font-size: 10px; color: var(--muted); text-align: center; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.achievement-card {
+  background: #000; border: 0.5px solid var(--border); border-radius: 12px; padding: 12px; cursor: pointer; transition: background 0.2s, border-color 0.2s; height: 100%;
+}
+.achievement-card:hover { background: var(--surface2); border-color: var(--border2); }
+.achievement-img-wrapper {
+  width: 100%; height: 200px; border-radius: 8px; overflow: hidden; margin-bottom: 12px;
+}
+.achievement-card img.main-img {
+  width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
+}
+.achievement-card:hover img.main-img { transform: scale(1.06); }
+.achievement-card p {
+  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; text-align: center; color: var(--text); letter-spacing: -0.01em; margin-bottom: 2px;
+}
+.achievement-card span.sub { display: block; font-size: 11px; color: var(--muted); text-align: center; }
+
+/* =========================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================= */
+@media (max-width: 900px) {
+  .slide { flex: 0 0 calc(50% - 7.5px); } /* 2 items on tablet gallery */
+}
+
+@media (max-width: 768px) {
+  /* Fix Navigation & Padding */
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; } /* Hide text links on small screens to prevent overlap */
+  .hero { padding: 0 1.5rem 4rem; }
+  .section { padding: 4rem 1.5rem; }
+  .contact-section { padding: 4rem 1.5rem 5rem; }
+  
+  /* Stack Grids Vertically */
+  .about-grid, 
+  .tutor-hero, 
+  .offers-grid, 
+  .proj-grid, 
+  .side-grid { 
+    grid-template-columns: 1fr; 
+  }
+  
+  /* Fix Experience Rows */
+  .exp-row { 
+    grid-template-columns: 1fr; 
+    gap: 0.5rem; 
+  }
+  .exp-date { 
+    text-align: left; 
+    padding-top: 0; 
+  }
+  
+  /* Adjust Tutor Rate */
+  .tutor-rate { 
+    text-align: left; 
+    margin-top: -1rem; 
+  }
+  
+  /* Grades and Sports Cards -> 2 Columns */
+  .cards-grid { 
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  
+  /* Adjust Contact Section */
+  .contact-inner { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+  .contact-right { 
+    align-items: flex-start; 
+  }
+  
+  /* Adjust Footer */
+  footer { 
+    flex-direction: column; 
+    gap: 1rem; 
+    text-align: center; 
+    padding: 2rem 1.5rem; 
+  }
+  
+  /* Hide hero scroll indicator on mobile */
+  .hero-scroll { display: none; }
+}
+
+@media (max-width: 600px) {
+  .slide { flex: 0 0 100%; } /* 1 item on phone gallery */
+}
+
+@media (max-width: 480px) {
+  /* Grades and Sports Cards -> 1 Column on very small phones */
+  .cards-grid { 
+    grid-template-columns: 1fr; 
+  }
+  .fact-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .fact-value {
+    text-align: left;
+  }
+}
 </style>
 </head>
 <body>
@@ -659,7 +736,11 @@ function prevGallerySlide() {
 }
 
 // Recalculate slider position if the window is resized
-window.addEventListener('resize', updateGallerySlider);
+window.addEventListener('resize', () => {
+  // Reset slider index to 0 on resize to prevent it breaking out of bounds
+  currentSlideIndex = 0;
+  updateGallerySlider();
+});
 
 // --- POPUP LOGIC ---
 const overlay = document.getElementById('popupOverlay');
