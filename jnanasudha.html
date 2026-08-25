@@ -3,34 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2028 Aspirant | Jnanasudha Tracker</title>
-    <!-- Chart.js for Mock Score Visuals -->
+    <title>2028 Aspirant | Focus</title>
+    
+    <!-- Modern Font & Chart.js -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root { --bg: #0f1115; --card: #1a1d24; --text: #e2e8f0; --accent: #d4af37; --danger: #ef4444; --success: #10b981; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 1000px; width: 100%; display: grid; gap: 20px; grid-template-columns: 1fr 1fr; }
-        .card { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-top: 3px solid var(--accent); }
-        h1, h2, h3 { color: var(--accent); margin-top: 0; }
-        .full-width { grid-column: 1 / -1; }
-        
-        /* Motivation & Countdowns */
-        .motivation { font-style: italic; font-size: 1.1em; text-align: center; border-left: 4px solid var(--accent); padding-left: 15px; margin: 10px 0; color: #cbd5e1; }
-        .timer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center; margin-top: 15px; }
-        .timer-box { background: #222630; padding: 15px; border-radius: 8px; font-weight: bold; }
-        .timer-box span { display: block; font-size: 2em; color: var(--accent); }
 
-        /* Inputs & Buttons */
-        input, select, textarea, button { width: 100%; margin-top: 10px; padding: 12px; border-radius: 6px; border: 1px solid #333; background: #222630; color: var(--text); box-sizing: border-box; font-family: inherit; }
-        button { background: var(--accent); color: #000; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; font-size: 1em; }
-        button:hover { background: #b8972e; }
+    <style>
+        :root { 
+            --bg: #000000; 
+            --surface: #09090b; 
+            --border: #27272a; 
+            --text: #f4f4f5; 
+            --muted: #a1a1aa; 
+            --accent: #ffffff; 
+            --success: #34d399;
+        }
+
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 40px 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            line-height: 1.5;
+        }
+
+        .container { 
+            max-width: 900px; 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 32px; 
+        }
+
+        /* Minimalist Cards */
+        .section { 
+            background: var(--surface); 
+            padding: 32px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border); 
+        }
+
+        h2 { 
+            font-size: 1.1rem; 
+            font-weight: 500; 
+            margin: 0 0 24px 0; 
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Typography */
+        .motivation { 
+            font-size: 1.25rem; 
+            font-weight: 300; 
+            color: var(--text); 
+            line-height: 1.6;
+        }
+
+        /* Sleek Countdowns */
+        .timer-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; 
+        }
+        .timer-box { 
+            display: flex; 
+            flex-direction: column; 
+            border-left: 2px solid var(--border);
+            padding-left: 20px;
+        }
+        .timer-box span.number { 
+            font-size: 2.5rem; 
+            font-weight: 600; 
+            color: var(--accent); 
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .timer-box span.label { 
+            font-size: 0.85rem; 
+            color: var(--muted); 
+            font-weight: 500;
+        }
+
+        /* Modern Forms & Inputs */
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border); 
+            background: transparent; 
+            color: var(--text); 
+            font-family: inherit;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+            margin-bottom: 12px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--muted);
+        }
         
-        /* Layout for Mock Inputs */
-        .mock-input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9em; }
-        th, td { border: 1px solid #333; padding: 10px; text-align: left; }
-        th { background: #222630; color: var(--accent); }
-        .db-status { font-size: 0.8em; color: var(--success); float: right; }
+        button { 
+            background: var(--accent); 
+            color: var(--bg); 
+            font-weight: 500; 
+            cursor: pointer; 
+            border: none; 
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: opacity 0.2s; 
+            font-size: 0.95rem;
+            width: 100%;
+        }
+        button:hover { opacity: 0.9; }
+
+        /* Grid Layouts */
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .mock-input-row { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 12px; 
+        }
+
+        /* Clean Tables */
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 24px; 
+            font-size: 0.9rem; 
+        }
+        th, td { 
+            padding: 12px 0; 
+            text-align: left; 
+            border-bottom: 1px solid var(--border); 
+        }
+        th { color: var(--muted); font-weight: 500; }
+        .score-highlight { font-weight: 600; color: var(--accent); }
+        .db-status { font-size: 0.75rem; color: var(--success); text-transform: none; letter-spacing: normal;}
     </style>
 </head>
 <body>
@@ -38,69 +163,66 @@
     <div class="container">
         
         <!-- Header & Grounding -->
-        <div class="card full-width">
-            <h2>Daily Grounding <span id="dbIndicator" class="db-status">Database Connected</span></h2>
+        <div class="section">
+            <h2>Daily Grounding <span id="dbIndicator" class="db-status">● Connected</span></h2>
             <div id="quoteDisplay" class="motivation">Loading...</div>
         </div>
 
         <!-- Countdowns -->
-        <div class="card full-width">
-            <h2>The Horizon (2028)</h2>
+        <div class="section">
+            <h2>The Horizon</h2>
             <div class="timer-grid">
-                <div class="timer-box">NEET 2028<span id="neet"></span>days</div>
-                <div class="timer-box">JEE Mains<span id="jee"></span>days</div>
-                <div class="timer-box">KSEAB Boards<span id="boards"></span>days</div>
+                <div class="timer-box"><span class="number" id="neet">--</span><span class="label">Days to NEET 2028</span></div>
+                <div class="timer-box"><span class="number" id="jee">--</span><span class="label">Days to JEE Mains</span></div>
+                <div class="timer-box"><span class="number" id="boards">--</span><span class="label">Days to KSEAB Boards</span></div>
             </div>
         </div>
 
-        <!-- Jnanasudha Test Tracker (JUT/JPT/JFT) -->
-        <div class="card full-width">
-            <h2>Jnanasudha Mock Analytics</h2>
-            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+        <!-- Jnanasudha Test Tracker -->
+        <div class="section">
+            <h2>Jnanasudha Analytics</h2>
+            <div class="split-grid">
                 <div>
-                    <h3>Log a Score</h3>
                     <div class="mock-input-row">
                         <select id="testType">
-                            <option value="JUT">JUT (Unit Test)</option>
-                            <option value="JPT">JPT (Part Test)</option>
-                            <option value="JFT">JFT (Full Test)</option>
+                            <option value="JUT">JUT</option>
+                            <option value="JPT">JPT</option>
+                            <option value="JFT">JFT</option>
                         </select>
-                        <input type="number" id="testNumber" placeholder="Test No. (e.g., 12)" min="1" max="80">
+                        <input type="number" id="testNumber" placeholder="Test No." min="1" max="80">
                         <input type="number" id="testScore" placeholder="Score / 720" max="720">
                     </div>
-                    <textarea id="testMistakes" rows="2" placeholder="Key mistakes? (e.g., Silly error in Physics Q12)"></textarea>
-                    <button onclick="saveMockScore()">Save Score to Cloud</button>
+                    <textarea id="testMistakes" rows="3" placeholder="Identify your failure points..."></textarea>
+                    <button onclick="saveMockScore()">Log Performance</button>
                 </div>
                 
-                <!-- Chart Area -->
                 <div>
                     <canvas id="scoreChart"></canvas>
                 </div>
             </div>
 
-            <h3>Recent Tests</h3>
-            <table id="mockTable">
+            <table>
                 <thead>
-                    <tr><th>Test</th><th>Score</th><th>Key Mistakes to Review</th></tr>
+                    <tr><th>Assessment</th><th>Score</th><th>Failure Point Analysis</th></tr>
                 </thead>
                 <tbody id="mockTableBody"></tbody>
             </table>
         </div>
 
         <!-- Daily Ledger -->
-        <div class="card full-width">
-            <h2>Daily Ledger (Until June 2028)</h2>
-            <input type="date" id="calendarDate" max="2028-06-30" onchange="loadDailyNote()">
-            <textarea id="dailyNote" rows="5" placeholder="What did you conquer today?"></textarea>
-            <button onclick="saveDailyNote()">Save Entry to Cloud</button>
+        <div class="section" style="border: none; background: transparent; padding: 0;">
+            <h2>Daily Ledger</h2>
+            <input type="date" id="calendarDate" max="2028-06-30" onchange="loadDailyNote()" style="background: var(--surface);">
+            <textarea id="dailyNote" rows="4" placeholder="Document today's effort..." style="background: var(--surface);"></textarea>
+            <button onclick="saveDailyNote()" style="width: auto; padding: 12px 32px;">Commit to Ledger</button>
         </div>
 
     </div>
 
-    <!-- Firebase SDK (Modular v9) -->
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // ==========================================
         // 🔴 PASTE YOUR FIREBASE CONFIG HERE 🔴
@@ -114,18 +236,16 @@
             appId: "YOUR_APP_ID"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Make functions globally available to HTML buttons
         window.saveMockScore = async function() {
             const type = document.getElementById('testType').value;
             const num = document.getElementById('testNumber').value;
             const score = document.getElementById('testScore').value;
             const mistakes = document.getElementById('testMistakes').value;
 
-            if(!num || !score) return alert("Enter test number and score!");
+            if(!num || !score) return alert("Test number and score are required.");
 
             const testLabel = `${type}-${num}`;
             await setDoc(doc(db, "jnanasudha_mocks", testLabel), {
@@ -136,7 +256,9 @@
                 timestamp: new Date()
             });
             
-            alert("Score saved!");
+            document.getElementById('testNumber').value = '';
+            document.getElementById('testScore').value = '';
+            document.getElementById('testMistakes').value = '';
             loadMockData();
         };
 
@@ -146,7 +268,15 @@
             if(!date) return;
 
             await setDoc(doc(db, "daily_ledger", date), { text: note });
-            alert("Note saved!");
+            
+            const btn = document.querySelector('button[onclick="saveDailyNote()"]');
+            const originalText = btn.innerText;
+            btn.innerText = "Committed ✓";
+            btn.style.background = "var(--success)";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "var(--accent)";
+            }, 2000);
         };
 
         window.loadDailyNote = async function() {
@@ -172,9 +302,9 @@
                 
                 tableHTML = `<tr>
                     <td>${data.type}-${data.number}</td>
-                    <td style="color:var(--accent); font-weight:bold;">${data.score}</td>
+                    <td class="score-highlight">${data.score}</td>
                     <td>${data.mistakes}</td>
-                </tr>` + tableHTML; // Prepend to show newest on top
+                </tr>` + tableHTML; 
             });
 
             document.getElementById('mockTableBody').innerHTML = tableHTML;
@@ -185,34 +315,44 @@
             const ctx = document.getElementById('scoreChart').getContext('2d');
             if(myChart) myChart.destroy();
             
+            // Minimalist Chart.js configuration
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = "#a1a1aa";
+
             myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Mock Score (/720)',
+                        label: 'Score',
                         data: data,
-                        borderColor: '#d4af37',
-                        backgroundColor: 'rgba(212, 175, 55, 0.2)',
-                        tension: 0.3,
+                        borderColor: '#ffffff',
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#000000',
+                        pointBorderColor: '#ffffff',
+                        pointRadius: 4,
+                        tension: 0.2,
                         fill: true
                     }]
                 },
                 options: {
                     responsive: true,
-                    scales: { y: { min: 0, max: 720, grid: { color: '#333' } }, x: { grid: { color: '#333' } } },
-                    plugins: { legend: { labels: { color: '#e2e8f0' } } }
+                    scales: { 
+                        y: { min: 0, max: 720, grid: { color: '#27272a' }, border: { display: false } }, 
+                        x: { grid: { display: false }, border: { display: false } } 
+                    },
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
-        // Initialize Page Data
         document.getElementById('calendarDate').valueAsDate = new Date();
         loadDailyNote();
         loadMockData();
     </script>
 
-    <!-- Basic UI Scripts (Countdowns & Motivation) -->
+    <!-- Basic UI Scripts -->
     <script>
         const quotes = [
             '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
@@ -224,7 +364,6 @@
 
         function updateCountdowns() {
             const today = new Date().getTime();
-            // Dates to be adjusted when exact schedule releases
             const neetDate = new Date('May 5, 2028 00:00:00').getTime();
             const jeeDate = new Date('Jan 15, 2028 00:00:00').getTime(); 
             const boardsDate = new Date('Mar 1, 2028 00:00:00').getTime();
