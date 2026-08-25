@@ -3,77 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2028 Aspirant | Focus</title>
+    <title>2028 Aspirant | High Performance</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 
     <style>
         :root { 
             --bg: #000000; --surface: #09090b; --border: #27272a; 
             --text: #f4f4f5; --muted: #a1a1aa; --accent: #ffffff; --success: #34d399;
         }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; line-height: 1.5; }
-        .container { max-width: 1000px; width: 100%; display: flex; flex-direction: column; gap: 32px; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background: var(--bg); color: var(--text); margin: 0; padding: 24px 16px; 
+            display: flex; flex-direction: column; align-items: center; line-height: 1.4; 
+        }
+        .container { max-width: 950px; width: 100%; display: flex; flex-direction: column; gap: 24px; }
 
-        .section { background: var(--surface); padding: 32px; border-radius: 12px; border: 1px solid var(--border); }
-        h2 { font-size: 1.1rem; font-weight: 500; margin: 0 0 24px 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; }
+        .section { background: var(--surface); padding: 24px; border-radius: 12px; border: 1px solid var(--border); }
+        h2 { font-size: 1rem; font-weight: 600; margin: 0 0 16px 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; }
         
-        .motivation { font-size: 1.2rem; font-weight: 300; color: var(--text); line-height: 1.6; }
+        .motivation { font-size: 1.1rem; font-weight: 400; color: var(--text); }
         
-        .timer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .timer-box { display: flex; flex-direction: column; border-left: 2px solid var(--border); padding-left: 20px; }
-        .timer-box span.number { font-size: 2.5rem; font-weight: 600; color: var(--accent); }
-        .timer-box span.label { font-size: 0.85rem; color: var(--muted); }
+        .timer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .timer-box { display: flex; flex-direction: column; border-left: 2px solid var(--border); padding-left: 16px; }
+        .timer-box span.number { font-size: 2.2rem; font-weight: 700; color: var(--accent); }
+        .timer-box span.label { font-size: 0.8rem; color: var(--muted); }
 
-        /* Form Elements Fix */
-        input, select, textarea { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: inherit; margin-bottom: 12px; box-sizing: border-box; }
+        input, select, textarea { 
+            width: 100%; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); 
+            background: var(--surface); color: var(--text); font-family: inherit; margin-bottom: 10px; box-sizing: border-box; 
+        }
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
-        select option { background: var(--surface); color: var(--text); }
+        select option { background: #09090b; color: #f4f4f5; }
         
-        button { background: var(--accent); color: var(--bg); font-weight: 500; cursor: pointer; border: none; padding: 12px 24px; border-radius: 8px; transition: 0.2s; font-size: 0.95rem; }
-        button:hover { opacity: 0.8; }
+        button { background: var(--accent); color: var(--bg); font-weight: 600; cursor: pointer; border: none; padding: 10px 20px; border-radius: 6px; transition: opacity 0.15s; font-size: 0.9rem; }
+        button:hover { opacity: 0.85; }
 
-        /* Tabs & Marks Card */
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; overflow-x: auto; }
-        .tab-btn { background: transparent; color: var(--muted); border: none; padding: 8px 16px; cursor: pointer; font-weight: 500; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; overflow-x: auto; }
+        .tab-btn { background: transparent; color: var(--muted); border: none; padding: 6px 12px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
         .tab-btn.active { color: var(--accent); border-bottom: 2px solid var(--accent); border-radius: 0; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 16px; }
+        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border); }
         th { color: var(--muted); font-weight: 500; }
-        .marks-input { width: 80px; padding: 6px; margin: 0; text-align: center; }
-        .total-row { font-weight: bold; background: rgba(255,255,255,0.02); }
+        .marks-input { width: 70px; padding: 4px 6px; margin: 0; text-align: center; }
+        .total-row { font-weight: 600; background: rgba(255,255,255,0.03); }
 
-        /* Mocks Analytics */
-        .split-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: start; }
-        .mock-input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .split-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: start; }
+        .mock-input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
-        /* Calendar Adjustments */
-        .fc { --fc-page-bg-color: transparent; --fc-neutral-bg-color: var(--bg); --fc-border-color: var(--border); --fc-button-bg-color: var(--surface); --fc-button-border-color: var(--border); --fc-button-text-color: var(--text); --fc-today-bg-color: rgba(255,255,255,0.05); --fc-event-bg-color: var(--accent); --fc-event-text-color: var(--bg); }
+        /* Calendar performance rules */
+        .fc { --fc-page-bg-color: transparent; --fc-neutral-bg-color: var(--bg); --fc-border-color: var(--border); --fc-button-bg-color: var(--surface); --fc-button-border-color: var(--border); --fc-button-text-color: var(--text); --fc-today-bg-color: rgba(255,255,255,0.04); --fc-event-bg-color: var(--accent); --fc-event-text-color: var(--bg); }
         .fc-theme-standard td, .fc-theme-standard th { border-color: var(--border); }
-        .fc-toolbar-title { font-size: 1rem !important; }
-        .fc-timegrid-slot { height: 42px !important; }
-        .db-status { font-size: 0.75rem; color: var(--success); text-transform: none; letter-spacing: normal; }
+        .fc-toolbar-title { font-size: 0.95rem !important; font-weight: 600; }
+        .fc-timegrid-slot { height: 38px !important; }
+        .status-tag { font-size: 0.75rem; color: var(--success); text-transform: none; font-weight: 400; }
     </style>
 </head>
 <body>
 
     <div class="container">
         
-        <!-- Grounding -->
         <div class="section">
-            <h2>Daily Grounding <span class="db-status">● Live Cloud Database</span></h2>
+            <h2>Daily Grounding <span class="status-tag" id="syncStatus">● Connected</span></h2>
             <div id="quoteDisplay" class="motivation">Loading...</div>
         </div>
 
-        <!-- Countdowns -->
         <div class="section">
             <h2>The Horizon</h2>
             <div class="timer-grid">
@@ -83,14 +81,13 @@
             </div>
         </div>
 
-        <!-- Master Syllabus Marks Card -->
         <div class="section">
             <h2>Master Marks Card</h2>
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab(event, 'bio')">Biology</button>
-                <button class="tab-btn" onclick="switchTab(event, 'phy')">Physics</button>
-                <button class="tab-btn" onclick="switchTab(event, 'chem')">Chemistry</button>
-                <button class="tab-btn" onclick="switchTab(event, 'school')">School / Preps</button>
+            <div class="tabs" id="tabHeader">
+                <button class="tab-btn active" data-tab="bio">Biology</button>
+                <button class="tab-btn" data-tab="phy">Physics</button>
+                <button class="tab-btn" data-tab="chem">Chemistry</button>
+                <button class="tab-btn" data-tab="school">School / Preps</button>
             </div>
             
             <div id="bio" class="tab-content active"><table id="table-bio"></table></div>
@@ -98,18 +95,16 @@
             <div id="chem" class="tab-content"><table id="table-chem"></table></div>
             <div id="school" class="tab-content"><table id="table-school"></table></div>
             
-            <div style="display:flex; justify-content:flex-end; margin-top:15px;">
-                <button onclick="saveAllMarks()">Save Marks to Cloud</button>
+            <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+                <button id="saveMarksBtn">Save Marks to Cloud</button>
             </div>
         </div>
 
-        <!-- Timeblocking Calendar -->
         <div class="section">
             <h2>Time Blocking</h2>
-            <div id="calendar"></div>
+            <div id="calendar" style="min-height: 500px;"></div>
         </div>
 
-        <!-- Jnanasudha Mocks -->
         <div class="section">
             <h2>Jnanasudha Mock Analytics</h2>
             <div class="split-grid">
@@ -124,7 +119,7 @@
                         <input type="number" id="testScore" placeholder="Score / 720" max="720">
                     </div>
                     <textarea id="testMistakes" rows="3" placeholder="Identify failure points..."></textarea>
-                    <button onclick="saveMockScore()" style="width:100%;">Log Performance</button>
+                    <button id="saveMockBtn" style="width:100%;">Log Performance</button>
                 </div>
                 <div><canvas id="scoreChart"></canvas></div>
             </div>
@@ -132,7 +127,6 @@
 
     </div>
 
-    <!-- Firebase SDK Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -150,7 +144,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- MASTER SYLLABUS DATA ---
         const syllabus = {
             bio: ["The Living World", "Biological Classification", "Plant Kingdom", "Animal Kingdom", "Morphology of Flowering Plants", "Anatomy of Flowering Plants", "Structural Organisation in Animals", "Cell: The Unit of Life", "Biomolecules", "Cell Cycle and Cell Division", "Photosynthesis in Higher Plants", "Respiration in Plants", "Plant Growth and Development", "Breathing and Exchange of Gases", "Body Fluids and Circulation", "Excretory Products", "Locomotion and Movement", "Neural Control and Coordination", "Chemical Coordination and Integration", "Sexual Reproduction in Flowering Plants", "Human Reproduction", "Reproductive Health", "Principles of Inheritance and Variation", "Molecular Basis of Inheritance", "Evolution", "Human Health and Disease", "Microbes in Human Welfare", "Biotechnology: Principles and Processes", "Biotechnology and its Applications", "Organisms and Populations", "Ecosystem", "Biodiversity and Conservation"],
             phy: ["Physical World", "Units and Measurements", "Motion in a Straight Line", "Motion in a Plane", "Laws of Motion", "Work, Energy and Power", "System of Particles & Rotational Motion", "Gravitation", "Mechanical Properties of Solids", "Mechanical Properties of Fluids", "Thermal Properties of Matter", "Thermodynamics", "Kinetic Theory", "Oscillations", "Waves"],
@@ -158,66 +151,90 @@
             school: ["1st PUC: 1st Term", "1st PUC: Midterm", "1st PUC: 2nd Term", "1st PUC: Prep Exam", "2nd PUC: 1st Term", "2nd PUC: Midterm", "2nd PUC: 2nd Term", "2nd PUC: Prep I", "2nd PUC: Prep II", "2nd PUC: Prep III", "2nd PUC: Prep IV", "2nd PUC: Prep V"]
         };
 
-        function generateTables() {
+        // --- OPTIMIZED DOM GENERATION ---
+        function renderTables() {
             Object.keys(syllabus).forEach(subject => {
-                let html = `<tr><th>Topic / Assessment</th><th style="width:100px;">Max</th><th style="width:100px;">Obtained</th></tr>`;
+                let rows = [`<tr><th>Topic / Assessment</th><th style="width:90px;">Max</th><th style="width:90px;">Obtained</th></tr>`];
                 syllabus[subject].forEach((topic, i) => {
                     const safeId = `${subject}_${i}`;
-                    html += `<tr>
+                    rows.push(`<tr>
                         <td>${topic}</td>
-                        <td><input type="number" class="marks-input max-mark" id="max_${safeId}" onchange="calcTotals('${subject}')"></td>
-                        <td><input type="number" class="marks-input obt-mark" id="obt_${safeId}" onchange="calcTotals('${subject}')"></td>
-                    </tr>`;
+                        <td><input type="number" class="marks-input max-mark" data-subject="${subject}" id="max_${safeId}"></td>
+                        <td><input type="number" class="marks-input obt-mark" data-subject="${subject}" id="obt_${safeId}"></td>
+                    </tr>`);
                 });
-                html += `<tr class="total-row"><td>TOTAL</td><td id="total_max_${subject}">0</td><td id="total_obt_${subject}">0</td></tr>`;
-                document.getElementById(`table-${subject}`).innerHTML = html;
+                rows.push(`<tr class="total-row"><td>TOTAL</td><td id="total_max_${subject}">0</td><td id="total_obt_${subject}">0</td></tr>`);
+                document.getElementById(`table-${subject}`).innerHTML = rows.join('');
             });
         }
 
-        window.switchTab = function(e, tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            e.target.classList.add('active');
-        };
+        // Fast Event Delegation for Input Calculation
+        document.body.addEventListener('input', (e) => {
+            if (e.target.classList.contains('marks-input')) {
+                calcTotals(e.target.dataset.subject);
+            }
+        });
 
-        window.calcTotals = function(subject) {
+        function calcTotals(subject) {
             let totalMax = 0, totalObt = 0;
             document.querySelectorAll(`#table-${subject} .max-mark`).forEach(el => totalMax += Number(el.value) || 0);
             document.querySelectorAll(`#table-${subject} .obt-mark`).forEach(el => totalObt += Number(el.value) || 0);
             document.getElementById(`total_max_${subject}`).innerText = totalMax;
             document.getElementById(`total_obt_${subject}`).innerText = totalObt;
-        };
-
-        window.saveAllMarks = async function() {
-            const dataToSave = {};
-            document.querySelectorAll('.marks-input').forEach(input => {
-                if(input.value) dataToSave[input.id] = input.value;
-            });
-            await setDoc(doc(db, "marks", "master"), dataToSave);
-            alert("Marks saved to cloud!");
-        };
-
-        async function loadMarks() {
-            const docSnap = await getDoc(doc(db, "marks", "master"));
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                Object.keys(data).forEach(id => {
-                    if(document.getElementById(id)) document.getElementById(id).value = data[id];
-                });
-                Object.keys(syllabus).forEach(sub => calcTotals(sub));
-            }
         }
 
-        // --- TIME BLOCKING CALENDAR ---
+        // Tab Switching Delegation
+        document.getElementById('tabHeader').addEventListener('click', (e) => {
+            if (!e.target.classList.contains('tab-btn')) return;
+            const tabId = e.target.dataset.tab;
+            
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            e.target.classList.add('active');
+        });
+
+        // Cloud Operations with Error Handling
+        document.getElementById('saveMarksBtn').addEventListener('click', async () => {
+            const status = document.getElementById('syncStatus');
+            status.innerText = "● Saving...";
+            try {
+                const dataToSave = {};
+                document.querySelectorAll('.marks-input').forEach(input => {
+                    if(input.value) dataToSave[input.id] = input.value;
+                });
+                await setDoc(doc(db, "marks", "master"), dataToSave);
+                status.innerText = "● Saved to Cloud";
+            } catch(e) {
+                alert("Failed to save: " + e.message);
+                status.innerText = "● Sync Error";
+            }
+        });
+
+        async function loadMarks() {
+            try {
+                const docSnap = await getDoc(doc(db, "marks", "master"));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    Object.keys(data).forEach(id => {
+                        const el = document.getElementById(id);
+                        if(el) el.value = data[id];
+                    });
+                    Object.keys(syllabus).forEach(sub => calcTotals(sub));
+                }
+            } catch(e) { console.error("Error loading marks:", e); }
+        }
+
+        // --- OPTIMIZED CALENDAR ---
         function initCalendar() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
                 headerToolbar: { left: 'prev,next today', center: 'title', right: 'timeGridWeek,timeGridDay' },
                 slotMinTime: '06:00:00',
-                height: 'auto',
-                expandRows: true,
+                slotMaxTime: '23:00:00',
+                height: 550,
                 editable: true,
                 selectable: true,
                 events: async function(info, success, fail) {
@@ -227,7 +244,7 @@
                     } catch(e) { fail(e); }
                 },
                 select: async function(arg) {
-                    var title = prompt('Block Title:');
+                    const title = prompt('Block Title:');
                     if (title) {
                         const eventId = Date.now().toString();
                         calendar.addEvent({ id: eventId, title, start: arg.start, end: arg.end });
@@ -252,8 +269,8 @@
             calendar.render();
         }
 
-        // --- MOCK TEST ANALYTICS ---
-        window.saveMockScore = async function() {
+        // --- MOCK ANALYTICS ---
+        document.getElementById('saveMockBtn').addEventListener('click', async () => {
             const type = document.getElementById('testType').value;
             const num = document.getElementById('testNumber').value;
             const score = document.getElementById('testScore').value;
@@ -263,54 +280,54 @@
                 type, number: parseInt(num), score: parseInt(score),
                 mistakes: document.getElementById('testMistakes').value
             });
-            
+
             document.getElementById('testNumber').value = '';
             document.getElementById('testScore').value = '';
             document.getElementById('testMistakes').value = '';
             loadMockData();
-        };
+        });
 
-        let myChart;
+        let myChart = null;
         async function loadMockData() {
-            const q = query(collection(db, "jnanasudha_mocks"), orderBy("number"));
-            const snap = await getDocs(q);
-            let labels = [], scores = [];
-            
-            snap.forEach((doc) => {
-                const data = doc.data();
-                labels.push(`${data.type}-${data.number}`);
-                scores.push(data.score);
-            });
+            try {
+                const q = query(collection(db, "jnanasudha_mocks"), orderBy("number"));
+                const snap = await getDocs(q);
+                let labels = [], scores = [];
+                
+                snap.forEach((doc) => {
+                    const data = doc.data();
+                    labels.push(`${data.type}-${data.number}`);
+                    scores.push(data.score);
+                });
 
-            if(myChart) myChart.destroy();
-            Chart.defaults.color = "#a1a1aa";
-            Chart.defaults.font.family = "'Inter', sans-serif";
-            
-            myChart = new Chart(document.getElementById('scoreChart').getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [{ label: 'Score', data: scores, borderColor: '#ffffff', backgroundColor: 'rgba(255, 255, 255, 0.05)', borderWidth: 2, pointRadius: 4, fill: true }]
-                },
-                options: { 
-                    responsive: true,
-                    scales: { 
-                        y: { min: 0, max: 720, grid: { color: '#27272a' } },
-                        x: { grid: { display: false } }
+                if(myChart) myChart.destroy();
+                
+                myChart = new Chart(document.getElementById('scoreChart').getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [{ label: 'Score', data: scores, borderColor: '#ffffff', backgroundColor: 'rgba(255, 255, 255, 0.05)', borderWidth: 2, pointRadius: 3, fill: true }]
                     },
-                    plugins: { legend: { display: false } }
-                }
-            });
+                    options: { 
+                        responsive: true,
+                        animation: false,
+                        scales: { 
+                            y: { min: 0, max: 720, grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } },
+                            x: { grid: { display: false }, ticks: { color: '#a1a1aa' } }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            } catch(e) { console.error("Error loading mocks:", e); }
         }
 
-        // Initialize Everything
-        generateTables();
-        loadMarks();
+        // Fast Async Boot
+        renderTables();
         initCalendar();
+        loadMarks();
         loadMockData();
     </script>
 
-    <!-- Countdowns and Stoic Motivation -->
     <script>
         const quotes = [
             '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
