@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject Dossier UI - A-34</title>
+  <style>
+    :root {
+      --neon-purple: #c49eff;
+      --neon-bright: #e2d1ff;
+      --neon-glow: rgba(196, 158, 255, 0.45);
+      --bg-dark: #080612;
+      --panel-bg: rgba(22, 14, 42, 0.55);
+      --font-mono: 'Courier New', Courier, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #030207;
+      color: var(--neon-purple);
+      font-family: var(--font-mono);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-shadow: 0 0 4px var(--neon-glow);
+    }
+
+    /* CRT Scanline & Grain Effects */
+    .crt-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .crt-container::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 10;
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+    }
+
+    /* Main Container Frame */
+    .dossier-card {
+      position: relative;
+      width: 100%;
+      max-width: 580px;
+      border: 2px solid var(--neon-purple);
+      background-color: var(--bg-dark);
+      padding: 16px;
+      box-shadow: 0 0 20px var(--neon-glow), inset 0 0 15px var(--neon-glow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Outer Reticle Anchors */
+    .reticle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--neon-purple);
+      background: var(--neon-purple);
+    }
+    .reticle.tl { top: -4px; left: -4px; }
+    .reticle.tr { top: -4px; right: -4px; }
+    .reticle.bl { bottom: -4px; left: -4px; }
+    .reticle.br { bottom: -4px; right: -4px; }
+
+    /* Header Bar */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid var(--neon-purple);
+      padding-bottom: 8px;
+      letter-spacing: 2px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .battery-icon {
+      width: 22px;
+      height: 12px;
+      border: 1.5px solid var(--neon-purple);
+      position: relative;
+      display: inline-block;
+      padding: 1px;
+    }
+    .battery-icon::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 2px;
+      width: 2px;
+      height: 4px;
+      background: var(--neon-purple);
+    }
+    .battery-level {
+      width: 60%;
+      height: 100%;
+      background: var(--neon-purple);
+    }
+
+    /* Upper Display Grid */
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .border-box {
+      border: 1.5px solid var(--neon-purple);
+      background: var(--panel-bg);
+      position: relative;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 4px;
+      justify-content: flex-end;
+      margin-bottom: 4px;
+    }
+    .dot {
+      width: 5px;
+      height: 5px;
+      border: 1px solid var(--neon-purple);
+      border-radius: 50%;
+    }
+
+    /* Lower Display Grid */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 12px;
+    }
+
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Details Panel */
+    .details-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    .details-table tr {
+      height: 22px;
+    }
+
+    .details-table td.label {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .details-table td.value {
+      text-align: right;
+      font-weight: bold;
+      color: var(--neon-bright);
+    }
+
+    .threat-stars {
+      letter-spacing: 3px;
+    }
+
+    .skills-badge {
+      display: inline-block;
+      border: 1px solid var(--neon-purple);
+      padding: 1px 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Sine Wave / Oscilloscope Section */
+    .oscilloscope {
+      border: 1.5px solid var(--neon-purple);
+      background: rgba(10, 6, 20, 0.8);
+      position: relative;
+      margin-top: 8px;
+      padding: 4px;
+    }
+
+    .sine-wave {
+      width: 100%;
+      height: 45px;
+      stroke: var(--neon-purple);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .hex-matrix {
+      font-size: 0.58rem;
+      line-height: 1.2;
+      opacity: 0.85;
+      word-break: break-all;
+      user-select: none;
+      margin-top: 4px;
+      border-top: 1px dashed var(--neon-purple);
+      padding-top: 4px;
+    }
+
+    /* Animated Sine Wave Offset */
+    @keyframes waveMove {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -100; }
+    }
+    .animated-wave {
+      stroke-dasharray: 10 2 5 2;
+      animation: waveMove 4s linear infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="crt-container">
+    <div class="dossier-card">
+      <!-- Reticles -->
+      <div class="reticle tl"></div>
+      <div class="reticle tr"></div>
+      <div class="reticle bl"></div>
+      <div class="reticle br"></div>
+
+      <!-- Top Header -->
+      <div class="header">
+        <span>SUBJECT A-34</span>
+        <div class="battery-icon">
+          <div class="battery-level"></div>
+        </div>
+      </div>
+
+      <!-- Top Grid: Eye Scan & Circuit Board -->
+      <div class="top-grid">
+        <!-- Visual Display Box -->
+        <div class="border-box">
+          <div class="window-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          <!-- Dithered Eye Graphic SVG -->
+          <svg viewBox="0 0 200 160" style="width:100%; height:auto;">
+            <defs>
+              <pattern id="dither" width="4" height="4" patternUnits="userSpaceOnUse">
+                <rect width="2" height="2" fill="var(--neon-purple)" opacity="0.4"/>
+                <rect x="2" y="2" width="2" height="2" fill="var(--neon-purple)" opacity="0.4"/>
+              </pattern>
+            </defs>
+            <rect width="200" height="160" fill="#0c071a" />
+            <!-- Eye Outline -->
+            <path d="M 20 80 Q 100 20 180 80 Q 100 140 20 80 Z" fill="none" stroke="var(--neon-purple)" stroke-width="2"/>
+            <!-- Iris & Pupil -->
+            <circle cx="100" cy="80" r="35" fill="none" stroke="var(--neon-purple)" stroke-width="2"/>
+            <circle cx="100" cy="80" r="18" fill="var(--neon-purple)"/>
+            <rect width="200" height="160" fill="url(#dither)" />
+          </svg>
+        </div>
+
+        <!-- Circuit Board Diagram Box -->
+        <div class="border-box">
+          <svg viewBox="0 0 200 170" style="width:100%; height:auto;">
+            <!-- CPU Chip Block -->
+            <rect x="60" y="30" width="50" height="50" fill="none" stroke="var(--neon-purple)" stroke-width="2"/>
+            <path d="M 70 40 L 100 40 L 100 70 L 70 70 Z" fill="none" stroke="var(--neon-purple)" stroke-width="1"/>
+            <!-- Circuit Traces -->
+            <path d="M 10 20 L 60 20 L 60 40
+                     M 10 90 L 40 90 L 60 70
+                     M 110 40 L 150 40 L 180 10
+                     M 110 60 L 140 60 L 160 80 L 160 140
+                     M 85 80 L 85 130 L 120 150
+                     M 30 150 L 60 150 L 85 130" 
+                  fill="none" stroke="var(--neon-purple)" stroke-width="1.5"/>
+            <!-- Vias / Solder Points -->
+            <circle cx="10" cy="20" r="3" fill="var(--neon-purple)"/>
+            <circle cx="10" cy="90" r="3" fill="var(--neon-purple)"/>
+            <circle cx="180" cy="10" r="3" fill="var(--neon-purple)"/>
+            <circle cx="120" cy="150" r="3" fill="var(--neon-purple)"/>
+            <circle cx="30" cy="150" r="3" fill="var(--neon-purple)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Bottom Grid: Left Identity Visuals & Right Subject Data -->
+      <div class="bottom-grid">
+        <div class="left-col">
+          <!-- Fingerprint Frame -->
+          <div class="border-box" style="align-items: center; justify-content: center; height: 110px;">
+            <svg viewBox="0 0 80 90" style="width:70px; height:80px;">
+              <!-- Target Corner Brackets -->
+              <path d="M 5 15 L 5 5 L 15 5 M 65 5 L 75 5 L 75 15 M 5 75 L 5 85 L 15 85 M 65 85 L 75 85 L 75 75" 
+                    fill="none" stroke="var(--neon-purple)" stroke-width="1.5"/>
+              <!-- Fingerprint Arcs -->
+              <path d="M 25 65 A 20 25 0 0 1 55 65
+                       M 20 55 A 25 30 0 0 1 60 55
+                       M 30 45 A 15 20 0 0 1 50 45
+                       M 35 35 A 8 10 0 0 1 45 35" 
+                    fill="none" stroke="var(--neon-purple)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- Pixelated Figure Visual -->
+          <div class="border-box" style="height: 140px; justify-content: center; align-items: center;">
+            <svg viewBox="0 0 60 100" style="width:50px; height:90px;">
+              <!-- Pixelated Walking Figure -->
+              <rect x="25" y="10" width="10" height="10" fill="var(--neon-purple)"/>
+              <rect x="20" y="25" width="20" height="30" fill="var(--neon-purple)"/>
+              <rect x="15" y="30" width="5" height="20" fill="var(--neon-purple)"/>
+              <rect x="40" y="30" width="5" height="20" fill="var(--neon-purple)"/>
+              <rect x="20" y="60" width="8" height="25" fill="var(--neon-purple)"/>
+              <rect x="32" y="60" width="8" height="20" fill="var(--neon-purple)"/>
+              <rect x="37" y="80" width="8" height="5" fill="var(--neon-purple)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Subject Info Table & Signal Graph -->
+        <div>
+          <table class="details-table">
+            <tr>
+              <td class="label">NAME</td>
+              <td class="value">TORRA.TAHA</td>
+            </tr>
+            <tr>
+              <td class="label">INCEPT DATE</td>
+              <td class="value">03/05/2008</td>
+            </tr>
+            <tr>
+              <td class="label">FUNCTION</td>
+              <td class="value">DESIGNER</td>
+            </tr>
+            <tr>
+              <td class="label">MENTAL STATE</td>
+              <td class="value">UNSTABLE</td>
+            </tr>
+            <tr>
+              <td class="label">LAST KNOWN LOCATION</td>
+              <td class="value">-------</td>
+            </tr>
+            <tr>
+              <td class="label">THREAT ASSESSMENT</td>
+              <td class="value threat-stars">★ ★ ★</td>
+            </tr>
+            <tr>
+              <td class="label">SPECIAL SKILLS</td>
+              <td class="value"><span class="skills-badge">Ps</span></td>
+            </tr>
+          </table>
+
+          <!-- Signal Wave & Hex Stream -->
+          <div class="oscilloscope">
+            <!-- Grid Lines Background -->
+            <svg class="sine-wave" viewBox="0 0 300 50">
+              <line x1="0" y1="25" x2="300" y2="25" stroke="var(--neon-purple)" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.5"/>
+              <line x1="75" y1="0" x2="75" y2="50" stroke="var(--neon-purple)" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.5"/>
+              <line x1="150" y1="0" x2="150" y2="50" stroke="var(--neon-purple)" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.5"/>
+              <line x1="225" y1="0" x2="225" y2="50" stroke="var(--neon-purple)" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.5"/>
+              <!-- Animated Sine Wave Path -->
+              <path class="animated-wave" d="M 0 25 Q 37.5 0, 75 25 T 150 25 T 225 25 T 300 25" />
+            </svg>
+
+            <!-- Raw Hex Matrix Data Footer -->
+            <div class="hex-matrix">
+              4F 6E 79 78 20 47 72 69 64 20 30 33 2F 30 35 2F 32 30 30 38<br>
+              01 00 11 00 46 75 6E 63 74 69 6F 6E 3A 20 44 65 73 69 67 6E<br>
+              55 6E 73 74 61 62 6C 65 20 41 2D 33 34 20 54 68 72 65 61 74
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
