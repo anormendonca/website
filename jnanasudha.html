@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2028 Aspirant | Secure Focus</title>
+    <title>2028 Aspirant | Focus</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,18 +17,13 @@
             --bg: #000000; --surface: #09090b; --border: #27272a; 
             --text: #f4f4f5; --muted: #a1a1aa; --accent: #ffffff; --success: #34d399;
         }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        
-        /* Auth Screen */
-        #loginScreen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; text-align: center; }
-        #appScreen { display: none; width: 100%; max-width: 1000px; flex-direction: column; gap: 32px; }
-        
-        .header-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px;}
-        .user-info { display: flex; align-items: center; gap: 15px; }
-        .user-info img { border-radius: 50%; width: 40px; height: 40px; border: 1px solid var(--border); }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; line-height: 1.5; }
+        .container { max-width: 1000px; width: 100%; display: flex; flex-direction: column; gap: 32px; }
 
         .section { background: var(--surface); padding: 32px; border-radius: 12px; border: 1px solid var(--border); }
-        h2 { font-size: 1.1rem; font-weight: 500; margin: 0 0 24px 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between;}
+        h2 { font-size: 1.1rem; font-weight: 500; margin: 0 0 24px 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; }
+        
+        .motivation { font-size: 1.2rem; font-weight: 300; color: var(--text); line-height: 1.6; }
         
         .timer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .timer-box { display: flex; flex-direction: column; border-left: 2px solid var(--border); padding-left: 20px; }
@@ -36,62 +31,51 @@
         .timer-box span.label { font-size: 0.85rem; color: var(--muted); }
 
         /* Form Elements Fix */
-        input, select, textarea { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: inherit; margin-bottom: 12px; }
+        input, select, textarea { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: inherit; margin-bottom: 12px; box-sizing: border-box; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
-        select option { background: var(--surface); color: var(--text); } /* Fixes white dropdown */
+        select option { background: var(--surface); color: var(--text); }
         
-        button { background: var(--accent); color: var(--bg); font-weight: 500; cursor: pointer; border: none; padding: 10px 20px; border-radius: 8px; transition: 0.2s; }
+        button { background: var(--accent); color: var(--bg); font-weight: 500; cursor: pointer; border: none; padding: 12px 24px; border-radius: 8px; transition: 0.2s; font-size: 0.95rem; }
         button:hover { opacity: 0.8; }
-        button.secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
 
-        /* Tabbed Interface for Marks */
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; overflow-x: auto;}
+        /* Tabs & Marks Card */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; overflow-x: auto; }
         .tab-btn { background: transparent; color: var(--muted); border: none; padding: 8px 16px; cursor: pointer; font-weight: 500; }
         .tab-btn.active { color: var(--accent); border-bottom: 2px solid var(--accent); border-radius: 0; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Tables */
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 20px;}
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 20px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
         th { color: var(--muted); font-weight: 500; }
         .marks-input { width: 80px; padding: 6px; margin: 0; text-align: center; }
         .total-row { font-weight: bold; background: rgba(255,255,255,0.02); }
 
-        /* Grid for Mocks */
+        /* Mocks Analytics */
         .split-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: start; }
         .mock-input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 
-        /* Calendar Overrides */
+        /* Calendar Adjustments */
         .fc { --fc-page-bg-color: transparent; --fc-neutral-bg-color: var(--bg); --fc-border-color: var(--border); --fc-button-bg-color: var(--surface); --fc-button-border-color: var(--border); --fc-button-text-color: var(--text); --fc-today-bg-color: rgba(255,255,255,0.05); --fc-event-bg-color: var(--accent); --fc-event-text-color: var(--bg); }
         .fc-theme-standard td, .fc-theme-standard th { border-color: var(--border); }
         .fc-toolbar-title { font-size: 1rem !important; }
-        .fc-timegrid-slot { height: 40px !important; } /* Uncongested slots */
+        .fc-timegrid-slot { height: 42px !important; }
+        .db-status { font-size: 0.75rem; color: var(--success); text-transform: none; letter-spacing: normal; }
     </style>
 </head>
 <body>
 
-    <!-- Login Screen -->
-    <div id="loginScreen">
-        <h1 style="font-size: 3rem; margin-bottom: 10px;">NEET 2028</h1>
-        <p style="color: var(--muted); margin-bottom: 30px;">A personalized tracker for Jnanasudha</p>
-        <button id="loginBtn" style="font-size: 1.1rem; padding: 15px 30px;">Sign in with Google</button>
-    </div>
-
-    <!-- Main Dashboard -->
-    <div id="appScreen">
-        <div class="header-bar">
-            <div class="user-info">
-                <img id="userPfp" src="" alt="Profile">
-                <div>
-                    <div id="userName" style="font-weight: 500;">User</div>
-                    <div style="font-size: 0.8rem; color: var(--success);">● Secure Connection</div>
-                </div>
-            </div>
-            <button class="secondary" id="logoutBtn">Sign Out</button>
+    <div class="container">
+        
+        <!-- Grounding -->
+        <div class="section">
+            <h2>Daily Grounding <span class="db-status">● Live Cloud Database</span></h2>
+            <div id="quoteDisplay" class="motivation">Loading...</div>
         </div>
 
+        <!-- Countdowns -->
         <div class="section">
+            <h2>The Horizon</h2>
             <div class="timer-grid">
                 <div class="timer-box"><span class="number" id="neet">--</span><span class="label">Days to NEET 2028</span></div>
                 <div class="timer-box"><span class="number" id="jee">--</span><span class="label">Days to JEE Mains</span></div>
@@ -103,10 +87,10 @@
         <div class="section">
             <h2>Master Marks Card</h2>
             <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('bio')">Biology</button>
-                <button class="tab-btn" onclick="switchTab('phy')">Physics</button>
-                <button class="tab-btn" onclick="switchTab('chem')">Chemistry</button>
-                <button class="tab-btn" onclick="switchTab('school')">School/Prep Exams</button>
+                <button class="tab-btn active" onclick="switchTab(event, 'bio')">Biology</button>
+                <button class="tab-btn" onclick="switchTab(event, 'phy')">Physics</button>
+                <button class="tab-btn" onclick="switchTab(event, 'chem')">Chemistry</button>
+                <button class="tab-btn" onclick="switchTab(event, 'school')">School / Preps</button>
             </div>
             
             <div id="bio" class="tab-content active"><table id="table-bio"></table></div>
@@ -119,37 +103,39 @@
             </div>
         </div>
 
+        <!-- Timeblocking Calendar -->
         <div class="section">
             <h2>Time Blocking</h2>
             <div id="calendar"></div>
         </div>
 
+        <!-- Jnanasudha Mocks -->
         <div class="section">
             <h2>Jnanasudha Mock Analytics</h2>
             <div class="split-grid">
                 <div>
                     <div class="mock-input-row">
                         <select id="testType">
-                            <option value="JUT">JUT (Out of 60)</option>
-                            <option value="JPT">JPT (Out of 10)</option>
-                            <option value="JFT">JFT (Out of 10)</option>
+                            <option value="JUT">JUT (60 total)</option>
+                            <option value="JPT">JPT (10 total)</option>
+                            <option value="JFT">JFT (10 total)</option>
                         </select>
-                        <input type="number" id="testNumber" placeholder="Test No." min="1" max="60">
+                        <input type="number" id="testNumber" placeholder="No." min="1" max="60">
                         <input type="number" id="testScore" placeholder="Score / 720" max="720">
                     </div>
-                    <textarea id="testMistakes" rows="2" placeholder="Identify failure points..."></textarea>
-                    <button onclick="saveMockScore()">Log Score</button>
+                    <textarea id="testMistakes" rows="3" placeholder="Identify failure points..."></textarea>
+                    <button onclick="saveMockScore()" style="width:100%;">Log Performance</button>
                 </div>
                 <div><canvas id="scoreChart"></canvas></div>
             </div>
         </div>
+
     </div>
 
-    <!-- Firebase System -->
+    <!-- Firebase SDK Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, query, orderBy, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBRehg17cWxXYC9u25lXyZOWVyHuejZ3EE",
@@ -162,44 +148,19 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getFirestore(app);
-        
-        let currentUser = null;
-        let calendarInstance = null;
 
-        // --- AUTHENTICATION ---
-        document.getElementById('loginBtn').addEventListener('click', () => {
-            signInWithPopup(auth, new GoogleAuthProvider()).catch(err => alert("Login failed: " + err.message));
-        });
-        document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('appScreen').style.display = 'flex';
-                document.getElementById('userPfp').src = user.photoURL;
-                document.getElementById('userName').innerText = user.displayName;
-                initApp();
-            } else {
-                currentUser = null;
-                document.getElementById('loginScreen').style.display = 'flex';
-                document.getElementById('appScreen').style.display = 'none';
-            }
-        });
-
-        // --- MASTER DATA GENERATION ---
+        // --- MASTER SYLLABUS DATA ---
         const syllabus = {
-            bio: ["The Living World", "Biological Classification", "Plant Kingdom", "Animal Kingdom", "Morphology of Flowering Plants", "Anatomy of Flowering Plants", "Structural Organisation in Animals", "Cell: The Unit of Life", "Biomolecules", "Cell Cycle and Cell Division", "Photosynthesis in Higher Plants", "Respiration in Plants", "Plant Growth and Development", "Breathing and Exchange of Gases", "Body Fluids and Circulation", "Excretory Products", "Locomotion and Movement", "Neural Control", "Chemical Coordination", "Sexual Reproduction in Flowering Plants", "Human Reproduction", "Reproductive Health", "Principles of Inheritance", "Molecular Basis of Inheritance", "Evolution", "Human Health and Disease", "Microbes in Human Welfare", "Biotech: Principles", "Biotech: Applications", "Organisms and Populations", "Ecosystem", "Biodiversity and Conservation"],
-            phy: ["Physical World", "Units and Measurements", "Motion in a Straight Line", "Motion in a Plane", "Laws of Motion", "Work, Energy and Power", "Rotational Motion", "Gravitation", "Properties of Solids", "Properties of Fluids", "Thermal Properties", "Thermodynamics", "Kinetic Theory", "Oscillations", "Waves"],
-            chem: ["Some Basic Concepts", "Structure of Atom", "Classification of Elements", "Chemical Bonding", "Chemical Thermodynamics", "Equilibrium", "Redox Reactions", "Organic - Basic Principles", "Hydrocarbons", "12th: Solutions", "12th: Electrochemistry", "12th: Chemical Kinetics", "12th: d- and f-Block", "12th: Coordination Compounds", "12th: Haloalkanes", "12th: Alcohols, Phenols", "12th: Aldehydes, Ketones", "12th: Amines", "12th: Biomolecules"],
+            bio: ["The Living World", "Biological Classification", "Plant Kingdom", "Animal Kingdom", "Morphology of Flowering Plants", "Anatomy of Flowering Plants", "Structural Organisation in Animals", "Cell: The Unit of Life", "Biomolecules", "Cell Cycle and Cell Division", "Photosynthesis in Higher Plants", "Respiration in Plants", "Plant Growth and Development", "Breathing and Exchange of Gases", "Body Fluids and Circulation", "Excretory Products", "Locomotion and Movement", "Neural Control and Coordination", "Chemical Coordination and Integration", "Sexual Reproduction in Flowering Plants", "Human Reproduction", "Reproductive Health", "Principles of Inheritance and Variation", "Molecular Basis of Inheritance", "Evolution", "Human Health and Disease", "Microbes in Human Welfare", "Biotechnology: Principles and Processes", "Biotechnology and its Applications", "Organisms and Populations", "Ecosystem", "Biodiversity and Conservation"],
+            phy: ["Physical World", "Units and Measurements", "Motion in a Straight Line", "Motion in a Plane", "Laws of Motion", "Work, Energy and Power", "System of Particles & Rotational Motion", "Gravitation", "Mechanical Properties of Solids", "Mechanical Properties of Fluids", "Thermal Properties of Matter", "Thermodynamics", "Kinetic Theory", "Oscillations", "Waves"],
+            chem: ["Some Basic Concepts of Chemistry", "Structure of Atom", "Classification of Elements & Periodicity", "Chemical Bonding & Molecular Structure", "Chemical Thermodynamics", "Equilibrium", "Redox Reactions", "Organic Chemistry – Basic Principles", "Hydrocarbons", "12th: Solutions", "12th: Electrochemistry", "12th: Chemical Kinetics", "12th: d- and f-Block Elements", "12th: Coordination Compounds", "12th: Haloalkanes and Haloarenes", "12th: Alcohols, Phenols and Ethers", "12th: Aldehydes, Ketones & Carboxylic Acids", "12th: Amines", "12th: Biomolecules"],
             school: ["1st PUC: 1st Term", "1st PUC: Midterm", "1st PUC: 2nd Term", "1st PUC: Prep Exam", "2nd PUC: 1st Term", "2nd PUC: Midterm", "2nd PUC: 2nd Term", "2nd PUC: Prep I", "2nd PUC: Prep II", "2nd PUC: Prep III", "2nd PUC: Prep IV", "2nd PUC: Prep V"]
         };
 
         function generateTables() {
             Object.keys(syllabus).forEach(subject => {
-                let html = `<tr><th>Topic / Exam</th><th style="width:100px;">Max Marks</th><th style="width:100px;">Obtained</th></tr>`;
+                let html = `<tr><th>Topic / Assessment</th><th style="width:100px;">Max</th><th style="width:100px;">Obtained</th></tr>`;
                 syllabus[subject].forEach((topic, i) => {
                     const safeId = `${subject}_${i}`;
                     html += `<tr>
@@ -213,33 +174,32 @@
             });
         }
 
-        window.switchTab = function(tabId) {
+        window.switchTab = function(e, tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            event.target.classList.add('active');
-        }
+            e.target.classList.add('active');
+        };
 
         window.calcTotals = function(subject) {
-            let totalMax = 0; let totalObt = 0;
+            let totalMax = 0, totalObt = 0;
             document.querySelectorAll(`#table-${subject} .max-mark`).forEach(el => totalMax += Number(el.value) || 0);
             document.querySelectorAll(`#table-${subject} .obt-mark`).forEach(el => totalObt += Number(el.value) || 0);
             document.getElementById(`total_max_${subject}`).innerText = totalMax;
             document.getElementById(`total_obt_${subject}`).innerText = totalObt;
-        }
+        };
 
         window.saveAllMarks = async function() {
-            if(!currentUser) return;
             const dataToSave = {};
             document.querySelectorAll('.marks-input').forEach(input => {
                 if(input.value) dataToSave[input.id] = input.value;
             });
-            await setDoc(doc(db, "users", currentUser.uid, "data", "marks"), dataToSave);
-            alert("Marks securely saved to cloud.");
-        }
+            await setDoc(doc(db, "marks", "master"), dataToSave);
+            alert("Marks saved to cloud!");
+        };
 
         async function loadMarks() {
-            const docSnap = await getDoc(doc(db, "users", currentUser.uid, "data", "marks"));
+            const docSnap = await getDoc(doc(db, "marks", "master"));
             if (docSnap.exists()) {
                 const data = docSnap.data();
                 Object.keys(data).forEach(id => {
@@ -249,83 +209,70 @@
             }
         }
 
-        // --- APP INITIALIZATION ---
-        function initApp() {
-            generateTables();
-            loadMarks();
-            loadMockData();
-            initCalendar();
-            
-            // Countdowns
-            const today = new Date().getTime();
-            const calcDays = (t) => Math.max(0, Math.ceil((new Date(t).getTime() - today) / 86400000));
-            document.getElementById('neet').innerText = calcDays('May 5, 2028');
-            document.getElementById('jee').innerText = calcDays('Jan 15, 2028');
-            document.getElementById('boards').innerText = calcDays('Mar 1, 2028');
-        }
-
-        // --- CALENDAR (User Specific) ---
+        // --- TIME BLOCKING CALENDAR ---
         function initCalendar() {
             var calendarEl = document.getElementById('calendar');
-            if(calendarInstance) calendarInstance.destroy();
-            
-            calendarInstance = new FullCalendar.Calendar(calendarEl, {
+            var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
-                headerToolbar: { left: 'prev,next', center: 'title', right: 'timeGridWeek,timeGridDay' },
+                headerToolbar: { left: 'prev,next today', center: 'title', right: 'timeGridWeek,timeGridDay' },
                 slotMinTime: '06:00:00',
                 height: 'auto',
                 expandRows: true,
                 editable: true,
                 selectable: true,
                 events: async function(info, success, fail) {
-                    const q = collection(db, "users", currentUser.uid, "calendar");
-                    const snap = await getDocs(q);
-                    success(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+                    try {
+                        const snap = await getDocs(collection(db, "calendar_events"));
+                        success(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+                    } catch(e) { fail(e); }
                 },
                 select: async function(arg) {
                     var title = prompt('Block Title:');
                     if (title) {
                         const eventId = Date.now().toString();
-                        calendarInstance.addEvent({ id: eventId, title, start: arg.start, end: arg.end });
-                        await setDoc(doc(db, "users", currentUser.uid, "calendar", eventId), {
+                        calendar.addEvent({ id: eventId, title, start: arg.start, end: arg.end });
+                        await setDoc(doc(db, "calendar_events", eventId), {
                             title, start: arg.startStr, end: arg.endStr
                         });
                     }
-                    calendarInstance.unselect();
+                    calendar.unselect();
                 },
                 eventChange: async function(change) {
-                    await setDoc(doc(db, "users", currentUser.uid, "calendar", change.event.id), {
+                    await setDoc(doc(db, "calendar_events", change.event.id), {
                         title: change.event.title, start: change.event.startStr, end: change.event.endStr
                     }, { merge: true });
                 },
                 eventClick: async function(arg) {
                     if (confirm(`Delete '${arg.event.title}'?`)) {
                         arg.event.remove();
-                        await deleteDoc(doc(db, "users", currentUser.uid, "calendar", arg.event.id));
+                        await deleteDoc(doc(db, "calendar_events", arg.event.id));
                     }
                 }
             });
-            calendarInstance.render();
+            calendar.render();
         }
 
-        // --- JNANASUDHA MOCKS ---
+        // --- MOCK TEST ANALYTICS ---
         window.saveMockScore = async function() {
-            if(!currentUser) return;
             const type = document.getElementById('testType').value;
             const num = document.getElementById('testNumber').value;
             const score = document.getElementById('testScore').value;
-            if(!num || !score) return;
+            if(!num || !score) return alert("Enter test number and score.");
 
-            await setDoc(doc(db, "users", currentUser.uid, "mocks", `${type}-${num}`), {
+            await setDoc(doc(db, "jnanasudha_mocks", `${type}-${num}`), {
                 type, number: parseInt(num), score: parseInt(score),
                 mistakes: document.getElementById('testMistakes').value
             });
+            
+            document.getElementById('testNumber').value = '';
+            document.getElementById('testScore').value = '';
+            document.getElementById('testMistakes').value = '';
             loadMockData();
         };
 
         let myChart;
         async function loadMockData() {
-            const q = query(collection(db, "users", currentUser.uid, "mocks"), orderBy("number"));
+            const q = query(collection(db, "jnanasudha_mocks"), orderBy("number"));
             const snap = await getDocs(q);
             let labels = [], scores = [];
             
@@ -337,15 +284,50 @@
 
             if(myChart) myChart.destroy();
             Chart.defaults.color = "#a1a1aa";
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            
             myChart = new Chart(document.getElementById('scoreChart').getContext('2d'), {
                 type: 'line',
                 data: {
                     labels,
                     datasets: [{ label: 'Score', data: scores, borderColor: '#ffffff', backgroundColor: 'rgba(255, 255, 255, 0.05)', borderWidth: 2, pointRadius: 4, fill: true }]
                 },
-                options: { scales: { y: { min: 0, max: 720 } } }
+                options: { 
+                    responsive: true,
+                    scales: { 
+                        y: { min: 0, max: 720, grid: { color: '#27272a' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
             });
         }
+
+        // Initialize Everything
+        generateTables();
+        loadMarks();
+        initCalendar();
+        loadMockData();
+    </script>
+
+    <!-- Countdowns and Stoic Motivation -->
+    <script>
+        const quotes = [
+            '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
+            '"We know that suffering produces perseverance; character; and hope." – Romans 5:3',
+            '"The impediment to action advances action. What stands in the way becomes the way." – Marcus Aurelius',
+            '"Pray as though everything depended on God. Work as though everything depended on you." – St. Augustine'
+        ];
+        document.getElementById('quoteDisplay').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+        function updateCountdowns() {
+            const today = new Date().getTime();
+            const calcDays = (t) => Math.max(0, Math.ceil((new Date(t).getTime() - today) / 86400000));
+            document.getElementById('neet').innerText = calcDays('May 5, 2028');
+            document.getElementById('jee').innerText = calcDays('Jan 15, 2028');
+            document.getElementById('boards').innerText = calcDays('Mar 1, 2028');
+        }
+        updateCountdowns();
     </script>
 </body>
 </html>
