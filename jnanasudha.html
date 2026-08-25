@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2028 Aspirant | Jnanasudha Tracker</title>
+    <!-- Chart.js for Mock Score Visuals -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { --bg: #0f1115; --card: #1a1d24; --text: #e2e8f0; --accent: #d4af37; --danger: #ef4444; --success: #10b981; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 1000px; width: 100%; display: grid; gap: 20px; grid-template-columns: 1fr 1fr; }
+        .card { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-top: 3px solid var(--accent); }
+        h1, h2, h3 { color: var(--accent); margin-top: 0; }
+        .full-width { grid-column: 1 / -1; }
+        
+        /* Motivation & Countdowns */
+        .motivation { font-style: italic; font-size: 1.1em; text-align: center; border-left: 4px solid var(--accent); padding-left: 15px; margin: 10px 0; color: #cbd5e1; }
+        .timer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center; margin-top: 15px; }
+        .timer-box { background: #222630; padding: 15px; border-radius: 8px; font-weight: bold; }
+        .timer-box span { display: block; font-size: 2em; color: var(--accent); }
+
+        /* Inputs & Buttons */
+        input, select, textarea, button { width: 100%; margin-top: 10px; padding: 12px; border-radius: 6px; border: 1px solid #333; background: #222630; color: var(--text); box-sizing: border-box; font-family: inherit; }
+        button { background: var(--accent); color: #000; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; font-size: 1em; }
+        button:hover { background: #b8972e; }
+        
+        /* Layout for Mock Inputs */
+        .mock-input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9em; }
+        th, td { border: 1px solid #333; padding: 10px; text-align: left; }
+        th { background: #222630; color: var(--accent); }
+        .db-status { font-size: 0.8em; color: var(--success); float: right; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Header & Grounding -->
+        <div class="card full-width">
+            <h2>Daily Grounding <span id="dbIndicator" class="db-status">Database Connected</span></h2>
+            <div id="quoteDisplay" class="motivation">Loading...</div>
+        </div>
+
+        <!-- Countdowns -->
+        <div class="card full-width">
+            <h2>The Horizon (2028)</h2>
+            <div class="timer-grid">
+                <div class="timer-box">NEET 2028<span id="neet"></span>days</div>
+                <div class="timer-box">JEE Mains<span id="jee"></span>days</div>
+                <div class="timer-box">KSEAB Boards<span id="boards"></span>days</div>
+            </div>
+        </div>
+
+        <!-- Jnanasudha Test Tracker (JUT/JPT/JFT) -->
+        <div class="card full-width">
+            <h2>Jnanasudha Mock Analytics</h2>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+                <div>
+                    <h3>Log a Score</h3>
+                    <div class="mock-input-row">
+                        <select id="testType">
+                            <option value="JUT">JUT (Unit Test)</option>
+                            <option value="JPT">JPT (Part Test)</option>
+                            <option value="JFT">JFT (Full Test)</option>
+                        </select>
+                        <input type="number" id="testNumber" placeholder="Test No. (e.g., 12)" min="1" max="80">
+                        <input type="number" id="testScore" placeholder="Score / 720" max="720">
+                    </div>
+                    <textarea id="testMistakes" rows="2" placeholder="Key mistakes? (e.g., Silly error in Physics Q12)"></textarea>
+                    <button onclick="saveMockScore()">Save Score to Cloud</button>
+                </div>
+                
+                <!-- Chart Area -->
+                <div>
+                    <canvas id="scoreChart"></canvas>
+                </div>
+            </div>
+
+            <h3>Recent Tests</h3>
+            <table id="mockTable">
+                <thead>
+                    <tr><th>Test</th><th>Score</th><th>Key Mistakes to Review</th></tr>
+                </thead>
+                <tbody id="mockTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Daily Ledger -->
+        <div class="card full-width">
+            <h2>Daily Ledger (Until June 2028)</h2>
+            <input type="date" id="calendarDate" max="2028-06-30" onchange="loadDailyNote()">
+            <textarea id="dailyNote" rows="5" placeholder="What did you conquer today?"></textarea>
+            <button onclick="saveDailyNote()">Save Entry to Cloud</button>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDK (Modular v9) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ==========================================
+        // 🔴 PASTE YOUR FIREBASE CONFIG HERE 🔴
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Make functions globally available to HTML buttons
+        window.saveMockScore = async function() {
+            const type = document.getElementById('testType').value;
+            const num = document.getElementById('testNumber').value;
+            const score = document.getElementById('testScore').value;
+            const mistakes = document.getElementById('testMistakes').value;
+
+            if(!num || !score) return alert("Enter test number and score!");
+
+            const testLabel = `${type}-${num}`;
+            await setDoc(doc(db, "jnanasudha_mocks", testLabel), {
+                type: type,
+                number: parseInt(num),
+                score: parseInt(score),
+                mistakes: mistakes,
+                timestamp: new Date()
+            });
+            
+            alert("Score saved!");
+            loadMockData();
+        };
+
+        window.saveDailyNote = async function() {
+            const date = document.getElementById('calendarDate').value;
+            const note = document.getElementById('dailyNote').value;
+            if(!date) return;
+
+            await setDoc(doc(db, "daily_ledger", date), { text: note });
+            alert("Note saved!");
+        };
+
+        window.loadDailyNote = async function() {
+            const date = document.getElementById('calendarDate').value;
+            const docRef = doc(db, "daily_ledger", date);
+            const docSnap = await getDoc(docRef);
+            document.getElementById('dailyNote').value = docSnap.exists() ? docSnap.data().text : "";
+        };
+
+        let myChart;
+        async function loadMockData() {
+            const q = query(collection(db, "jnanasudha_mocks"), orderBy("number"));
+            const querySnapshot = await getDocs(q);
+            
+            let labels = [];
+            let scores = [];
+            let tableHTML = "";
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                labels.push(`${data.type}-${data.number}`);
+                scores.push(data.score);
+                
+                tableHTML = `<tr>
+                    <td>${data.type}-${data.number}</td>
+                    <td style="color:var(--accent); font-weight:bold;">${data.score}</td>
+                    <td>${data.mistakes}</td>
+                </tr>` + tableHTML; // Prepend to show newest on top
+            });
+
+            document.getElementById('mockTableBody').innerHTML = tableHTML;
+            updateChart(labels, scores);
+        }
+
+        function updateChart(labels, data) {
+            const ctx = document.getElementById('scoreChart').getContext('2d');
+            if(myChart) myChart.destroy();
+            
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Mock Score (/720)',
+                        data: data,
+                        borderColor: '#d4af37',
+                        backgroundColor: 'rgba(212, 175, 55, 0.2)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { min: 0, max: 720, grid: { color: '#333' } }, x: { grid: { color: '#333' } } },
+                    plugins: { legend: { labels: { color: '#e2e8f0' } } }
+                }
+            });
+        }
+
+        // Initialize Page Data
+        document.getElementById('calendarDate').valueAsDate = new Date();
+        loadDailyNote();
+        loadMockData();
+    </script>
+
+    <!-- Basic UI Scripts (Countdowns & Motivation) -->
+    <script>
+        const quotes = [
+            '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
+            '"We know that suffering produces perseverance; character; and hope." – Romans 5:3',
+            '"The impediment to action advances action. What stands in the way becomes the way." – Marcus Aurelius',
+            '"Pray as though everything depended on God. Work as though everything depended on you." – St. Augustine'
+        ];
+        document.getElementById('quoteDisplay').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+        function updateCountdowns() {
+            const today = new Date().getTime();
+            // Dates to be adjusted when exact schedule releases
+            const neetDate = new Date('May 5, 2028 00:00:00').getTime();
+            const jeeDate = new Date('Jan 15, 2028 00:00:00').getTime(); 
+            const boardsDate = new Date('Mar 1, 2028 00:00:00').getTime();
+
+            const calcDays = (t) => Math.max(0, Math.ceil((t - today) / (1000 * 60 * 60 * 24)));
+            document.getElementById('neet').innerText = calcDays(neetDate);
+            document.getElementById('jee').innerText = calcDays(jeeDate);
+            document.getElementById('boards').innerText = calcDays(boardsDate);
+        }
+        updateCountdowns();
+    </script>
+</body>
+</html>
