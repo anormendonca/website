@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2028 Aspirant | Focus</title>
     
-    <!-- Modern Font & Chart.js -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js and FullCalendar -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 
     <style>
         :root { 
@@ -35,14 +37,13 @@
         }
 
         .container { 
-            max-width: 900px; 
+            max-width: 1000px; 
             width: 100%; 
             display: flex; 
             flex-direction: column; 
             gap: 32px; 
         }
 
-        /* Minimalist Cards */
         .section { 
             background: var(--surface); 
             padding: 32px; 
@@ -62,7 +63,6 @@
             letter-spacing: 0.05em;
         }
 
-        /* Typography */
         .motivation { 
             font-size: 1.25rem; 
             font-weight: 300; 
@@ -70,7 +70,6 @@
             line-height: 1.6;
         }
 
-        /* Sleek Countdowns */
         .timer-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -95,7 +94,6 @@
             font-weight: 500;
         }
 
-        /* Modern Forms & Inputs */
         input, select, textarea { 
             width: 100%; 
             padding: 12px 16px; 
@@ -128,7 +126,6 @@
         }
         button:hover { opacity: 0.9; }
 
-        /* Grid Layouts */
         .split-grid {
             display: grid;
             grid-template-columns: 1fr 1.5fr;
@@ -141,7 +138,6 @@
             gap: 12px; 
         }
 
-        /* Clean Tables */
         table { 
             width: 100%; 
             border-collapse: collapse; 
@@ -156,19 +152,41 @@
         th { color: var(--muted); font-weight: 500; }
         .score-highlight { font-weight: 600; color: var(--accent); }
         .db-status { font-size: 0.75rem; color: var(--success); text-transform: none; letter-spacing: normal;}
+
+        /* Minimalist Calendar Overrides */
+        .fc {
+            --fc-page-bg-color: transparent;
+            --fc-neutral-bg-color: var(--bg);
+            --fc-border-color: var(--border);
+            --fc-button-bg-color: var(--surface);
+            --fc-button-border-color: var(--border);
+            --fc-button-text-color: var(--text);
+            --fc-button-hover-bg-color: var(--border);
+            --fc-button-active-bg-color: var(--accent);
+            --fc-button-active-border-color: var(--accent);
+            --fc-today-bg-color: rgba(255, 255, 255, 0.03);
+            --fc-event-bg-color: var(--accent);
+            --fc-event-border-color: var(--accent);
+            --fc-event-text-color: var(--bg);
+        }
+        .fc-theme-standard td, .fc-theme-standard th { border-color: var(--border); }
+        .fc-toolbar-title { font-size: 1.1rem !important; font-weight: 500; color: var(--text); }
+        .fc-event { border-radius: 4px; padding: 2px 4px; font-weight: 600; font-size: 0.85rem; border: none; }
+        .fc-timegrid-slot-label { color: var(--muted); font-size: 0.8rem; }
+        .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+            color: var(--bg);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         
-        <!-- Header & Grounding -->
         <div class="section">
-            <h2>Daily Grounding <span id="dbIndicator" class="db-status">● Connected</span></h2>
+            <h2>Daily Grounding <span id="dbIndicator" class="db-status">● Connected to neet-28</span></h2>
             <div id="quoteDisplay" class="motivation">Loading...</div>
         </div>
 
-        <!-- Countdowns -->
         <div class="section">
             <h2>The Horizon</h2>
             <div class="timer-grid">
@@ -178,7 +196,15 @@
             </div>
         </div>
 
-        <!-- Jnanasudha Test Tracker -->
+        <!-- NEW: Google Calendar Style Blocks -->
+        <div class="section">
+            <h2>Time Blocking</h2>
+            <p style="color: var(--muted); font-size: 0.85rem; margin-top: -15px; margin-bottom: 20px;">
+                Click and drag to create study blocks. Drag to reschedule. Click a block to delete.
+            </p>
+            <div id="calendar"></div>
+        </div>
+
         <div class="section">
             <h2>Jnanasudha Analytics</h2>
             <div class="split-grid">
@@ -209,36 +235,108 @@
             </table>
         </div>
 
-        <!-- Daily Ledger -->
-        <div class="section" style="border: none; background: transparent; padding: 0;">
-            <h2>Daily Ledger</h2>
-            <input type="date" id="calendarDate" max="2028-06-30" onchange="loadDailyNote()" style="background: var(--surface);">
-            <textarea id="dailyNote" rows="4" placeholder="Document today's effort..." style="background: var(--surface);"></textarea>
-            <button onclick="saveDailyNote()" style="width: auto; padding: 12px 32px;">Commit to Ledger</button>
-        </div>
-
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Database Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, query, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // ==========================================
-        // 🔴 PASTE YOUR FIREBASE CONFIG HERE 🔴
-        // ==========================================
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBRehg17cWxXYC9u25lXyZOWVyHuejZ3EE",
+            authDomain: "neet-28.firebaseapp.com",
+            projectId: "neet-28",
+            storageBucket: "neet-28.firebasestorage.app",
+            messagingSenderId: "836490296249",
+            appId: "1:836490296249:web:32fbb0a51d7e8d08eb9468",
+            measurementId: "G-9YRP5GYVR0"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // --- FULLCALENDAR SETUP ---
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek', // Block view by default
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                slotMinTime: '05:00:00', // Starts at 5 AM
+                slotMaxTime: '24:00:00', // Ends at Midnight
+                height: 650,
+                editable: true,
+                selectable: true,
+                selectMirror: true,
+                
+                // Fetch events from Firebase
+                events: async function(info, successCallback, failureCallback) {
+                    try {
+                        const q = collection(db, "calendar_events");
+                        const snap = await getDocs(q);
+                        let events = [];
+                        snap.forEach(doc => {
+                            events.push({ id: doc.id, ...doc.data() });
+                        });
+                        successCallback(events);
+                    } catch (error) {
+                        console.error("Error loading events", error);
+                        failureCallback(error);
+                    }
+                },
+
+                // Create a block
+                select: async function(arg) {
+                    var title = prompt('Block Title (e.g., Physics JUT Revision):');
+                    if (title) {
+                        const eventId = Date.now().toString(); // Generate unique ID
+                        
+                        // Show immediately on UI
+                        calendar.addEvent({
+                            id: eventId,
+                            title: title,
+                            start: arg.start,
+                            end: arg.end,
+                            allDay: arg.allDay
+                        });
+                        
+                        // Save to Firebase
+                        await setDoc(doc(db, "calendar_events", eventId), {
+                            title: title,
+                            start: arg.startStr,
+                            end: arg.endStr,
+                            allDay: arg.allDay
+                        });
+                    }
+                    calendar.unselect();
+                },
+
+                // Move or resize a block
+                eventChange: async function(changeInfo) {
+                    await setDoc(doc(db, "calendar_events", changeInfo.event.id), {
+                        title: changeInfo.event.title,
+                        start: changeInfo.event.startStr,
+                        end: changeInfo.event.endStr,
+                        allDay: changeInfo.event.allDay
+                    }, { merge: true });
+                },
+
+                // Delete a block
+                eventClick: async function(arg) {
+                    if (confirm(`Are you sure you want to delete '${arg.event.title}'?`)) {
+                        arg.event.remove();
+                        await deleteDoc(doc(db, "calendar_events", arg.event.id));
+                    }
+                }
+            });
+            calendar.render();
+        });
+
+
+        // --- JNANASUDHA ANALYTICS SETUP ---
         window.saveMockScore = async function() {
             const type = document.getElementById('testType').value;
             const num = document.getElementById('testNumber').value;
@@ -262,60 +360,39 @@
             loadMockData();
         };
 
-        window.saveDailyNote = async function() {
-            const date = document.getElementById('calendarDate').value;
-            const note = document.getElementById('dailyNote').value;
-            if(!date) return;
-
-            await setDoc(doc(db, "daily_ledger", date), { text: note });
-            
-            const btn = document.querySelector('button[onclick="saveDailyNote()"]');
-            const originalText = btn.innerText;
-            btn.innerText = "Committed ✓";
-            btn.style.background = "var(--success)";
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = "var(--accent)";
-            }, 2000);
-        };
-
-        window.loadDailyNote = async function() {
-            const date = document.getElementById('calendarDate').value;
-            const docRef = doc(db, "daily_ledger", date);
-            const docSnap = await getDoc(docRef);
-            document.getElementById('dailyNote').value = docSnap.exists() ? docSnap.data().text : "";
-        };
-
         let myChart;
         async function loadMockData() {
-            const q = query(collection(db, "jnanasudha_mocks"), orderBy("number"));
-            const querySnapshot = await getDocs(q);
-            
-            let labels = [];
-            let scores = [];
-            let tableHTML = "";
-
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                labels.push(`${data.type}-${data.number}`);
-                scores.push(data.score);
+            try {
+                const q = query(collection(db, "jnanasudha_mocks"), orderBy("number"));
+                const querySnapshot = await getDocs(q);
                 
-                tableHTML = `<tr>
-                    <td>${data.type}-${data.number}</td>
-                    <td class="score-highlight">${data.score}</td>
-                    <td>${data.mistakes}</td>
-                </tr>` + tableHTML; 
-            });
+                let labels = [];
+                let scores = [];
+                let tableHTML = "";
 
-            document.getElementById('mockTableBody').innerHTML = tableHTML;
-            updateChart(labels, scores);
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    labels.push(`${data.type}-${data.number}`);
+                    scores.push(data.score);
+                    
+                    tableHTML = `<tr>
+                        <td>${data.type}-${data.number}</td>
+                        <td class="score-highlight">${data.score}</td>
+                        <td>${data.mistakes}</td>
+                    </tr>` + tableHTML; 
+                });
+
+                document.getElementById('mockTableBody').innerHTML = tableHTML;
+                updateChart(labels, scores);
+            } catch (error) {
+                console.error("Error reading database:", error);
+            }
         }
 
         function updateChart(labels, data) {
             const ctx = document.getElementById('scoreChart').getContext('2d');
             if(myChart) myChart.destroy();
             
-            // Minimalist Chart.js configuration
             Chart.defaults.font.family = "'Inter', sans-serif";
             Chart.defaults.color = "#a1a1aa";
 
@@ -347,12 +424,10 @@
             });
         }
 
-        document.getElementById('calendarDate').valueAsDate = new Date();
-        loadDailyNote();
         loadMockData();
     </script>
 
-    <!-- Basic UI Scripts -->
+    <!-- Countdowns and Quotes -->
     <script>
         const quotes = [
             '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
