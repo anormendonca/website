@@ -3,531 +3,749 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2028 Aspirant | High Performance</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
+    <title>/home/anor - desktop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { 
-            --bg: #000000; --surface: #09090b; --border: #27272a; 
-            --text: #f4f4f5; --muted: #a1a1aa; --accent: #ffffff; --success: #34d399;
-            --danger: #ff3b3b; --modal-bg: rgba(5, 5, 5, 0.95);
-        }
-        body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background: var(--bg); color: var(--text); margin: 0; padding: 24px 16px; 
-            display: flex; flex-direction: column; align-items: center; line-height: 1.4; 
-        }
-        .container { max-width: 950px; width: 100%; display: flex; flex-direction: column; gap: 24px; }
-
-        .section { background: var(--surface); padding: 24px; border-radius: 12px; border: 1px solid var(--border); }
-        h2 { font-size: 1rem; font-weight: 600; margin: 0 0 16px 0; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; }
-        
-        .motivation { font-size: 1.1rem; font-weight: 400; color: var(--text); }
-        
-        .timer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .timer-box { display: flex; flex-direction: column; border-left: 2px solid var(--border); padding-left: 16px; }
-        .timer-box span.number { font-size: 2.2rem; font-weight: 700; color: var(--accent); }
-        .timer-box span.label { font-size: 0.8rem; color: var(--muted); }
-
-        input, select, textarea { 
-            width: 100%; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); 
-            background: var(--surface); color: var(--text); font-family: inherit; margin-bottom: 10px; box-sizing: border-box; 
-        }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
-        select option { background: #09090b; color: #f4f4f5; }
-        
-        button { background: var(--accent); color: var(--bg); font-weight: 600; cursor: pointer; border: none; padding: 10px 20px; border-radius: 6px; transition: opacity 0.15s; font-size: 0.9rem; }
-        button:hover { opacity: 0.85; }
-
-        .tabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; overflow-x: auto; }
-        .tab-btn { background: transparent; color: var(--muted); border: none; padding: 6px 12px; cursor: pointer; font-weight: 500; font-size: 0.9rem; white-space: nowrap; }
-        .tab-btn.active { color: var(--accent); border-bottom: 2px solid var(--accent); border-radius: 0; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 16px; }
-        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--border); }
-        th { color: var(--muted); font-weight: 500; }
-        .marks-input { width: 70px; padding: 4px 6px; margin: 0; text-align: center; }
-        .total-row { font-weight: 600; background: rgba(255,255,255,0.03); }
-
-        .split-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: start; }
-        .mock-input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .status-tag { font-size: 0.75rem; color: var(--success); text-transform: none; font-weight: 400; }
-
-        /* --- NTRXI Calendar Styling --- */
-        #warning-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--modal-bg); display: flex; align-items: center; justify-content: center;
-            z-index: 2000; backdrop-filter: blur(10px);
-        }
-        .modal-content { text-align: center; padding: 2rem; }
-        .modal-content h2 { font-weight: 800; letter-spacing: 0.5rem; text-transform: uppercase; font-size: 1rem; color: var(--text); justify-content: center; }
-        .modal-content p { font-size: 0.75rem; letter-spacing: 0.2rem; opacity: 0.6; text-transform: uppercase; margin: 1rem 0 2rem 0; color: var(--text); }
-        .close-hint { font-size: 0.6rem; letter-spacing: 0.4rem; opacity: 0.3; text-transform: uppercase; color: var(--text); }
-
-        .calendar-title {
-            font-size: 4rem; font-weight: 800; letter-spacing: -0.2rem;
-            margin: 0; text-align: center; text-transform: uppercase; line-height: 1;
-        }
-        .calendar-container { width: 100%; margin-top: 1.5rem; }
-        .calendar-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem; border: 1px solid var(--border);
-            text-transform: uppercase; letter-spacing: 0.3rem; font-size: 0.8rem;
-        }
-        .nav-btn {
-            background: transparent; border: none; color: var(--text);
-            cursor: pointer; font-weight: 800; font-family: 'Inter', sans-serif;
-            font-size: 1rem; padding: 0 1rem; transition: opacity 0.3s;
-        }
-        .nav-btn:hover { opacity: 0.5; }
-        .grid {
-            display: grid; grid-template-columns: repeat(7, 1fr);
-            border-left: 1px solid var(--border); border-top: 1px solid var(--border);
-        }
-        .day-label {
-            padding: 1rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-            text-align: center; font-size: 0.6rem; letter-spacing: 0.2rem; opacity: 0.3; text-transform: uppercase;
-        }
-        .cell {
-            min-height: 90px; padding: 8px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-            transition: background 0.3s; cursor: pointer; position: relative; box-sizing: border-box;
-        }
-        .cell:hover { background: #111115; }
-        .cell.today { background: #18181b; }
-        .cell.today::after {
-            content: ''; position: absolute; top: 5px; right: 5px; width: 4px; height: 4px; background: white; border-radius: 50%;
-        }
-        .date-num { font-size: 0.7rem; opacity: 0.5; font-weight: 800; pointer-events: none; }
-        .event-item {
-            font-size: 0.55rem; background: white; color: black; margin-top: 4px;
-            padding: 4px 6px; text-transform: uppercase; font-weight: 800;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            transition: all 0.2s ease; border-radius: 2px;
-        }
-        .event-item:hover {
-            background: var(--danger); color: white; text-decoration: line-through;
+        :root {
+            --bg-cream: #f4ead5;
+            --bg-teal: #a5cbd1;
+            --window-bg: #fdfbf7;
+            --border-color: #1a1a1a;
+            --accent-teal: #82b5ba;
+            --text-main: #1a1a1a;
+            --shadow: 4px 4px 0px #1a1a1a;
+            --font-mono: 'Space Mono', monospace;
+            --font-pixel: 'VT323', monospace;
         }
 
-        @media (max-width: 768px) {
-            .calendar-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
-            .cell { min-height: 60px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            background-image: 
+                radial-gradient(circle at 100% 100%, var(--bg-teal) 0%, var(--bg-teal) 35%, transparent 35%),
+                radial-gradient(circle at 0% 0%, var(--bg-teal) 0%, var(--bg-teal) 25%, transparent 25%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- Top Menu Bar --- */
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 32px;
+            background: var(--window-bg);
+            border-bottom: 2.5px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 9999;
+        }
+
+        .menu-left, .menu-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-item {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .menu-item:hover { opacity: 0.6; }
+
+        .app-logo-icon {
+            border: 2px solid var(--border-color);
+            padding: 1px 4px;
+            font-weight: 800;
+            background: var(--bg-cream);
+        }
+
+        /* --- Desktop Icons (Right Side) --- */
+        .desktop-icons {
+            position: fixed;
+            right: 20px;
+            top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            width: 70px;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .icon-btn:hover .icon-box {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--border-color);
+            background: var(--accent-teal);
+        }
+
+        /* --- Left Widget Panel --- */
+        .widget-panel {
+            position: fixed;
+            left: 20px;
+            top: 50px;
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 5;
+        }
+
+        .widget-card {
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .widget-clock {
+            text-align: center;
+        }
+
+        .widget-time {
+            font-family: var(--font-pixel);
+            font-size: 2.8rem;
+            line-height: 1;
+            margin: 8px 0;
+        }
+
+        .stat-bar {
+            margin: 6px 0;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .bar-outer {
+            height: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            background: #fff;
+            margin-top: 2px;
+        }
+
+        .bar-inner {
+            height: 100%;
+            background: var(--accent-teal);
+        }
+
+        /* --- Window System --- */
+        .window {
+            position: absolute;
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 6px 6px 0px var(--border-color);
+            min-width: 320px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .window.active {
+            display: flex;
+        }
+
+        .window-header {
+            background: var(--window-bg);
+            border-bottom: 2.5px solid var(--border-color);
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: move;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .win-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            background: var(--window-bg);
+        }
+
+        .win-btn.close:hover { background: #ff5f56; }
+        .win-btn.min:hover { background: #ffbd2e; }
+
+        .window-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: lowercase;
+            letter-spacing: 0.05rem;
+        }
+
+        .window-body {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        /* --- Custom Controls inside Windows --- */
+        .btn-retro {
+            background: var(--window-bg);
+            border: 2px solid var(--border-color);
+            padding: 6px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px var(--border-color);
+            transition: all 0.1s;
+        }
+
+        .btn-retro:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0px var(--border-color);
+            background: var(--accent-teal);
+        }
+
+        .btn-retro:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--border-color);
+        }
+
+        .input-retro {
+            background: #fff;
+            border: 2px solid var(--border-color);
+            padding: 6px;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            text-align: center;
+            width: 70px;
+            outline: none;
+        }
+
+        /* --- App Specific Styles --- */
+        .timer-display {
+            font-family: var(--font-pixel);
+            font-size: 4.5rem;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border-top: 2px solid var(--border-color);
+            border-left: 2px solid var(--border-color);
+        }
+
+        .cal-cell {
+            border-right: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            min-height: 48px;
+            padding: 4px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        .cal-cell:hover { background: var(--bg-cream); }
+        .cal-cell.today { background: var(--accent-teal); font-weight: 800; }
+
+        .cal-header-cell {
+            border-right: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.65rem;
+            padding: 4px;
+            background: var(--bg-cream);
+        }
+
+        .cal-event {
+            background: var(--border-color);
+            color: #fff;
+            font-size: 0.55rem;
+            padding: 1px 3px;
+            margin-top: 2px;
+            border-radius: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lap-list {
+            max-height: 100px;
+            overflow-y: auto;
+            margin-top: 10px;
+            border-top: 2px solid var(--border-color);
+            padding-top: 5px;
+            font-size: 0.7rem;
         }
     </style>
 </head>
 <body>
 
-    <div id="warning-modal">
-        <div class="modal-content">
-            <h2>System Notice</h2>
-            <p>Calendar events are stored locally. Clearing cache will wipe your schedule.</p>
-            <div class="close-hint">Press [ X ] to acknowledge</div>
+    <!-- Top Menu Bar -->
+    <div class="menu-bar">
+        <div class="menu-left">
+            <span class="app-logo-icon">a</span>
+            <span class="menu-item">Play</span>
+            <span class="menu-item">Edit</span>
+            <span class="menu-item">Window</span>
+            <span class="menu-item">Enjoy</span>
+        </div>
+        <div class="menu-right">
+            <span id="active-win-title">/home/fun - browser</span>
+            <span id="top-bar-clock">Sat Oct 16 11:28 AM</span>
         </div>
     </div>
 
-    <div class="container">
-        
-        <div class="section">
-            <h2>Daily Grounding <span class="status-tag" id="syncStatus">● Connected</span></h2>
-            <div id="quoteDisplay" class="motivation">Loading...</div>
+    <!-- Left Widget Panel -->
+    <div class="widget-panel">
+        <div class="widget-card widget-clock">
+            <div style="font-size: 0.65rem; font-weight: 700;">SYSTEM TIME</div>
+            <div class="widget-time" id="side-clock">11:28 AM</div>
+            <div style="font-size: 0.6rem; opacity: 0.8;" id="side-date">OCTOBER 16, 2026</div>
         </div>
 
-        <div class="section">
-            <h2>The Horizon</h2>
-            <div class="timer-grid">
-                <div class="timer-box"><span class="number" id="neet">--</span><span class="label">Days to NEET 2028</span></div>
-                <div class="timer-box"><span class="number" id="jee">--</span><span class="label">Days to JEE Mains</span></div>
-                <div class="timer-box"><span class="number" id="boards">--</span><span class="label">Days to Boards</span></div>
-            </div>
+        <div class="widget-card">
+            <div class="stat-bar">vol <div class="bar-outer"><div class="bar-inner" style="width: 75%;"></div></div></div>
+            <div class="stat-bar">cpu <div class="bar-outer"><div class="bar-inner" style="width: 40%;"></div></div></div>
+            <div class="stat-bar">ram <div class="bar-outer"><div class="bar-inner" style="width: 60%;"></div></div></div>
         </div>
 
-        <div class="section">
-            <h2>Master Marks Card</h2>
-            <div class="tabs" id="tabHeader">
-                <button class="tab-btn active" data-tab="bio">Biology</button>
-                <button class="tab-btn" data-tab="phy">Physics</button>
-                <button class="tab-btn" data-tab="chem">Chemistry</button>
-                <button class="tab-btn" data-tab="math">Mathematics</button>
-                <button class="tab-btn" data-tab="school">School / Preps</button>
-            </div>
-            
-            <div id="bio" class="tab-content active"><table id="table-bio"></table></div>
-            <div id="phy" class="tab-content"><table id="table-phy"></table></div>
-            <div id="chem" class="tab-content"><table id="table-chem"></table></div>
-            <div id="math" class="tab-content"><table id="table-math"></table></div>
-            <div id="school" class="tab-content"><table id="table-school"></table></div>
-            
-            <div style="display:flex; justify-flex:flex-end; margin-top:12px;">
-                <button id="saveMarksBtn">Save Marks to Cloud</button>
-            </div>
+        <div class="widget-card" style="font-size: 0.65rem;">
+            <div style="font-weight: 700; margin-bottom: 4px;">NOW PLAYING</div>
+            <div style="opacity: 0.7;">Focus Audio - Lofi Beats</div>
         </div>
-
-        <!-- NTRXI Grid Calendar Integration -->
-        <div class="section">
-            <h2>Schedule & Calendar</h2>
-            <h1 class="calendar-title" id="month-name">January</h1>
-            
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <button class="nav-btn" onclick="changeMonth(-1)">[ &lt; ]</button>
-                    <span id="year-label">2026</span>
-                    <button class="nav-btn" onclick="changeMonth(1)">[ &gt; ]</button>
-                </div>
-                <div class="grid" id="calendar-grid"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Jnanasudha Mock Analytics</h2>
-            <div class="split-grid">
-                <div>
-                    <div class="mock-input-row">
-                        <select id="testType">
-                            <option value="JUT">JUT (60 total)</option>
-                            <option value="JPT">JPT (10 total)</option>
-                            <option value="JFT">JFT (10 total)</option>
-                        </select>
-                        <input type="number" id="testNumber" placeholder="No." min="1" max="60">
-                        <input type="number" id="testScore" placeholder="Score / 720" max="720">
-                    </div>
-                    <textarea id="testMistakes" rows="3" placeholder="Identify failure points..."></textarea>
-                    <button id="saveMockBtn" style="width:100%;">Log Performance</button>
-                </div>
-                <div><canvas id="scoreChart"></canvas></div>
-            </div>
-        </div>
-
     </div>
 
-    <!-- Firebase & Dynamic Dashboard Module Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- Desktop Icons (Right Side Launchers) -->
+    <div class="desktop-icons">
+        <button class="icon-btn" onclick="openWindow('win-timer')">
+            <div class="icon-box"><i class="fa-solid fa-hourglass-start"></i></div>
+            <span>Timer</span>
+        </button>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBRehg17cWxXYC9u25lXyZOWVyHuejZ3EE",
-            authDomain: "neet-28.firebaseapp.com",
-            projectId: "neet-28",
-            storageBucket: "neet-28.firebasestorage.app",
-            messagingSenderId: "836490296249",
-            appId: "1:836490296249:web:32fbb0a51d7e8d08eb9468",
-            measurementId: "G-9YRP5GYVR0"
-        };
+        <button class="icon-btn" onclick="openWindow('win-stopwatch')">
+            <div class="icon-box"><i class="fa-solid fa-stopwatch"></i></div>
+            <span>Stopwatch</span>
+        </button>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        <button class="icon-btn" onclick="openWindow('win-calendar')">
+            <div class="icon-box"><i class="fa-solid fa-calendar-days"></i></div>
+            <span>Calendar</span>
+        </button>
 
-        const syllabus = {
-            phy: [
-                "11th: Units and Measurements", "11th: Motion in a Straight Line", "11th: Motion in a Plane", "11th: Laws of Motion", 
-                "11th: Work, Energy, and Power", "11th: System of Particles and Rotational Motion", "11th: Gravitation", 
-                "11th: Mechanical Properties of Solids", "11th: Mechanical Properties of Fluids", "11th: Thermal Properties of Matter", 
-                "11th: Thermodynamics", "11th: Kinetic Theory", "11th: Oscillations", "11th: Waves",
-                "12th: Electric Charges and Fields", "12th: Electrostatic Potential and Capacitance", "12th: Current Electricity", 
-                "12th: Moving Charges and Magnetism", "12th: Magnetism and Matter", "12th: Electromagnetic Induction", 
-                "12th: Alternating Current", "12th: Electromagnetic Waves", "12th: Ray Optics and Optical Instruments", 
-                "12th: Wave Optics", "12th: Dual Nature of Radiation and Matter", "12th: Atoms", "12th: Nuclei", 
-                "12th: Semiconductor Electronics: Materials, Devices, and Simple Circuits"
-            ],
-            chem: [
-                "11th: Some Basic Concepts of Chemistry", "11th: Structure of Atom", "11th: Classification of Elements & Periodicity", 
-                "11th: Chemical Bonding and Molecular Structure", "11th: Thermodynamics", "11th: Equilibrium", "11th: Redox Reactions", 
-                "11th: Organic Chemistry – Basic Principles & Techniques", "11th: Hydrocarbons",
-                "12th: Solutions", "12th: Electrochemistry", "12th: Chemical Kinetics", "12th: The d- and f-Block Elements", 
-                "12th: Coordination Compounds", "12th: Haloalkanes and Haloarenes", "12th: Alcohols, Phenols, and Ethers", 
-                "12th: Aldehydes, Ketones, and Carboxylic Acids", "12th: Amines", "12th: Biomolecules"
-            ],
-            math: [
-                "11th: Sets", "11th: Relations and Functions", "11th: Trigonometric Functions", "11th: Complex Numbers and Quadratic Equations", 
-                "11th: Linear Inequalities", "11th: Permutations and Combinations", "11th: Binomial Theorem", "11th: Sequences and Series", 
-                "11th: Straight Lines", "11th: Conic Sections", "11th: Introduction to Three-Dimensional Geometry", "11th: Limits and Derivatives", 
-                "11th: Statistics", "11th: Probability",
-                "12th: Relations and Functions", "12th: Inverse Trigonometric Functions", "12th: Matrices", "12th: Determinants", 
-                "12th: Continuity and Differentiability", "12th: Applications of Derivatives", "12th: Integrals", "12th: Applications of Integrals", 
-                "12th: Differential Equations", "12th: Vector Algebra", "12th: Three-Dimensional Geometry", "12th: Linear Programming", "12th: Probability"
-            ],
-            bio: [
-                "11th: The Living World", "11th: Biological Classification", "11th: Plant Kingdom", "11th: Animal Kingdom", 
-                "11th: Morphology of Flowering Plants", "11th: Anatomy of Flowering Plants", "11th: Structural Organisation in Animals", 
-                "11th: Cell: The Unit of Life", "11th: Biomolecules", "11th: Cell Cycle and Cell Division", "11th: Photosynthesis in Higher Plants", 
-                "11th: Respiration in Plants", "11th: Plant Growth and Development", "11th: Breathing and Exchange of Gases", 
-                "11th: Body Fluids and Circulation", "11th: Excretory Products and Their Elimination", "11th: Locomotion and Movement", 
-                "11th: Neural Control and Coordination", "11th: Chemical Coordination and Integration",
-                "12th: Sexual Reproduction in Flowering Plants", "12th: Human Reproduction", "12th: Reproductive Health", 
-                "12th: Principles of Inheritance and Variation", "12th: Molecular Basis of Inheritance", "12th: Evolution", 
-                "12th: Human Health and Diseases", "12th: Microbes in Human Welfare", "12th: Biotechnology: Principles and Processes", 
-                "12th: Biotechnology and Its Applications", "12th: Organisms and Populations", "12th: Ecosystem", "12th: Biodiversity and Conservation"
-            ],
-            school: [
-                "1st PUC: 1st Term", "1st PUC: Midterm", "1st PUC: 2nd Term", "1st PUC: Prep Exam", 
-                "2nd PUC: 1st Term", "2nd PUC: Midterm", "2nd PUC: 2nd Term", "2nd PUC: Prep I", 
-                "2nd PUC: Prep II", "2nd PUC: Prep III", "2nd PUC: Prep IV", "2nd PUC: Prep V"
-            ]
-        };
+        <button class="icon-btn" onclick="openWindow('win-spotify')">
+            <div class="icon-box"><i class="fa-solid fa-music"></i></div>
+            <span>Music</span>
+        </button>
 
-        function renderTables() {
-            Object.keys(syllabus).forEach(subject => {
-                const targetTable = document.getElementById(`table-${subject}`);
-                if (!targetTable) return;
-                
-                let rows = [`<tr><th>Topic / Assessment</th><th style="width:90px;">Max</th><th style="width:90px;">Obtained</th></tr>`];
-                syllabus[subject].forEach((topic, i) => {
-                    const safeId = `${subject}_${i}`;
-                    rows.push(`<tr>
-                        <td>${topic}</td>
-                        <td><input type="number" class="marks-input max-mark" data-subject="${subject}" id="max_${safeId}"></td>
-                        <td><input type="number" class="marks-input obt-mark" data-subject="${subject}" id="obt_${safeId}"></td>
-                    </tr>`);
-                });
-                rows.push(`<tr class="total-row"><td>TOTAL</td><td id="total_max_${subject}">0</td><td id="total_obt_${subject}">0</td></tr>`);
-                targetTable.innerHTML = rows.join('');
-            });
-        }
+        <!-- ADDED: Custom Site Desktop Icon -->
+        <button class="icon-btn" onclick="openWindow('win-custom-site')">
+            <div class="icon-box"><i class="fa-solid fa-globe"></i></div>
+            <span>New Site</span>
+        </button>
 
-        document.body.addEventListener('input', (e) => {
-            if (e.target.classList.contains('marks-input')) {
-                calcTotals(e.target.dataset.subject);
-            }
-        });
+        <button class="icon-btn" onclick="window.open('https://drive.google.com/drive/folders/1pxtHUOgAenDyaFPaF6kgvqEw4yA_6lqf?usp=sharing', '_blank')">
+            <div class="icon-box"><i class="fa-solid fa-folder-open"></i></div>
+            <span>GCSE Drive</span>
+        </button>
 
-        function calcTotals(subject) {
-            let totalMax = 0, totalObt = 0;
-            document.querySelectorAll(`#table-${subject} .max-mark`).forEach(el => totalMax += Number(el.value) || 0);
-            document.querySelectorAll(`#table-${subject} .obt-mark`).forEach(el => totalObt += Number(el.value) || 0);
-            
-            const maxEl = document.getElementById(`total_max_${subject}`);
-            const obtEl = document.getElementById(`total_obt_${subject}`);
-            if (maxEl) maxEl.innerText = totalMax;
-            if (obtEl) obtEl.innerText = totalObt;
-        }
+        <button class="icon-btn" onclick="window.open('https://anormendonca.github.io/website', '_blank')">
+            <div class="icon-box"><i class="fa-solid fa-user-astronaut"></i></div>
+            <span>Portfolio</span>
+        </button>
+    </div>
 
-        document.getElementById('tabHeader').addEventListener('click', (e) => {
-            if (!e.target.classList.contains('tab-btn')) return;
-            const tabId = e.target.dataset.tab;
-            
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            e.target.classList.add('active');
-        });
+    <!-- WINDOW 1: Focus Timer -->
+    <div class="window active" id="win-timer" style="top: 100px; left: 270px; width: 360px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-timer')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/apps - focus_timer</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="text-align: center;">
+            <div id="timer-setup">
+                <div style="display: flex; gap: 10px; justify-content: center; align-items: center; margin-bottom: 15px;">
+                    <input type="number" id="t-min" class="input-retro" value="25" min="0"> <span style="font-size:0.7rem;">MIN</span>
+                    <input type="number" id="t-sec" class="input-retro" value="00" min="0" max="59"> <span style="font-size:0.7rem;">SEC</span>
+                </div>
+            </div>
+            <div class="timer-display" id="timer-display">25:00</div>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <button class="btn-retro" id="timer-start-btn" onclick="startTimer()">START</button>
+                <button class="btn-retro" onclick="resetTimer()">RESET</button>
+            </div>
+        </div>
+    </div>
 
-        document.getElementById('saveMarksBtn').addEventListener('click', async () => {
-            const status = document.getElementById('syncStatus');
-            status.innerText = "● Saving...";
-            try {
-                const dataToSave = {};
-                document.querySelectorAll('.marks-input').forEach(input => {
-                    if(input.value) dataToSave[input.id] = input.value;
-                });
-                await setDoc(doc(db, "marks", "master"), dataToSave);
-                status.innerText = "● Saved to Cloud";
-            } catch(e) {
-                alert("Failed to save: " + e.message);
-                status.innerText = "● Sync Error";
-            }
-        });
+    <!-- WINDOW 2: Stopwatch -->
+    <div class="window" id="win-stopwatch" style="top: 140px; left: 320px; width: 340px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-stopwatch')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/apps - stopwatch</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="text-align: center;">
+            <div class="timer-display" id="sw-display">00:00<span id="sw-ms" style="font-size: 2rem;">.00</span></div>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
+                <button class="btn-retro" id="sw-start-btn" onclick="toggleStopwatch()">START</button>
+                <button class="btn-retro" onclick="lapStopwatch()">LAP</button>
+                <button class="btn-retro" onclick="resetStopwatch()">RESET</button>
+            </div>
+            <div class="lap-list" id="sw-laps"></div>
+        </div>
+    </div>
 
-        async function loadMarks() {
-            try {
-                const docSnap = await getDoc(doc(db, "marks", "master"));
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    Object.keys(data).forEach(id => {
-                        const el = document.getElementById(id);
-                        if(el) el.value = data[id];
-                    });
-                    Object.keys(syllabus).forEach(sub => calcTotals(sub));
-                }
-            } catch(e) { console.error("Error loading marks:", e); }
-        }
+    <!-- WINDOW 3: Calendar -->
+    <div class="window" id="win-calendar" style="top: 80px; left: 260px; width: 480px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-calendar')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/apps - calendar</div>
+            <div></div>
+        </div>
+        <div class="window-body">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <button class="btn-retro" onclick="changeMonth(-1)">&lt;</button>
+                <span id="cal-month-year" style="font-weight: 700; font-size: 0.85rem;">OCTOBER 2026</span>
+                <button class="btn-retro" onclick="changeMonth(1)">&gt;</button>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+    </div>
 
-        document.getElementById('saveMockBtn').addEventListener('click', async () => {
-            const type = document.getElementById('testType').value;
-            const num = document.getElementById('testNumber').value;
-            const score = document.getElementById('testScore').value;
-            if(!num || !score) return alert("Enter test number and score.");
+    <!-- WINDOW 4: Spotify / Music -->
+    <div class="window" id="win-spotify" style="top: 120px; left: 300px; width: 420px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-spotify')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/fun - audio_player</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="padding: 0;">
+            <iframe style="border-radius: 0; display: block;" src="https://open.spotify.com/embed/playlist/2ZqCkf2cWWFbB6ORZnmUlt?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </div>
 
-            await setDoc(doc(db, "jnanasudha_mocks", `${type}-${num}`), {
-                type, number: parseInt(num), score: parseInt(score),
-                mistakes: document.getElementById('testMistakes').value
-            });
+    <!-- ADDED WINDOW 5: Custom Embedded Site Window -->
+    <div class="window" id="win-custom-site" style="top: 90px; left: 280px; width: 550px; height: 420px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-custom-site')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/web - custom_site</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="padding: 0; height: calc(100% - 32px);">
+            <!-- Change 'src' below to the URL of the site you want to display -->
+            <iframe src="https://example.com" style="width: 100%; height: 100%; border: none;" title="Custom Site"></iframe>
+        </div>
+    </div>
 
-            document.getElementById('testNumber').value = '';
-            document.getElementById('testScore').value = '';
-            document.getElementById('testMistakes').value = '';
-            loadMockData();
-        });
-
-        let myChart = null;
-        async function loadMockData() {
-            try {
-                const q = query(collection(db, "jnanasudha_mocks"), orderBy("number"));
-                const snap = await getDocs(q);
-                let labels = [], scores = [];
-                
-                snap.forEach((doc) => {
-                    const data = doc.data();
-                    labels.push(`${data.type}-${data.number}`);
-                    scores.push(data.score);
-                });
-
-                if(myChart) myChart.destroy();
-                
-                myChart = new Chart(document.getElementById('scoreChart').getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels,
-                        datasets: [{ label: 'Score', data: scores, borderColor: '#ffffff', backgroundColor: 'rgba(255, 255, 255, 0.05)', borderWidth: 2, pointRadius: 3, fill: true }]
-                    },
-                    options: { 
-                        responsive: true,
-                        animation: false,
-                        scales: { 
-                            y: { min: 0, max: 720, grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } },
-                            x: { grid: { display: false }, ticks: { color: '#a1a1aa' } }
-                        },
-                        plugins: { legend: { display: false } }
-                    }
-                });
-            } catch(e) { console.error("Error loading mocks:", e); }
-        }
-
-        renderTables();
-        loadMarks();
-        loadMockData();
-    </script>
-
-    <!-- NTRXI Grid Calendar Script & Standard Page Features -->
     <script>
-        // Modal Event Listener
-        const modal = document.getElementById('warning-modal');
-        window.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'x' && modal) modal.style.display = 'none';
-        });
+        // --- WINDOW DRAGGING SYSTEM ---
+        let topZIndex = 100;
 
-        // Calendar State
-        let events = JSON.parse(localStorage.getItem('ntrxi_events')) || {};
+        function makeDraggable(win) {
+            const header = win.querySelector('.window-header');
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            header.onmousedown = (e) => {
+                e.preventDefault();
+                topZIndex++;
+                win.style.zIndex = topZIndex;
+                document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = () => {
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                };
+                document.onmousemove = (e) => {
+                    e.preventDefault();
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    win.style.top = (win.offsetTop - pos2) + "px";
+                    win.style.left = (win.offsetLeft - pos1) + "px";
+                };
+            };
+
+            win.addEventListener('mousedown', () => {
+                topZIndex++;
+                win.style.zIndex = topZIndex;
+                document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+            });
+        }
+
+        document.querySelectorAll('.window').forEach(makeDraggable);
+
+        function openWindow(id) {
+            const win = document.getElementById(id);
+            win.classList.add('active');
+            topZIndex++;
+            win.style.zIndex = topZIndex;
+            document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+        }
+
+        function closeWindow(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // --- CLOCK MANAGEMENT ---
+        function updateClocks() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+
+            const timeStr = `${hours}:${minutes} ${ampm}`;
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            const topStr = `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()} ${timeStr}`;
+            
+            document.getElementById('top-bar-clock').textContent = topStr;
+            document.getElementById('side-clock').textContent = timeStr;
+            document.getElementById('side-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+        }
+        setInterval(updateClocks, 1000);
+        updateClocks();
+
+        // --- TIMER APP ---
+        let timerInt, totalSec = 0, isTimerRunning = false;
+
+        function startTimer() {
+            const display = document.getElementById('timer-display');
+            const btn = document.getElementById('timer-start-btn');
+
+            if (!isTimerRunning) {
+                if (totalSec === 0) {
+                    const m = parseInt(document.getElementById('t-min').value) || 0;
+                    const s = parseInt(document.getElementById('t-sec').value) || 0;
+                    totalSec = m * 60 + s;
+                }
+                if (totalSec <= 0) return;
+
+                isTimerRunning = true;
+                btn.textContent = 'PAUSE';
+
+                timerInt = setInterval(() => {
+                    if (totalSec <= 0) {
+                        clearInterval(timerInt);
+                        isTimerRunning = false;
+                        btn.textContent = 'START';
+                        display.textContent = "00:00";
+                    } else {
+                        totalSec--;
+                        const tm = Math.floor(totalSec / 60).toString().padStart(2, '0');
+                        const ts = (totalSec % 60).toString().padStart(2, '0');
+                        display.textContent = `${tm}:${ts}`;
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timerInt);
+                isTimerRunning = false;
+                btn.textContent = 'RESUME';
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInt);
+            isTimerRunning = false;
+            totalSec = 0;
+            document.getElementById('timer-start-btn').textContent = 'START';
+            document.getElementById('timer-display').textContent = '25:00';
+        }
+
+        // --- STOPWATCH APP ---
+        let swInt, swTime = 0, swRunning = false;
+
+        function toggleStopwatch() {
+            const btn = document.getElementById('sw-start-btn');
+            if (!swRunning) {
+                swRunning = true;
+                btn.textContent = 'STOP';
+                const startT = Date.now() - swTime;
+                swInt = setInterval(() => {
+                    swTime = Date.now() - startT;
+                    const date = new Date(swTime);
+                    const m = date.getUTCMinutes().toString().padStart(2, '0');
+                    const s = date.getUTCSeconds().toString().padStart(2, '0');
+                    const ms = Math.floor(date.getUTCMilliseconds() / 10).toString().padStart(2, '0');
+                    document.getElementById('sw-display').childNodes[0].nodeValue = `${m}:${s}`;
+                    document.getElementById('sw-ms').textContent = `.${ms}`;
+                }, 10);
+            } else {
+                swRunning = false;
+                btn.textContent = 'START';
+                clearInterval(swInt);
+            }
+        }
+
+        function resetStopwatch() {
+            swRunning = false;
+            clearInterval(swInt);
+            swTime = 0;
+            document.getElementById('sw-display').childNodes[0].nodeValue = "00:00";
+            document.getElementById('sw-ms').textContent = ".00";
+            document.getElementById('sw-start-btn').textContent = "START";
+            document.getElementById('sw-laps').innerHTML = "";
+        }
+
+        function lapStopwatch() {
+            if (swRunning) {
+                const text = document.getElementById('sw-display').textContent;
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.justifySpaceBetween = 'space-between';
+                div.innerHTML = `<span>LAP</span><span>${text}</span>`;
+                document.getElementById('sw-laps').prepend(div);
+            }
+        }
+
+        // --- CALENDAR APP ---
+        let events = JSON.parse(localStorage.getItem('desktop_events')) || {};
         let currentDate = new Date();
         let currentMonth = currentDate.getMonth();
         let currentYear = currentDate.getFullYear();
-        let today = new Date();
 
-        function initCalendar() {
-            const monthLabel = document.getElementById('month-name');
-            const yearLabel = document.getElementById('year-label');
+        function renderCalendar() {
+            const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+            document.getElementById('cal-month-year').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
             const grid = document.getElementById('calendar-grid');
-
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            
-            monthLabel.textContent = monthNames[currentMonth];
-            yearLabel.textContent = currentYear;
-            
-            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
             grid.innerHTML = '';
 
-            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            days.forEach(day => {
-                const label = document.createElement('div');
-                label.className = 'day-label';
-                label.textContent = day;
-                grid.appendChild(label);
+            const days = ["S", "M", "T", "W", "T", "F", "S"];
+            days.forEach(d => {
+                const cell = document.createElement('div');
+                cell.className = 'cal-header-cell';
+                cell.textContent = d;
+                grid.appendChild(cell);
             });
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date();
 
             for (let i = 0; i < firstDay; i++) {
                 const empty = document.createElement('div');
-                empty.className = 'cell';
+                empty.className = 'cal-cell';
                 grid.appendChild(empty);
             }
 
             for (let d = 1; d <= daysInMonth; d++) {
                 const cell = document.createElement('div');
-                cell.className = 'cell';
-                
+                cell.className = 'cal-cell';
                 if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
                     cell.classList.add('today');
                 }
-                
+
+                cell.innerHTML = `<div>${d}</div>`;
                 const dateId = `${currentYear}-${currentMonth}-${d}`;
-                cell.innerHTML = `<div class="date-num">${d}</div>`;
-                
+
                 if (events[dateId]) {
-                    events[dateId].forEach((evText, index) => {
-                        const eventDiv = document.createElement('div');
-                        eventDiv.className = 'event-item';
-                        eventDiv.textContent = evText;
-                        eventDiv.onclick = (e) => {
+                    events[dateId].forEach((ev, idx) => {
+                        const evDiv = document.createElement('div');
+                        evDiv.className = 'cal-event';
+                        evDiv.textContent = ev;
+                        evDiv.onclick = (e) => {
                             e.stopPropagation();
-                            if(confirm(`Delete "${evText}"?`)) {
-                                deleteEvent(dateId, index);
+                            if(confirm(`Delete "${ev}"?`)) {
+                                events[dateId].splice(idx, 1);
+                                localStorage.setItem('desktop_events', JSON.stringify(events));
+                                renderCalendar();
                             }
                         };
-                        cell.appendChild(eventDiv);
+                        cell.appendChild(evDiv);
                     });
                 }
 
-                cell.onclick = () => addEvent(dateId);
+                cell.onclick = () => {
+                    const task = prompt("New event:");
+                    if (task) {
+                        if (!events[dateId]) events[dateId] = [];
+                        events[dateId].push(task);
+                        localStorage.setItem('desktop_events', JSON.stringify(events));
+                        renderCalendar();
+                    }
+                };
+
                 grid.appendChild(cell);
             }
         }
 
-        function changeMonth(delta) {
-            currentMonth += delta;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            } else if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            initCalendar();
+        function changeMonth(dir) {
+            currentMonth += dir;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
         }
 
-        function addEvent(dateId) {
-            const val = prompt("Enter event for this day:");
-            if (val) {
-                if (!events[dateId]) events[dateId] = [];
-                events[dateId].push(val);
-                saveAndRender();
-            }
-        }
-
-        function deleteEvent(dateId, index) {
-            events[dateId].splice(index, 1);
-            if(events[dateId].length === 0) delete events[dateId];
-            saveAndRender();
-        }
-
-        function saveAndRender() {
-            localStorage.setItem('ntrxi_events', JSON.stringify(events));
-            initCalendar();
-        }
-
-        // Initialize Calendar Grid
-        initCalendar();
-
-        // Grounding Quotes & Horizon Logic
-        const quotes = [
-            '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
-            '"We know that suffering produces perseverance; character; and hope." – Romans 5:3',
-            '"The impediment to action advances action. What stands in the way becomes the way." – Marcus Aurelius',
-            '"Pray as though everything depended on God. Work as though everything depended on you." – St. Augustine'
-        ];
-        document.getElementById('quoteDisplay').innerText = quotes[Math.floor(Math.random() * quotes.length)];
-
-        function updateCountdowns() {
-            const todayTime = new Date().getTime();
-            const calcDays = (t) => Math.max(0, Math.ceil((new Date(t).getTime() - todayTime) / 86400000));
-            document.getElementById('neet').innerText = calcDays('May 5, 2028');
-            document.getElementById('jee').innerText = calcDays('Jan 15, 2028');
-            document.getElementById('boards').innerText = calcDays('Mar 1, 2028');
-        }
-        updateCountdowns();
+        renderCalendar();
     </script>
 </body>
 </html>
