@@ -3,23 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anor Teran Mendonca — Dark Neumorphic Dashboard</title>
+  <title>Anor Teran Mendonca — Dark Monochromatic Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg: #181a20;
-      --card-bg: #1e212b;
-      --shadow-dark: #121419;
-      --shadow-light: #242837;
-      --inset-dark: #14161d;
-      --inset-light: #282c39;
+      --bg: #121214;
+      --card-bg: #1a1a1e;
+      --shadow-dark: #0b0b0d;
+      --shadow-light: #252529;
+      --inset-dark: #0e0e10;
+      --inset-light: #222226;
       
-      --accent-gold: #ffd60a;
-      --accent-green: #30d158;
-      --text-main: #f5f5f7;
-      --text-muted: #a0a5b5;
-      --text-dim: #626778;
+      --text-main: #ffffff;
+      --text-muted: #a0a0a6;
+      --text-dim: #5a5a62;
+      --border-subtle: #2a2a30;
     }
 
     * {
@@ -52,8 +51,8 @@
     .neu-header {
       background: var(--card-bg);
       box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
-      border-radius: 28px;
-      padding: 20px 32px;
+      border-radius: 24px;
+      padding: 24px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -64,12 +63,12 @@
     .header-profile {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
     }
 
     .avatar-box {
-      width: 52px;
-      height: 52px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: var(--card-bg);
       box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
@@ -78,13 +77,14 @@
       justify-content: center;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: var(--text-main);
+      letter-spacing: 0.05em;
     }
 
     .header-title h1 {
       font-family: 'Syne', sans-serif;
-      font-size: 1.6rem;
+      font-size: 1.65rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
@@ -92,26 +92,27 @@
     .header-title p {
       font-size: 0.85rem;
       color: var(--text-muted);
+      margin-top: 2px;
     }
 
     .status-badge {
       background: var(--card-bg);
       box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-      padding: 8px 18px;
+      padding: 10px 20px;
       border-radius: 20px;
       font-size: 0.82rem;
       color: var(--text-muted);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .status-dot {
       width: 8px;
       height: 8px;
-      background: var(--accent-green);
+      background: var(--text-main);
       border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-green);
+      box-shadow: 0 0 6px var(--text-main);
     }
 
     /* Main 2-Column Layout */
@@ -125,7 +126,7 @@
     .neu-card {
       background: var(--card-bg);
       box-shadow: 10px 10px 22px var(--shadow-dark), -10px -10px 22px var(--shadow-light);
-      border-radius: 28px;
+      border-radius: 24px;
       padding: 24px;
       display: flex;
       flex-direction: column;
@@ -141,27 +142,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 12px;
     }
 
     .card-head h2 {
       font-family: 'Syne', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text-main);
-    }
-
-    .card-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      background: var(--card-bg);
-      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     /* Fact Table */
@@ -176,7 +167,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 0.85rem;
-      padding: 8px 12px;
+      padding: 10px 14px;
       border-radius: 12px;
       background: var(--card-bg);
       box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
@@ -189,32 +180,27 @@
     .neu-btn {
       background: var(--card-bg);
       box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
-      border: none;
-      border-radius: 16px;
+      border: 1px solid transparent;
+      border-radius: 14px;
       color: var(--text-main);
       padding: 10px 18px;
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       text-decoration: none;
       transition: all 0.2s ease;
     }
 
     .neu-btn:hover {
-      color: var(--accent-gold);
+      border-color: var(--border-subtle);
     }
 
     .neu-btn:active {
       box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
       transform: translateY(1px);
-    }
-
-    .neu-btn-gold {
-      color: var(--accent-gold);
     }
 
     .btn-group {
@@ -228,7 +214,7 @@
     .item-box {
       background: var(--card-bg);
       box-shadow: inset 4px 4px 9px var(--shadow-dark), inset -4px -4px 9px var(--shadow-light);
-      border-radius: 20px;
+      border-radius: 18px;
       padding: 18px;
       display: flex;
       flex-direction: column;
@@ -243,14 +229,14 @@
     }
 
     .item-title {
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--text-main);
     }
 
     .item-sub {
       font-size: 0.82rem;
-      color: var(--accent-gold);
+      color: var(--text-muted);
       font-weight: 500;
     }
 
@@ -260,12 +246,12 @@
       background: var(--card-bg);
       box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
       padding: 4px 10px;
-      border-radius: 10px;
+      border-radius: 8px;
       white-space: nowrap;
     }
 
     .item-desc {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.5;
     }
@@ -280,7 +266,7 @@
     .proj-card {
       background: var(--card-bg);
       box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
-      border-radius: 18px;
+      border-radius: 16px;
       padding: 16px;
       display: flex;
       flex-direction: column;
@@ -288,7 +274,7 @@
     }
 
     .proj-card h4 {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       color: var(--text-main);
     }
@@ -324,8 +310,14 @@
       width: 100%;
       height: 90px;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: 8px;
       margin-bottom: 6px;
+      filter: grayscale(100%);
+      transition: filter 0.2s ease;
+    }
+
+    .gallery-thumb:hover img {
+      filter: grayscale(0%);
     }
 
     .gallery-thumb span {
@@ -339,8 +331,8 @@
     .popup-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(18, 20, 26, 0.85);
-      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
       z-index: 2000;
       opacity: 0;
       pointer-events: none;
@@ -361,7 +353,8 @@
       max-height: 85vh;
       background: var(--card-bg);
       box-shadow: 15px 15px 35px var(--shadow-dark), -15px -15px 35px var(--shadow-light);
-      border-radius: 28px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
       padding: 24px;
       z-index: 2001;
       opacity: 0;
@@ -380,14 +373,38 @@
       width: 100%;
       height: 480px;
       border: none;
-      border-radius: 16px;
+      border-radius: 12px;
     }
 
     .modal-close-hint {
       text-align: center;
-      margin-top: 12px;
+      margin-top: 14px;
       font-size: 0.78rem;
       color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* List styling inside modal */
+    .modal-section-title {
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      margin-top: 14px;
+    }
+
+    .modal-section-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .modal-list {
+      color: var(--text-muted);
+      padding-left: 18px;
+      font-size: 0.85rem;
+      line-height: 1.7;
     }
 
     /* Responsive Design */
@@ -426,7 +443,6 @@
       <section class="neu-card">
         <div class="card-head">
           <h2>About Me</h2>
-          <div class="card-icon">👤</div>
         </div>
         <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.6;">
           Year 11 Karnataka State Education Examination and Assessment Board (KSEAB) Pre-University Course (PUC) student and National Eligibility cum Entrance Test - Undergraduate (NEET-UG) medical aspirant.
@@ -459,7 +475,6 @@
       <section class="neu-card">
         <div class="card-head">
           <h2>Key Projects</h2>
-          <div class="card-icon">⚡</div>
         </div>
         <div class="proj-grid">
           <div class="proj-card">
@@ -485,7 +500,6 @@
       <section class="neu-card">
         <div class="card-head">
           <h2>Volunteering</h2>
-          <div class="card-icon">🤝</div>
         </div>
         <div class="item-box">
           <div class="item-title">St. Mary's Catholic Church, Dubai</div>
@@ -503,13 +517,12 @@
       <section class="neu-card">
         <div class="card-head">
           <h2>Contact Links</h2>
-          <div class="card-icon">📬</div>
         </div>
         <div class="btn-group">
-          <a class="neu-btn" href="mailto:anort.mendonca@gmail.com">✉️ Email</a>
-          <a class="neu-btn" href="tel:+971589101067">📞 Phone</a>
-          <a class="neu-btn" href="https://linkedin.com/in/anormendonca" target="_blank">🔗 LinkedIn</a>
-          <a class="neu-btn" href="https://instagram.com/anormendonca" target="_blank">📸 Instagram</a>
+          <a class="neu-btn" href="mailto:anort.mendonca@gmail.com">Email</a>
+          <a class="neu-btn" href="tel:+971589101067">Phone</a>
+          <a class="neu-btn" href="https://linkedin.com/in/anormendonca" target="_blank">LinkedIn</a>
+          <a class="neu-btn" href="https://instagram.com/anormendonca" target="_blank">Instagram</a>
         </div>
       </section>
 
@@ -522,7 +535,6 @@
       <section class="neu-card">
         <div class="card-head">
           <h2>Education & Academic Reports</h2>
-          <div class="card-icon">🎓</div>
         </div>
 
         <div class="item-box">
@@ -547,9 +559,9 @@
           <p class="item-desc">Biology (9), Chemistry (9), Physics (9), Mathematics (9), Religious Studies (9), Psychology (7), Computer Science (7), English Language (6), Spoken English (Distinction).</p>
           
           <div class="btn-group">
-            <button class="neu-btn neu-btn-gold" onclick="openModal('report9Modal')">📄 Grade 9 Report</button>
-            <button class="neu-btn neu-btn-gold" onclick="openModal('report10Modal')">📄 Grade 10 Report</button>
-            <button class="neu-btn neu-btn-gold" onclick="openModal('report11Modal')">📄 Grade 11 Report</button>
+            <button class="neu-btn" onclick="openModal('report9Modal')">Grade 9 Report</button>
+            <button class="neu-btn" onclick="openModal('report10Modal')">Grade 10 Report</button>
+            <button class="neu-btn" onclick="openModal('report11Modal')">Grade 11 Report</button>
           </div>
         </div>
 
@@ -569,7 +581,6 @@
       <section class="neu-card">
         <div class="card-head">
           <h2>Experience</h2>
-          <div class="card-icon">💼</div>
         </div>
 
         <div class="item-box">
@@ -599,7 +610,6 @@
       <section class="neu-card">
         <div class="card-head">
           <h2>Basketball & Athletic Achievements</h2>
-          <div class="card-icon">🏆</div>
         </div>
 
         <div class="item-box">
@@ -613,12 +623,12 @@
           <p class="item-desc">Captain of Under-2009 team and mentor to Under-2010 squad. Multi-championship winner across regional UAE & Karnataka leagues.</p>
           
           <div class="btn-group">
-            <button class="neu-btn neu-btn-gold" onclick="openModal('basketballModal')">🏆 View Tournament Record & Medals</button>
+            <button class="neu-btn" onclick="openModal('basketballModal')">View Tournament Record & Medals</button>
           </div>
         </div>
 
         <div class="card-head" style="margin-top: 10px;">
-          <h3 style="font-size: 1rem;">Certificates & Gallery</h3>
+          <h3 style="font-size: 0.95rem;">Certificates & Gallery</h3>
         </div>
 
         <div class="gallery-grid">
@@ -673,10 +683,10 @@
 
 <!-- Basketball Tournament Record Modal -->
 <div class="modal-box" id="basketballModal">
-  <h3 style="font-family:'Syne', sans-serif; color:var(--accent-gold); font-size: 1.3rem; margin-bottom:14px;">Tournament Highlights & Honors</h3>
+  <h3 style="font-family:'Syne', sans-serif; color:var(--text-main); font-size: 1.2rem; margin-bottom:16px; text-transform: uppercase; letter-spacing: 0.05em;">Tournament Highlights & Honors</h3>
   
-  <h4 style="color:var(--text-main); margin-bottom:6px; font-size: 0.95rem;">🥇 Champions / 1st Place</h4>
-  <ul style="color:var(--text-muted); padding-left:18px; margin-bottom:14px; font-size: 0.86rem; line-height: 1.7;">
+  <div class="modal-section-title">1st Place / Champions</div>
+  <ul class="modal-list" style="margin-bottom: 16px;">
     <li>11th SaintZ Basketball Tournament (2025–2026)</li>
     <li>9th SaintZ Basketball Tournament (2023–2024)</li>
     <li>5th Gems Modern Academy (GMA) Under-17 (2023–2024)</li>
@@ -684,15 +694,15 @@
     <li>10th Gems Modern Academy (2021–2022)</li>
   </ul>
 
-  <h4 style="color:var(--text-main); margin-bottom:6px; font-size: 0.95rem;">🥈 Runners Up / 2nd Place</h4>
-  <ul style="color:var(--text-muted); padding-left:18px; margin-bottom:14px; font-size: 0.86rem; line-height: 1.7;">
+  <div class="modal-section-title">2nd Place / Runners Up</div>
+  <ul class="modal-list" style="margin-bottom: 16px;">
     <li>DPS Sharjah Sundeep Batavia Under-18 (2023–2024)</li>
     <li>11th Gems Modern Academy (2022–2023)</li>
     <li>SBAA Boys Division 3A Season 3 (2022)</li>
   </ul>
 
-  <h4 style="color:var(--text-main); margin-bottom:6px; font-size: 0.95rem;">🥉 Bronze & Notable Finishes</h4>
-  <ul style="color:var(--text-muted); padding-left:18px; font-size: 0.86rem; line-height: 1.7;">
+  <div class="modal-section-title">3rd Place & Notable Finishes</div>
+  <ul class="modal-list">
     <li>10th SaintZ Tournament (2024–2025) – Bronze Medal</li>
     <li>Jazzville Boys Under-2009 (2023, 2024) – Bronze Medal</li>
     <li>Dubai School Games by Dubai Sports Council (2023)</li>
@@ -704,8 +714,8 @@
 
 <!-- Image Viewer Modal -->
 <div class="modal-box" id="imageModal" style="text-align: center;">
-  <img id="imageModalImg" src="" style="width:100%; border-radius:16px; max-height: 480px; object-fit: contain;">
-  <p id="imageModalCaption" style="margin-top: 10px; font-weight:600; font-size: 0.9rem; color: var(--text-main);"></p>
+  <img id="imageModalImg" src="" style="width:100%; border-radius:12px; max-height: 480px; object-fit: contain;">
+  <p id="imageModalCaption" style="margin-top: 10px; font-weight:600; font-size: 0.88rem; color: var(--text-main);"></p>
   <div class="modal-close-hint">Click outside to close</div>
 </div>
 
