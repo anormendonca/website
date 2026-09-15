@@ -1,828 +1,623 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>/home/anor - desktop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-cream: #f4ead5;
-            --bg-teal: #a5cbd1;
-            --window-bg: #fdfbf7;
-            --border-color: #1a1a1a;
-            --accent-teal: #82b5ba;
-            --text-main: #1a1a1a;
-            --shadow: 4px 4px 0px #1a1a1a;
-            --font-mono: 'Space Mono', monospace;
-            --font-pixel: 'VT323', monospace;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anor Teran Mendonca — Dark Glass Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 20% 20%, #1e202e 0%, #0c0d12 100%);
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border-light: rgba(255, 255, 255, 0.18);
+      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      --accent-green: #34c759;
+      --accent-blue: #0a84ff;
+      --accent-pill: rgba(255, 255, 255, 0.12);
+      --text-main: #f5f5f7;
+      --text-muted: rgba(255, 255, 255, 0.6);
+      --text-dim: rgba(255, 255, 255, 0.35);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            background-color: var(--bg-cream);
-            background-image: 
-                radial-gradient(circle at 100% 100%, var(--bg-teal) 0%, var(--bg-teal) 35%, transparent 35%),
-                radial-gradient(circle at 0% 0%, var(--bg-teal) 0%, var(--bg-teal) 25%, transparent 25%);
-            background-attachment: fixed;
-            color: var(--text-main);
-            font-family: var(--font-mono);
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
 
-        /* --- Top Menu Bar --- */
-        .menu-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 32px;
-            background: var(--window-bg);
-            border-bottom: 2.5px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            z-index: 9999;
-        }
+    /* Floating Navigation Pill */
+    nav {
+      position: sticky;
+      top: 20px;
+      z-index: 1000;
+      width: 100%;
+      max-width: 1100px;
+      background: rgba(20, 21, 28, 0.6);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      border: 1px solid var(--glass-border-light);
+      border-radius: 40px;
+      padding: 10px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      margin-bottom: 30px;
+    }
 
-        .menu-left, .menu-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+    }
 
-        .menu-item {
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .menu-item:hover { opacity: 0.6; }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 12px;
+    }
 
-        .app-logo-icon {
-            border: 2px solid var(--border-color);
-            padding: 1px 4px;
-            font-weight: 800;
-            background: var(--bg-cream);
-        }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
 
-        /* --- Desktop Icons (Right Side) --- */
-        .desktop-icons {
-            position: fixed;
-            right: 20px;
-            top: 50px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            z-index: 10;
-        }
+    .nav-links a:hover {
+      color: #fff;
+      background: var(--glass-bg-hover);
+    }
 
-        .icon-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            width: 70px;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
+    /* Main Spatial Canvas Container */
+    .dashboard-grid {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
 
-        .icon-box {
-            width: 50px;
-            height: 50px;
-            background: var(--window-bg);
-            border: 2.5px solid var(--border-color);
-            box-shadow: var(--shadow);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            transition: transform 0.1s, box-shadow 0.1s;
-        }
+    /* Glass Widget Card Base */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--glass-shadow);
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .icon-btn:hover .icon-box {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px var(--border-color);
-            background: var(--accent-teal);
-        }
+    .glass-card:hover {
+      border-color: var(--glass-border-light);
+      background: var(--glass-bg-hover);
+      transform: translateY(-2px);
+    }
 
-        /* --- Left Fixed Panel --- */
-        .widget-panel {
-            position: fixed;
-            left: 20px;
-            top: 50px;
-            width: 220px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 5;
-        }
+    /* Card Layout Spans */
+    .col-12 { grid-column: span 12; }
+    .col-8 { grid-column: span 8; }
+    .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
 
-        .widget-card {
-            background: var(--window-bg);
-            border: 2.5px solid var(--border-color);
-            box-shadow: var(--shadow);
-            border-radius: 10px;
-            padding: 12px;
-        }
+    /* Hero Section */
+    .hero-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+    }
 
-        .widget-clock {
-            text-align: center;
-        }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      width: fit-content;
+    }
 
-        .widget-time {
-            font-family: var(--font-pixel);
-            font-size: 2.8rem;
-            line-height: 1;
-            margin: 8px 0;
-        }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-green);
+    }
 
-        .stat-bar {
-            margin: 6px 0;
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 15px 0 10px;
+    }
 
-        .bar-outer {
-            height: 10px;
-            border: 2px solid var(--border-color);
-            border-radius: 5px;
-            overflow: hidden;
-            background: #fff;
-            margin-top: 2px;
-        }
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
 
-        .bar-inner {
-            height: 100%;
-            background: var(--accent-teal);
-        }
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
 
-        /* --- Horizontal Timer Grid inside Draggable Window --- */
-        .timers-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
+    .btn {
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-        .timer-box {
-            flex: 1;
-            background: #fff;
-            border: 2px solid var(--border-color);
-            border-radius: 6px;
-            padding: 8px 4px;
-            text-align: center;
-        }
+    .btn-primary {
+      background: rgba(255, 255, 255, 0.9);
+      color: #000;
+    }
 
-        .timer-box .number {
-            display: block;
-            font-family: var(--font-pixel);
-            font-size: 2.2rem;
-            line-height: 1;
-            font-weight: 700;
-            color: var(--text-main);
-        }
+    .btn-primary:hover {
+      background: #fff;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
 
-        .timer-box .label {
-            font-size: 0.58rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            opacity: 0.85;
-            display: block;
-            margin-top: 2px;
-        }
+    .btn-ghost {
+      background: var(--glass-bg);
+      color: var(--text-main);
+      border: 1px solid var(--glass-border);
+    }
 
-        .motivation {
-            font-size: 0.68rem;
-            line-height: 1.35;
-            background: var(--bg-cream);
-            border: 2px dashed var(--border-color);
-            padding: 10px;
-            border-radius: 6px;
-            font-style: italic;
-        }
+    /* Section Headers inside Widgets */
+    .card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
 
-        /* --- Window System --- */
-        .window {
-            position: absolute;
-            background: var(--window-bg);
-            border: 2.5px solid var(--border-color);
-            border-radius: 10px;
-            box-shadow: 6px 6px 0px var(--border-color);
-            min-width: 300px;
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 100;
-        }
+    h2.section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
 
-        .window.active {
-            display: flex;
-        }
+    /* About Section Quick Facts */
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 15px;
+    }
 
-        .window-header {
-            background: var(--window-bg);
-            border-bottom: 2.5px solid var(--border-color);
-            padding: 6px 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: move;
-        }
+    .fact-pill {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--glass-border);
+      padding: 10px 14px;
+      border-radius: 16px;
+    }
 
-        .window-controls {
-            display: flex;
-            gap: 6px;
-        }
+    .fact-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      display: block;
+    }
 
-        .win-btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2px solid var(--border-color);
-            cursor: pointer;
-            background: var(--window-bg);
-        }
+    .fact-value {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
 
-        .win-btn.close:hover { background: #ff5f56; }
-        .win-btn.min:hover { background: #ffbd2e; }
+    /* Timeline / Experience Rows */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-        .window-title {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: lowercase;
-            letter-spacing: 0.05rem;
-        }
+    .exp-item {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--glass-border);
+      padding: 18px;
+      border-radius: 20px;
+    }
 
-        .window-body {
-            padding: 14px;
-            flex: 1;
-            overflow-y: auto;
-            max-height: 70vh;
-        }
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
 
-        .btn-retro {
-            background: var(--window-bg);
-            border: 2px solid var(--border-color);
-            padding: 6px 14px;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 2px 2px 0px var(--border-color);
-            transition: all 0.1s;
-        }
+    .exp-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
 
-        .btn-retro:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 3px 3px 0px var(--border-color);
-            background: var(--accent-teal);
-        }
+    .exp-org {
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+    }
 
-        .btn-retro:active {
-            transform: translate(1px, 1px);
-            box-shadow: 1px 1px 0px var(--border-color);
-        }
+    .exp-date {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
 
-        .input-retro {
-            background: #fff;
-            border: 2px solid var(--border-color);
-            padding: 6px;
-            font-family: var(--font-mono);
-            font-weight: 700;
-            text-align: center;
-            width: 70px;
-            outline: none;
-        }
+    .exp-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-top: 8px;
+    }
 
-        .timer-display {
-            font-family: var(--font-pixel);
-            font-size: 4.5rem;
-            text-align: center;
-            margin: 10px 0;
-        }
+    /* Interactive Report Buttons */
+    .report-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            border-top: 2px solid var(--border-color);
-            border-left: 2px solid var(--border-color);
-        }
+    .report-pill {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      padding: 6px 12px;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
 
-        .cal-cell {
-            border-right: 2px solid var(--border-color);
-            border-bottom: 2px solid var(--border-color);
-            min-height: 48px;
-            padding: 4px;
-            font-size: 0.65rem;
-            cursor: pointer;
-            background: #fff;
-        }
+    .report-pill:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
 
-        .cal-cell:hover { background: var(--bg-cream); }
-        .cal-cell.today { background: var(--accent-teal); font-weight: 800; }
+    /* Grid Items for Projects */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat( auto-fit, minmax(280px, 1fr) );
+      gap: 16px;
+    }
 
-        .cal-header-cell {
-            border-right: 2px solid var(--border-color);
-            border-bottom: 2px solid var(--border-color);
-            text-align: center;
-            font-weight: 700;
-            font-size: 0.65rem;
-            padding: 4px;
-            background: var(--bg-cream);
-        }
+    .project-card {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--glass-border);
+      padding: 18px;
+      border-radius: 20px;
+    }
 
-        .cal-event {
-            background: var(--border-color);
-            color: #fff;
-            font-size: 0.55rem;
-            padding: 1px 3px;
-            margin-top: 2px;
-            border-radius: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    .project-card h4 {
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
 
-        .lap-list {
-            max-height: 100px;
-            overflow-y: auto;
-            margin-top: 10px;
-            border-top: 2px solid var(--border-color);
-            padding-top: 5px;
-            font-size: 0.7rem;
-        }
-    </style>
+    .project-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Volunteering Badges */
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--glass-border);
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Contact Footer Bar */
+    .contact-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--glass-border);
+      padding: 8px 14px;
+      border-radius: 16px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: background 0.2s;
+    }
+
+    .social-pill:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    footer {
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .col-8, .col-6, .col-4 {
+        grid-column: span 12;
+      }
+      h1 { font-size: 2.2rem; }
+      body { padding: 12px; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Top Menu Bar -->
-    <div class="menu-bar">
-        <div class="menu-left">
-            <span class="app-logo-icon">a</span>
-            <span class="menu-item">Play</span>
-            <span class="menu-item">Edit</span>
-            <span class="menu-item">Window</span>
-            <span class="menu-item">Enjoy</span>
+  <!-- Floating Spatial Dock Nav -->
+  <nav>
+    <span class="nav-logo">AM</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-grid">
+
+    <!-- Hero Card -->
+    <div class="glass-card col-8 hero-card">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="status-dot"></span> Dubai, UAE / Udupi, India · Aspiring Medic
         </div>
-        <div class="menu-right">
-            <span id="active-win-title">/home/apps - target_horizons</span>
-            <span id="top-bar-clock">Sat Oct 16 11:28 AM</span>
-        </div>
+        <h1>Anor Teran<br>Mendonca</h1>
+        <p class="hero-desc">Aspiring Medic | SaintZ ’26 | Student at UJS</p>
+      </div>
+      <div class="hero-btns">
+        <a class="btn btn-primary" href="#contact">Get in touch →</a>
+        <a class="btn btn-ghost" href="#about">Learn more ↓</a>
+      </div>
     </div>
 
-    <!-- Left Widget Panel -->
-    <div class="widget-panel">
-        <div class="widget-card widget-clock">
-            <div style="font-size: 0.65rem; font-weight: 700;">SYSTEM TIME</div>
-            <div class="widget-time" id="side-clock">11:28 AM</div>
-            <div style="font-size: 0.6rem; opacity: 0.8;" id="side-date">OCTOBER 16, 2026</div>
+    <!-- About Me Widget -->
+    <div class="glass-card col-4" id="about">
+      <div class="card-label">01 / Overview</div>
+      <h2 class="section-title">About Me</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+        Year 11 KSEAB (PUC) & NEET-UG aspirant combining rigorous scientific training with leadership through MUN, Toastmasters, and music performance.
+      </p>
+      <div class="facts-grid">
+        <div class="fact-pill">
+          <span class="fact-label">School</span>
+          <span class="fact-value">Jnanasudha PU</span>
         </div>
-
-        <div class="widget-card">
-            <div class="stat-bar">vol <div class="bar-outer"><div class="bar-inner" style="width: 75%;"></div></div></div>
-            <div class="stat-bar">cpu <div class="bar-outer"><div class="bar-inner" style="width: 40%;"></div></div></div>
-            <div class="stat-bar">ram <div class="bar-outer"><div class="bar-inner" style="width: 60%;"></div></div></div>
+        <div class="fact-pill">
+          <span class="fact-label">Languages</span>
+          <span class="fact-value">EN, HI, KN, Konkani</span>
         </div>
-
-        <div class="widget-card" style="font-size: 0.65rem;">
-            <div style="font-weight: 700; margin-bottom: 4px;">NOW PLAYING</div>
-            <div style="opacity: 0.7;">Focus Audio - Lofi Beats</div>
-        </div>
+      </div>
     </div>
 
-    <!-- Desktop Icons (Right Side Launchers) -->
-    <div class="desktop-icons">
-        <button class="icon-btn" onclick="openWindow('win-horizons')">
-            <div class="icon-box"><i class="fa-solid fa-bullseye"></i></div>
-            <span>Targets</span>
-        </button>
-
-        <button class="icon-btn" onclick="openWindow('win-timer')">
-            <div class="icon-box"><i class="fa-solid fa-hourglass-start"></i></div>
-            <span>Timer</span>
-        </button>
-
-        <button class="icon-btn" onclick="openWindow('win-stopwatch')">
-            <div class="icon-box"><i class="fa-solid fa-stopwatch"></i></div>
-            <span>Stopwatch</span>
-        </button>
-
-        <button class="icon-btn" onclick="openWindow('win-calendar')">
-            <div class="icon-box"><i class="fa-solid fa-calendar-days"></i></div>
-            <span>Calendar</span>
-        </button>
-
-        <button class="icon-btn" onclick="openWindow('win-spotify')">
-            <div class="icon-box"><i class="fa-solid fa-music"></i></div>
-            <span>Music</span>
-        </button>
-
-        <button class="icon-btn" onclick="window.open('https://drive.google.com/drive/folders/1pxtHUOgAenDyaFPaF6kgvqEw4yA_6lqf?usp=sharing', '_blank')">
-            <div class="icon-box"><i class="fa-solid fa-folder-open"></i></div>
-            <span>GCSE Drive</span>
-        </button>
-
-        <button class="icon-btn" onclick="window.open('https://anormendonca.github.io/website', '_blank')">
-            <div class="icon-box"><i class="fa-solid fa-user-astronaut"></i></div>
-            <span>Portfolio</span>
-        </button>
-    </div>
-
-    <!-- DRAGGABLE WINDOW: Target Horizons & Motivational Quotes (Starts Next To Clock) -->
-    <div class="window active" id="win-horizons" style="top: 50px; left: 265px; width: 380px;">
-        <div class="window-header">
-            <div class="window-controls">
-                <div class="win-btn close" onclick="closeWindow('win-horizons')"></div>
-                <div class="win-btn min"></div>
-            </div>
-            <div class="window-title">/home/apps - target_horizons</div>
-            <div></div>
-        </div>
-        <div class="window-body">
-            <!-- 3 Timers Arranged Side-by-Side Horizontal Row -->
-            <div class="timers-row">
-                <div class="timer-box">
-                    <span class="number" id="neet">--</span>
-                    <span class="label">NEET '28</span>
-                </div>
-                <div class="timer-box">
-                    <span class="number" id="jee">--</span>
-                    <span class="label">JEE MAINS</span>
-                </div>
-                <div class="timer-box">
-                    <span class="number" id="boards">--</span>
-                    <span class="label">BOARDS</span>
-                </div>
-            </div>
-
-            <!-- Motivational Quote Display Panel -->
-            <div id="quoteDisplay" class="motivation">Loading...</div>
-        </div>
-    </div>
-
-    <!-- WINDOW: Focus Timer -->
-    <div class="window" id="win-timer" style="top: 160px; left: 300px; width: 360px;">
-        <div class="window-header">
-            <div class="window-controls">
-                <div class="win-btn close" onclick="closeWindow('win-timer')"></div>
-                <div class="win-btn min"></div>
-            </div>
-            <div class="window-title">/home/apps - focus_timer</div>
-            <div></div>
-        </div>
-        <div class="window-body" style="text-align: center;">
-            <div id="timer-setup">
-                <div style="display: flex; gap: 10px; justify-content: center; align-items: center; margin-bottom: 15px;">
-                    <input type="number" id="t-min" class="input-retro" value="25" min="0"> <span style="font-size:0.7rem;">MIN</span>
-                    <input type="number" id="t-sec" class="input-retro" value="00" min="0" max="59"> <span style="font-size:0.7rem;">SEC</span>
-                </div>
-            </div>
-            <div class="timer-display" id="timer-display">25:00</div>
-            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-                <button class="btn-retro" id="timer-start-btn" onclick="startTimer()">START</button>
-                <button class="btn-retro" onclick="resetTimer()">RESET</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- WINDOW: Stopwatch -->
-    <div class="window" id="win-stopwatch" style="top: 180px; left: 340px; width: 340px;">
-        <div class="window-header">
-            <div class="window-controls">
-                <div class="win-btn close" onclick="closeWindow('win-stopwatch')"></div>
-                <div class="win-btn min"></div>
-            </div>
-            <div class="window-title">/home/apps - stopwatch</div>
-            <div></div>
-        </div>
-        <div class="window-body" style="text-align: center;">
-            <div class="timer-display" id="sw-display">00:00<span id="sw-ms" style="font-size: 2rem;">.00</span></div>
-            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
-                <button class="btn-retro" id="sw-start-btn" onclick="toggleStopwatch()">START</button>
-                <button class="btn-retro" onclick="lapStopwatch()">LAP</button>
-                <button class="btn-retro" onclick="resetStopwatch()">RESET</button>
-            </div>
-            <div class="lap-list" id="sw-laps"></div>
-        </div>
-    </div>
-
-    <!-- WINDOW: Calendar -->
-    <div class="window" id="win-calendar" style="top: 100px; left: 320px; width: 480px;">
-        <div class="window-header">
-            <div class="window-controls">
-                <div class="win-btn close" onclick="closeWindow('win-calendar')"></div>
-                <div class="win-btn min"></div>
-            </div>
-            <div class="window-title">/home/apps - calendar</div>
-            <div></div>
-        </div>
-        <div class="window-body">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <button class="btn-retro" onclick="changeMonth(-1)">&lt;</button>
-                <span id="cal-month-year" style="font-weight: 700; font-size: 0.85rem;">OCTOBER 2026</span>
-                <button class="btn-retro" onclick="changeMonth(1)">&gt;</button>
-            </div>
-            <div class="calendar-grid" id="calendar-grid"></div>
-        </div>
-    </div>
-
-    <!-- WINDOW: Spotify / Music -->
-    <div class="window" id="win-spotify" style="top: 120px; left: 350px; width: 420px;">
-        <div class="window-header">
-            <div class="window-controls">
-                <div class="win-btn close" onclick="closeWindow('win-spotify')"></div>
-                <div class="win-btn min"></div>
-            </div>
-            <div class="window-title">/home/fun - audio_player</div>
-            <div></div>
-        </div>
-        <div class="window-body" style="padding: 0;">
-            <iframe style="border-radius: 0; display: block;" src="https://open.spotify.com/embed/playlist/2ZqCkf2cWWFbB6ORZnmUlt?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        </div>
-    </div>
-
-    <script>
-        // --- QUOTES & HORIZON LOGIC ---
-        const quotes = [
-            '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
-            '"We know that suffering produces perseverance; character; and hope." – Romans 5:3',
-            '"The impediment to action advances action. What stands in the way becomes the way." – Marcus Aurelius',
-            '"Pray as though everything depended on God. Work as though everything depended on you." – St. Augustine'
-        ];
+    <!-- Education Widget -->
+    <div class="glass-card col-12" id="education">
+      <div class="card-label">02 / Academic Journey</div>
+      <h2 class="section-title">Education & Qualifications</h2>
+      <div class="exp-list">
         
-        document.getElementById('quoteDisplay').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+        <div class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">Pre-University Course (PUC), PCMB + ES</div>
+              <div class="exp-org">Jnanasudha PU College, Udupi</div>
+            </div>
+            <span class="exp-date">May 2026 – Present</span>
+          </div>
+          <p class="exp-desc">Focusing on KSEAB Board and NEET-UG medical entrance preparation across Physics, Chemistry, Math, Biology, English, and Sanskrit.</p>
+        </div>
 
-        function updateCountdowns() {
-            const todayTime = new Date().getTime();
-            const calcDays = (t) => Math.max(0, Math.ceil((new Date(t).getTime() - todayTime) / 86400000));
-            
-            document.getElementById('neet').innerText = calcDays('May 5, 2028');
-            document.getElementById('jee').innerText = calcDays('Jan 15, 2028');
-            document.getElementById('boards').innerText = calcDays('Mar 1, 2028');
-        }
-        updateCountdowns();
+        <div class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">Edexcel GCSEs / IGCSEs (Higher Tier)</div>
+              <div class="exp-org">St. Mary's Catholic High School, Dubai</div>
+            </div>
+            <span class="exp-date">2015 – 2026</span>
+          </div>
+          <p class="exp-desc">Biology (9), Chemistry (9), Physics (9), Maths (9), Religious Studies (9), Psychology (7), Computer Science (7), English (6).</p>
+          <div class="report-pills">
+            <span class="report-pill">📄 Grade 9 Report</span>
+            <span class="report-pill">📄 Grade 10 Report</span>
+            <span class="report-pill">📄 Grade 11 Report</span>
+          </div>
+        </div>
 
-        // --- WINDOW DRAGGING SYSTEM ---
-        let topZIndex = 100;
+        <div class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-title">Trinity College London Examinations</div>
+              <div class="exp-org">Music Performance & Theory</div>
+            </div>
+            <span class="exp-date">2015 – 2025</span>
+          </div>
+          <p class="exp-desc">Achieved Piano (G6), Violin (G4), Music Theory (G4). Currently self-studying Piano Grade 8 & Violin Grade 6.</p>
+        </div>
 
-        function makeDraggable(win) {
-            const header = win.querySelector('.window-header');
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      </div>
+    </div>
 
-            header.onmousedown = (e) => {
-                e.preventDefault();
-                topZIndex++;
-                win.style.zIndex = topZIndex;
-                document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+    <!-- Experience & Projects Split -->
+    <div class="glass-card col-6" id="experience">
+      <div class="card-label">03 / Roles</div>
+      <h2 class="section-title">Experience</h2>
+      <div class="exp-list">
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-title">Music Teacher</div>
+            <span class="exp-date">2024 – Present</span>
+          </div>
+          <div class="exp-org">Freelance · Dubai / Hybrid</div>
+          <p class="exp-desc">Delivering 1-on-1 piano, violin, and theory lessons based on Trinity College London syllabus.</p>
+        </div>
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-title">Graphic Designer</div>
+            <span class="exp-date">2025 – 2026</span>
+          </div>
+          <div class="exp-org">Jesus Youth Teens</div>
+          <p class="exp-desc">Created digital media, event branding, and promotional social content for youth activities.</p>
+        </div>
+      </div>
+    </div>
 
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = () => {
-                    document.onmouseup = null;
-                    document.onmousemove = null;
-                };
-                document.onmousemove = (e) => {
-                    e.preventDefault();
-                    pos1 = pos3 - e.clientX;
-                    pos2 = pos4 - e.clientY;
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-                    win.style.top = (win.offsetTop - pos2) + "px";
-                    win.style.left = (win.offsetLeft - pos1) + "px";
-                };
-            };
+    <!-- Achievements & Highlights -->
+    <div class="glass-card col-6">
+      <div class="card-label">04 / Highlights</div>
+      <h2 class="section-title">Leadership & Sports</h2>
+      <div class="exp-list">
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-title">Competitive Basketball Captain</div>
+            <span class="exp-date">2021 – Present</span>
+          </div>
+          <div class="exp-org">SaintZ, Roces, GiantZ, & UJS</div>
+          <p class="exp-desc">U2009 Team Captain & U2010 Mentor. Champion in 11th SaintZ & 9th SaintZ; multiple regional podium finishes.</p>
+        </div>
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-title">Public Speaking & MUN</div>
+            <span class="exp-date">2025 – 2026</span>
+          </div>
+          <div class="exp-org">Toastmasters & Sandesha Foundation</div>
+          <p class="exp-desc">Saintz MUN Honourable Mention. Toastmasters Youth Leadership training in speech writing and evaluation.</p>
+        </div>
+      </div>
+    </div>
 
-            win.addEventListener('mousedown', () => {
-                topZIndex++;
-                win.style.zIndex = topZIndex;
-                document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
-            });
-        }
+    <!-- Projects Grid -->
+    <div class="glass-card col-12" id="projects">
+      <div class="card-label">05 / Works</div>
+      <h2 class="section-title">Key Projects</h2>
+      <div class="project-grid">
+        <div class="project-card">
+          <h4>Neighborhood Recycling Drive</h4>
+          <p>Collected 500+ used printer toners from households and businesses to direct away from landfills.</p>
+        </div>
+        <div class="project-card">
+          <h4>GCSE / IGCSE Resource Hub</h4>
+          <p>Built a structured Google Drive repository containing study notes, past papers, and revision trackers.</p>
+        </div>
+        <div class="project-card">
+          <h4>Mechanical Solar System Model</h4>
+          <p>Designed custom gear ratios demonstrating planetary orbital motion through practical physics engineering.</p>
+        </div>
+        <div class="project-card">
+          <h4>Web Development & Tools</h4>
+          <p>Created digital study planners, revision trackers, and personal portfolio templates.</p>
+        </div>
+      </div>
+    </div>
 
-        document.querySelectorAll('.window').forEach(makeDraggable);
+    <!-- Volunteering Widget -->
+    <div class="glass-card col-12">
+      <div class="card-label">06 / Community</div>
+      <h2 class="section-title">Volunteering</h2>
+      <div class="project-grid">
+        <div class="project-card">
+          <h4>St. Mary's Catholic Church, Dubai</h4>
+          <p>Jesus Youth Teens Core Member — organizing community events and supporting liturgical services.</p>
+          <div class="badge-group">
+            <span class="badge">Altar Server</span>
+            <span class="badge">Lector</span>
+            <span class="badge">Choir Musician</span>
+          </div>
+        </div>
+        <div class="project-card">
+          <h4>St. Francis Xavier Church, Mudarangandi</h4>
+          <p>Young Christian Students (YCS) Core Member & Konkani Community Lector.</p>
+          <div class="badge-group">
+            <span class="badge">YCS Member</span>
+            <span class="badge">Lector</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        function openWindow(id) {
-            const win = document.getElementById(id);
-            win.classList.add('active');
-            topZIndex++;
-            win.style.zIndex = topZIndex;
-            document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
-        }
+    <!-- Contact Panel Bar -->
+    <div class="glass-card col-12" id="contact">
+      <div class="contact-bar">
+        <div>
+          <h2 class="section-title" style="margin-bottom:4px;">Let's connect.</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Based in Dubai & Udupi. Open for medical science, music, or engineering collaborations.</p>
+        </div>
+        <div class="social-links">
+          <a class="social-pill" href="mailto:anort.mendonca@gmail.com">✉️ Email</a>
+          <a class="social-pill" href="https://linkedin.com/in/anormendonca" target="_blank">LinkedIn</a>
+          <a class="social-pill" href="https://instagram.com/anormendonca" target="_blank">Instagram</a>
+        </div>
+      </div>
+    </div>
 
-        function closeWindow(id) {
-            document.getElementById(id).classList.remove('active');
-        }
+  </div>
 
-        // --- CLOCK MANAGEMENT ---
-        function updateClocks() {
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12 || 12;
+  <footer>
+    Anor Teran Mendonca © 2026 · Built with Dark Glass UI
+  </footer>
 
-            const timeStr = `${hours}:${minutes} ${ampm}`;
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            
-            const topStr = `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()} ${timeStr}`;
-            
-            document.getElementById('top-bar-clock').textContent = topStr;
-            document.getElementById('side-clock').textContent = timeStr;
-            document.getElementById('side-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
-        }
-        setInterval(updateClocks, 1000);
-        updateClocks();
-
-        // --- TIMER APP ---
-        let timerInt, totalSec = 0, isTimerRunning = false;
-
-        function startTimer() {
-            const display = document.getElementById('timer-display');
-            const btn = document.getElementById('timer-start-btn');
-
-            if (!isTimerRunning) {
-                if (totalSec === 0) {
-                    const m = parseInt(document.getElementById('t-min').value) || 0;
-                    const s = parseInt(document.getElementById('t-sec').value) || 0;
-                    totalSec = m * 60 + s;
-                }
-                if (totalSec <= 0) return;
-
-                isTimerRunning = true;
-                btn.textContent = 'PAUSE';
-
-                timerInt = setInterval(() => {
-                    if (totalSec <= 0) {
-                        clearInterval(timerInt);
-                        isTimerRunning = false;
-                        btn.textContent = 'START';
-                        display.textContent = "00:00";
-                    } else {
-                        totalSec--;
-                        const tm = Math.floor(totalSec / 60).toString().padStart(2, '0');
-                        const ts = (totalSec % 60).toString().padStart(2, '0');
-                        display.textContent = `${tm}:${ts}`;
-                    }
-                }, 1000);
-            } else {
-                clearInterval(timerInt);
-                isTimerRunning = false;
-                btn.textContent = 'RESUME';
-            }
-        }
-
-        function resetTimer() {
-            clearInterval(timerInt);
-            isTimerRunning = false;
-            totalSec = 0;
-            document.getElementById('timer-start-btn').textContent = 'START';
-            document.getElementById('timer-display').textContent = '25:00';
-        }
-
-        // --- STOPWATCH APP ---
-        let swInt, swTime = 0, swRunning = false;
-
-        function toggleStopwatch() {
-            const btn = document.getElementById('sw-start-btn');
-            if (!swRunning) {
-                swRunning = true;
-                btn.textContent = 'STOP';
-                const startT = Date.now() - swTime;
-                swInt = setInterval(() => {
-                    swTime = Date.now() - startT;
-                    const date = new Date(swTime);
-                    const m = date.getUTCMinutes().toString().padStart(2, '0');
-                    const s = date.getUTCSeconds().toString().padStart(2, '0');
-                    const ms = Math.floor(date.getUTCMilliseconds() / 10).toString().padStart(2, '0');
-                    document.getElementById('sw-display').childNodes[0].nodeValue = `${m}:${s}`;
-                    document.getElementById('sw-ms').textContent = `.${ms}`;
-                }, 10);
-            } else {
-                swRunning = false;
-                btn.textContent = 'START';
-                clearInterval(swInt);
-            }
-        }
-
-        function resetStopwatch() {
-            swRunning = false;
-            clearInterval(swInt);
-            swTime = 0;
-            document.getElementById('sw-display').childNodes[0].nodeValue = "00:00";
-            document.getElementById('sw-ms').textContent = ".00";
-            document.getElementById('sw-start-btn').textContent = "START";
-            document.getElementById('sw-laps').innerHTML = "";
-        }
-
-        function lapStopwatch() {
-            if (swRunning) {
-                const text = document.getElementById('sw-display').textContent;
-                const div = document.createElement('div');
-                div.style.display = 'flex';
-                div.style.justifyContent = 'space-between';
-                div.innerHTML = `<span>LAP</span><span>${text}</span>`;
-                document.getElementById('sw-laps').prepend(div);
-            }
-        }
-
-        // --- CALENDAR APP ---
-        let events = JSON.parse(localStorage.getItem('desktop_events')) || {};
-        let currentDate = new Date();
-        let currentMonth = currentDate.getMonth();
-        let currentYear = currentDate.getFullYear();
-
-        function renderCalendar() {
-            const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-            document.getElementById('cal-month-year').textContent = `${monthNames[currentMonth]} ${currentYear}`;
-            
-            const grid = document.getElementById('calendar-grid');
-            grid.innerHTML = '';
-
-            const days = ["S", "M", "T", "W", "T", "F", "S"];
-            days.forEach(d => {
-                const cell = document.createElement('div');
-                cell.className = 'cal-header-cell';
-                cell.textContent = d;
-                grid.appendChild(cell);
-            });
-
-            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            const today = new Date();
-
-            for (let i = 0; i < firstDay; i++) {
-                const empty = document.createElement('div');
-                empty.className = 'cal-cell';
-                grid.appendChild(empty);
-            }
-
-            for (let d = 1; d <= daysInMonth; d++) {
-                const cell = document.createElement('div');
-                cell.className = 'cal-cell';
-                if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
-                    cell.classList.add('today');
-                }
-
-                cell.innerHTML = `<div>${d}</div>`;
-                const dateId = `${currentYear}-${currentMonth}-${d}`;
-
-                if (events[dateId]) {
-                    events[dateId].forEach((ev, idx) => {
-                        const evDiv = document.createElement('div');
-                        evDiv.className = 'cal-event';
-                        evDiv.textContent = ev;
-                        evDiv.onclick = (e) => {
-                            e.stopPropagation();
-                            if(confirm(`Delete "${ev}"?`)) {
-                                events[dateId].splice(idx, 1);
-                                localStorage.setItem('desktop_events', JSON.stringify(events));
-                                renderCalendar();
-                            }
-                        };
-                        cell.appendChild(evDiv);
-                    });
-                }
-
-                cell.onclick = () => {
-                    const task = prompt("New event:");
-                    if (task) {
-                        if (!events[dateId]) events[dateId] = [];
-                        events[dateId].push(task);
-                        localStorage.setItem('desktop_events', JSON.stringify(events));
-                        renderCalendar();
-                    }
-                };
-
-                grid.appendChild(cell);
-            }
-        }
-
-        function changeMonth(dir) {
-            currentMonth += dir;
-            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-            renderCalendar();
-        }
-
-        renderCalendar();
-    </script>
 </body>
 </html>
