@@ -13,7 +13,9 @@
             --secondary: #111111;
             --border: #333333;
             --accent: #ffffff;
+            --danger: #ff3b3b;
             --sidebar-width: 300px;
+            --modal-bg: rgba(5, 5, 5, 0.95);
         }
 
         * {
@@ -31,6 +33,17 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* --- System Notice Modal --- */
+        #warning-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-bg); display: flex; align-items: center; justify-content: center;
+            z-index: 2000; backdrop-filter: blur(10px);
+        }
+        .modal-content { text-align: center; padding: 2rem; }
+        .modal-content h2 { font-weight: 800; letter-spacing: 0.5rem; text-transform: uppercase; font-size: 1rem; color: var(--text); justify-content: center; margin-bottom: 1rem; }
+        .modal-content p { font-size: 0.75rem; letter-spacing: 0.2rem; opacity: 0.6; text-transform: uppercase; margin: 1rem 0 2rem 0; color: var(--text); }
+        .close-hint { font-size: 0.6rem; letter-spacing: 0.4rem; opacity: 0.3; text-transform: uppercase; color: var(--text); }
 
         /* --- Header / Logo --- */
         header {
@@ -258,47 +271,55 @@
             border-bottom: 1px solid #111;
         }
 
-        /* --- CALENDAR STYLES --- */
-        .calendar-wrapper {
-            width: 400px;
-            border: 1px solid var(--border);
-            padding: 20px;
+        /* --- GRID CALENDAR STYLES --- */
+        .calendar-title {
+            font-size: 3rem; font-weight: 800; letter-spacing: -0.1rem;
+            margin: 0 0 1rem 0; text-align: center; text-transform: uppercase; line-height: 1;
         }
-        .cal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
+        .calendar-container { width: 100%; max-width: 750px; padding: 0 10px; max-height: 60vh; overflow-y: auto; }
+        .calendar-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.8rem 1rem; border: 1px solid var(--border);
+            text-transform: uppercase; letter-spacing: 0.2rem; font-size: 0.8rem;
         }
-        .cal-header span { font-size: 1.2rem; }
-        .cal-btn {
-            background: transparent;
-            border: none;
-            color: var(--text);
-            cursor: pointer;
-            font-size: 1.2rem;
-            font-weight: 800;
+        .nav-btn {
+            background: transparent; border: none; color: var(--text);
+            cursor: pointer; font-weight: 800; font-family: 'Inter', sans-serif;
+            font-size: 0.9rem; padding: 0 0.8rem; transition: opacity 0.3s;
         }
-        .cal-btn:hover { color: #888; }
-
-        .cal-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            text-align: center;
+        .nav-btn:hover { opacity: 0.5; }
+        .grid {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            border-left: 1px solid var(--border); border-top: 1px solid var(--border);
         }
-        .day-name { color: #666; font-size: 0.7rem; margin-bottom: 10px; font-weight: 700; }
-        .day-num { padding: 10px; font-size: 0.9rem; color: #888; cursor: default; }
-        .day-num.current-month { color: var(--text); }
-        .day-num.today { background: var(--text); color: var(--bg); font-weight: 800; }
+        .day-label {
+            padding: 0.6rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            text-align: center; font-size: 0.6rem; letter-spacing: 0.15rem; opacity: 0.4; text-transform: uppercase;
+        }
+        .cell {
+            min-height: 70px; padding: 6px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            transition: background 0.3s; cursor: pointer; position: relative; box-sizing: border-box; text-align: left;
+        }
+        .cell:hover { background: #111115; }
+        .cell.today { background: #18181b; }
+        .cell.today::after {
+            content: ''; position: absolute; top: 5px; right: 5px; width: 4px; height: 4px; background: white; border-radius: 50%;
+        }
+        .date-num { font-size: 0.7rem; opacity: 0.5; font-weight: 800; pointer-events: none; }
+        .event-item {
+            font-size: 0.55rem; background: white; color: black; margin-top: 4px;
+            padding: 2px 4px; text-transform: uppercase; font-weight: 800;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            transition: all 0.2s ease; border-radius: 2px;
+        }
+        .event-item:hover {
+            background: var(--danger); color: white; text-decoration: line-through;
+        }
 
         /* --- SPOTIFY CONTAINER --- */
         .spotify-container {
             width: 100%;
-            max-width: 500px; /* Limits width so it doesn't look stretched on big screens */
+            max-width: 500px;
             padding: 0 20px;
         }
 
@@ -353,13 +374,22 @@
             .timer-input { font-size: 3rem; width: 80px; }
             footer { gap: 1.5rem; bottom: 20px; }
             .nav-item { font-size: 0.6rem; letter-spacing: 0.1rem; }
-            .calendar-wrapper { width: 300px; }
+            .calendar-title { font-size: 2rem; }
+            .cell { min-height: 50px; }
             .spotify-container { max-width: 100%; }
         }
 
     </style>
 </head>
 <body>
+
+    <div id="warning-modal">
+        <div class="modal-content">
+            <h2>System Notice</h2>
+            <p>Calendar events are stored locally. Clearing cache will wipe your schedule.</p>
+            <div class="close-hint">Press [ X ] to acknowledge</div>
+        </div>
+    </div>
 
     <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
@@ -425,30 +455,20 @@
         </div>
         
         <div id="section-calendar" class="section">
-            <div class="calendar-wrapper">
-                <div class="cal-header">
-                    <button class="cal-btn" onclick="changeMonth(-1)"><</button>
-                    <span id="cal-month-year">MONTH YEAR</span>
-                    <button class="cal-btn" onclick="changeMonth(1)">></button>
+            <h1 class="calendar-title" id="month-name">January</h1>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="nav-btn" onclick="changeMonth(-1)">[ &lt; ]</button>
+                    <span id="year-label">2026</span>
+                    <button class="nav-btn" onclick="changeMonth(1)">[ &gt; ]</button>
                 </div>
-                <div class="cal-grid" id="cal-grid">
-                    </div>
+                <div class="grid" id="calendar-grid"></div>
             </div>
         </div>
 
         <div id="section-spotify" class="section">
             <div class="spotify-container">
-                <iframe 
-                    data-testid="embed-iframe" 
-                    style="border-radius:12px" 
-                    src="https://open.spotify.com/embed/playlist/66G2uznO9OVpl6uNRmhxFC?utm_source=generator" 
-                    width="100%" 
-                    height="352" 
-                    frameBorder="0" 
-                    allowfullscreen="" 
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy">
-                </iframe>
+                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2ZqCkf2cWWFbB6ORZnmUlt?utm_source=generator&theme=0&si=0bb1abd280b848c4" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
 
@@ -463,6 +483,14 @@
     </footer>
 
     <script>
+        // --- SYSTEM NOTICE MODAL ---
+        const warningModal = document.getElementById('warning-modal');
+        window.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'x' && warningModal) {
+                warningModal.style.display = 'none';
+            }
+        });
+
         // --- CLOCK ---
         function updateClock() {
             const now = new Date();
@@ -613,64 +641,109 @@
             }
         }
 
-        // --- CALENDAR LOGIC ---
-        let currentCalDate = new Date();
+        // --- GRID CALENDAR LOGIC ---
+        let events = JSON.parse(localStorage.getItem('ntrxi_events')) || {};
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        let today = new Date();
 
         function renderCalendar() {
-            const monthYear = document.getElementById('cal-month-year');
-            const grid = document.getElementById('cal-grid');
+            const monthLabel = document.getElementById('month-name');
+            const yearLabel = document.getElementById('year-label');
+            const grid = document.getElementById('calendar-grid');
+
+            if (!monthLabel || !yearLabel || !grid) return;
+
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             
-            const year = currentCalDate.getFullYear();
-            const month = currentCalDate.getMonth();
+            monthLabel.textContent = monthNames[currentMonth];
+            yearLabel.textContent = currentYear;
             
-            // Set header
-            const monthName = currentCalDate.toLocaleString('default', { month: 'long' });
-            monthYear.innerText = `${monthName} ${year}`;
-            
-            // Clear grid
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
             grid.innerHTML = '';
-            
-            // Add day names headers
-            const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
             days.forEach(day => {
-                const div = document.createElement('div');
-                div.className = 'day-name';
-                div.innerText = day;
-                grid.appendChild(div);
+                const label = document.createElement('div');
+                label.className = 'day-label';
+                label.textContent = day;
+                grid.appendChild(label);
             });
-            
-            // Logic for dates
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const today = new Date();
-            
-            // Empty slots for previous month
-            for(let i=0; i<firstDay; i++) {
-                const div = document.createElement('div');
-                div.className = 'day-num';
-                grid.appendChild(div);
+
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'cell';
+                grid.appendChild(empty);
             }
-            
-            // Days
-            for(let i=1; i<=daysInMonth; i++) {
-                const div = document.createElement('div');
-                div.className = 'day-num current-month';
-                div.innerText = i;
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
                 
-                if(i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                    div.classList.add('today');
+                if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    cell.classList.add('today');
                 }
                 
-                grid.appendChild(div);
+                const dateId = `${currentYear}-${currentMonth}-${d}`;
+                cell.innerHTML = `<div class="date-num">${d}</div>`;
+                
+                if (events[dateId]) {
+                    events[dateId].forEach((evText, index) => {
+                        const eventDiv = document.createElement('div');
+                        eventDiv.className = 'event-item';
+                        eventDiv.textContent = evText;
+                        eventDiv.onclick = (e) => {
+                            e.stopPropagation();
+                            if(confirm(`Delete "${evText}"?`)) {
+                                deleteEvent(dateId, index);
+                            }
+                        };
+                        cell.appendChild(eventDiv);
+                    });
+                }
+
+                cell.onclick = () => addEvent(dateId);
+                grid.appendChild(cell);
             }
         }
-        
-        function changeMonth(step) {
-            currentCalDate.setMonth(currentCalDate.getMonth() + step);
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
             renderCalendar();
         }
-        
-        renderCalendar(); // Init
+
+        function addEvent(dateId) {
+            const val = prompt("Enter event for this day:");
+            if (val) {
+                if (!events[dateId]) events[dateId] = [];
+                events[dateId].push(val);
+                saveAndRender();
+            }
+        }
+
+        function deleteEvent(dateId, index) {
+            events[dateId].splice(index, 1);
+            if(events[dateId].length === 0) delete events[dateId];
+            saveAndRender();
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('ntrxi_events', JSON.stringify(events));
+            renderCalendar();
+        }
+
+        // Initialize Calendar
+        renderCalendar();
 
     </script>
 </body>
