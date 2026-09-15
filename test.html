@@ -3,24 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anor Teran Mendonca — Interactive File Cabinet Portfolio</title>
+  <title>Anor Teran Mendonca — Dark Neumorphic Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-main: #0c0d12;
-      --card-bg: rgba(22, 25, 36, 0.85);
-      --card-hover-bg: rgba(30, 35, 52, 0.95);
-      --glass-border: rgba(255, 255, 255, 0.12);
-      --glass-border-active: rgba(10, 132, 255, 0.5);
-      --accent-blue: #0a84ff;
+      --bg: #181a20;
+      --card-bg: #1e212b;
+      --shadow-dark: #121419;
+      --shadow-light: #242837;
+      --inset-dark: #14161d;
+      --inset-light: #282c39;
+      
       --accent-gold: #ffd60a;
       --accent-green: #30d158;
       --text-main: #f5f5f7;
-      --text-muted: rgba(255, 255, 255, 0.7);
-      --text-dim: rgba(255, 255, 255, 0.4);
-      --tab-bg: #1a1d28;
-      --tab-active-bg: #222738;
+      --text-muted: #a0a5b5;
+      --text-dim: #626778;
     }
 
     * {
@@ -32,289 +31,320 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-main);
-      background-image: radial-gradient(circle at 50% 10%, #1e2436 0%, #0c0d12 80%);
-      background-attachment: fixed;
+      background: var(--bg);
       color: var(--text-main);
       min-height: 100vh;
-      padding: 40px 16px;
+      padding: 32px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* Cabinet Base Outer Container */
-    .cabinet-wrapper {
+    .dashboard-container {
       width: 100%;
-      max-width: 950px;
-      perspective: 1200px;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
 
-    .cabinet-header {
-      text-align: center;
-      margin-bottom: 24px;
+    /* Top Dashboard Header */
+    .neu-header {
+      background: var(--card-bg);
+      box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+      border-radius: 28px;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
-    .cabinet-header h1 {
+    .header-profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: 'Syne', sans-serif;
-      font-size: 2.5rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--text-main);
+    }
+
+    .header-title h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
 
-    .cabinet-header p {
+    .header-title p {
+      font-size: 0.85rem;
       color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-top: 4px;
     }
 
-    /* Cabinet Tray Stand */
-    .file-cabinet {
-      position: relative;
-      background: rgba(15, 17, 23, 0.9);
-      border: 2px solid var(--glass-border);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.5);
+    .status-badge {
+      background: var(--card-bg);
+      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    /* Main 2-Column Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+    }
+
+    /* Neumorphic Card Base */
+    .neu-card {
+      background: var(--card-bg);
+      box-shadow: 10px 10px 22px var(--shadow-dark), -10px -10px 22px var(--shadow-light);
+      border-radius: 28px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 18px;
+      margin-bottom: 24px;
     }
 
-    .cabinet-label-tag {
-      align-self: center;
-      background: #ffd60a;
-      color: #000;
-      font-weight: 700;
-      font-size: 0.85rem;
-      padding: 6px 20px;
-      border-radius: 12px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      box-shadow: 0 4px 15px rgba(255, 214, 10, 0.3);
-      margin-bottom: 12px;
+    .neu-card:last-child {
+      margin-bottom: 0;
     }
 
-    /* Stacked Cards Assembly */
-    .file-card {
-      position: relative;
-      background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor: pointer;
-    }
-
-    /* Collapsed vs Hover Expanded Heights */
-    .file-card .card-content {
-      max-height: 0;
-      opacity: 0;
-      padding: 0 24px;
-      transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, padding 0.3s ease;
-      overflow: hidden;
-    }
-
-    .file-card:hover {
-      background: var(--card-hover-bg);
-      border-color: var(--glass-border-active);
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      z-index: 10;
-    }
-
-    .file-card:hover .card-content {
-      max-height: 2000px; /* High enough to fit long contents */
-      opacity: 1;
-      padding: 20px 24px 28px 24px;
-    }
-
-    /* Card Header Bar / Index Tab */
-    .card-tab {
+    .card-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 24px;
-      background: var(--tab-bg);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      user-select: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding-bottom: 12px;
     }
 
-    .file-card:hover .card-tab {
-      background: var(--tab-active-bg);
-      border-bottom-color: var(--glass-border);
-    }
-
-    .tab-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .tab-num {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--accent-gold);
-      font-family: monospace;
-      font-weight: 700;
-      font-size: 0.9rem;
-      padding: 4px 10px;
-      border-radius: 8px;
-      border: 1px solid var(--glass-border);
-    }
-
-    .tab-title {
+    .card-head h2 {
       font-family: 'Syne', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--text-main);
-      letter-spacing: -0.01em;
     }
 
-    .tab-hint {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      font-weight: 500;
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: var(--card-bg);
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      font-size: 0.95rem;
     }
 
-    .file-card:hover .tab-hint {
-      color: var(--accent-blue);
+    /* Fact Table */
+    .fact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    /* Section Content Formatting */
-    .grid-two {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .info-box {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--glass-border);
+    .fact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      padding: 8px 12px;
       border-radius: 12px;
-      padding: 16px;
+      background: var(--card-bg);
+      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
     }
 
-    .info-box h3 {
-      font-size: 1.05rem;
-      color: #fff;
-      margin-bottom: 6px;
+    .fact-label { color: var(--text-dim); }
+    .fact-val { color: var(--text-main); font-weight: 500; text-align: right; }
+
+    /* Neumorphic Buttons */
+    .neu-btn {
+      background: var(--card-bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      border: none;
+      border-radius: 16px;
+      color: var(--text-main);
+      padding: 10px 18px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
     }
 
-    .info-box h4 {
-      font-size: 0.88rem;
-      color: var(--accent-blue);
-      margin-bottom: 8px;
+    .neu-btn:hover {
+      color: var(--accent-gold);
     }
 
-    .info-box p {
-      font-size: 0.88rem;
+    .neu-btn:active {
+      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+      transform: translateY(1px);
+    }
+
+    .neu-btn-gold {
+      color: var(--accent-gold);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    /* List Items inside Right Column */
+    .item-box {
+      background: var(--card-bg);
+      box-shadow: inset 4px 4px 9px var(--shadow-dark), inset -4px -4px 9px var(--shadow-light);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .item-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .item-sub {
+      font-size: 0.82rem;
+      color: var(--accent-gold);
+      font-weight: 500;
+    }
+
+    .item-date {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      background: var(--card-bg);
+      box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+      padding: 4px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    .item-desc {
+      font-size: 0.86rem;
       color: var(--text-muted);
       line-height: 1.5;
     }
 
-    .fact-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
+    /* Project Grid */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
     }
 
-    .fact-table td {
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .fact-table td:first-child {
-      color: var(--text-dim);
-    }
-
-    .fact-table td:last-child {
-      color: var(--text-main);
-      font-weight: 500;
-      text-align: right;
-    }
-
-    /* Buttons & Interactive Elements */
-    .btn-group {
+    .proj-card {
+      background: var(--card-bg);
+      box-shadow: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
+      border-radius: 18px;
+      padding: 16px;
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .action-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--glass-border);
-      color: var(--text-main);
-      padding: 8px 16px;
-      border-radius: 12px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
+      flex-direction: column;
       gap: 6px;
     }
 
-    .action-btn:hover {
-      background: var(--accent-blue);
-      color: #fff;
-      border-color: var(--accent-blue);
-      transform: translateY(-1px);
+    .proj-card h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
     }
 
-    /* Gallery Grid Inside Card */
+    .proj-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Gallery Grid */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       gap: 12px;
-      margin-top: 12px;
     }
 
-    .gallery-item {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
+    .gallery-thumb {
+      background: var(--card-bg);
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      border-radius: 14px;
       padding: 8px;
-      text-align: center;
       cursor: pointer;
-      transition: border-color 0.2s ease;
+      text-align: center;
+      transition: all 0.2s ease;
     }
 
-    .gallery-item:hover {
-      border-color: var(--accent-blue);
+    .gallery-thumb:active {
+      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
     }
 
-    .gallery-item img {
+    .gallery-thumb img {
       width: 100%;
-      height: 110px;
+      height: 90px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 10px;
       margin-bottom: 6px;
     }
 
-    .gallery-item span {
-      font-size: 0.78rem;
+    .gallery-thumb span {
+      font-size: 0.72rem;
       color: var(--text-muted);
       display: block;
+      font-weight: 600;
     }
 
-    /* Modals */
+    /* Modals & Popups */
     .popup-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(12px);
+      background: rgba(18, 20, 26, 0.85);
+      backdrop-filter: blur(10px);
       z-index: 2000;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.25s ease;
     }
 
     .popup-overlay.active {
@@ -327,17 +357,16 @@
       top: 50%; left: 50%;
       transform: translate(-50%, -45%) scale(0.95);
       width: 90%;
-      max-width: 750px;
+      max-width: 700px;
       max-height: 85vh;
-      background: rgba(20, 23, 33, 0.98);
-      border: 1px solid var(--glass-border-active);
-      border-radius: 20px;
+      background: var(--card-bg);
+      box-shadow: 15px 15px 35px var(--shadow-dark), -15px -15px 35px var(--shadow-light);
+      border-radius: 28px;
       padding: 24px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
       z-index: 2001;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s ease;
       overflow-y: auto;
     }
 
@@ -349,316 +378,335 @@
 
     .modal-box iframe {
       width: 100%;
-      height: 520px;
+      height: 480px;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
     }
 
-    .modal-close-text {
+    .modal-close-hint {
       text-align: center;
       margin-top: 12px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-dim);
     }
 
-    @media (max-width: 650px) {
-      .grid-two { grid-template-columns: 1fr; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-<div class="cabinet-wrapper">
-  
-  <div class="cabinet-header">
-    <h1>Anor Teran Mendonca</h1>
-    <p>Hover over any tab to pull out and inspect the document file.</p>
-  </div>
+<div class="dashboard-container">
 
-  <div class="file-cabinet">
-    <div class="cabinet-label-tag">Anor's Master Dossier File Index</div>
-
-    <!-- CARD 001: ABOUT ME -->
-    <div class="file-card">
-      <div class="card-tab">
-        <div class="tab-left">
-          <span class="tab-num">001</span>
-          <span class="tab-title">About Me & Overview</span>
-        </div>
-        <span class="tab-hint">Hover to expand 📂</span>
-      </div>
-      <div class="card-content">
-        <div class="grid-two">
-          <div class="info-box">
-            <h3>Biography</h3>
-            <p>Year 11 Karnataka State Education Examination and Assessment Board (KSEAB) Pre-University Course (PUC) student and National Eligibility cum Entrance Test - Undergraduate (NEET-UG) aspirant with a strong scientific foundation aiming for a career in medicine.</p>
-            <br>
-            <p>Combines rigorous academic training with leadership and public speaking through Model United Nations (MUN), Toastmasters, and the Sandesha Foundation. Pianist, violinist, varsity basketballer, and youth group creative designer.</p>
-          </div>
-          <div class="info-box">
-            <h3>Quick Facts & Background</h3>
-            <table class="fact-table">
-              <tr><td>School</td><td>Jnanasudha Pre-University College, Udupi</td></tr>
-              <tr><td>Locations</td><td>Dubai, UAE / Udupi, Karnataka, India</td></tr>
-              <tr><td>Heritage</td><td>Indian · Roman Catholic</td></tr>
-              <tr><td>Languages</td><td>English, Konkani (KN), Hindi, Kannada</td></tr>
-              <tr><td>Education System</td><td>Edexcel GCSE/IGCSE & KSEAB Board</td></tr>
-            </table>
-          </div>
-        </div>
+  <!-- TOP HEADER CONTROL PANEL -->
+  <header class="neu-header">
+    <div class="header-profile">
+      <div class="avatar-box">AM</div>
+      <div class="header-title">
+        <h1>Anor Teran Mendonca</h1>
+        <p>Aspiring Medic & Student · SaintZ ’26</p>
       </div>
     </div>
+    <div class="status-badge">
+      <span class="status-dot"></span> Dubai, UAE / Udupi, Karnataka (KN), India
+    </div>
+  </header>
 
-    <!-- CARD 002: EDUCATION & SCHOOL REPORTS -->
-    <div class="file-card">
-      <div class="card-tab">
-        <div class="tab-left">
-          <span class="tab-num">002</span>
-          <span class="tab-title">Education & School Reports</span>
+  <!-- MAIN 2-COLUMN DASHBOARD LAYOUT -->
+  <main class="dashboard-grid">
+
+    <!-- LEFT SIDE COLUMN -->
+    <div class="left-col">
+
+      <!-- ABOUT ME CARD -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>About Me</h2>
+          <div class="card-icon">👤</div>
         </div>
-        <span class="tab-hint">Hover to expand 📂</span>
-      </div>
-      <div class="card-content">
-        <div class="grid-two">
-          <div class="info-box">
-            <h3>Pre-University Course (PUC)</h3>
-            <h4>Jnanasudha Pre-University College, Udupi (May 2026 – Present)</h4>
-            <p><strong>Subjects:</strong> Physics, Chemistry, Mathematics, Biology, English, Sanskrit (PCMB+ES).</p>
-            <p>Focused on Karnataka Board (KSEAB) and intensive NEET-UG medical entrance examination preparation.</p>
+        <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.6;">
+          Year 11 Karnataka State Education Examination and Assessment Board (KSEAB) Pre-University Course (PUC) student and National Eligibility cum Entrance Test - Undergraduate (NEET-UG) medical aspirant.
+        </p>
+        <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.6;">
+          Pianist, violinist, varsity basketball team captain, youth leader in Model United Nations (MUN), Toastmasters, and graphic designer for Jesus Youth Teens.
+        </p>
+        
+        <div class="fact-list">
+          <div class="fact-row">
+            <span class="fact-label">School</span>
+            <span class="fact-val">Jnanasudha PUC, Udupi</span>
           </div>
+          <div class="fact-row">
+            <span class="fact-label">Background</span>
+            <span class="fact-val">Indian · Roman Catholic</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">Languages</span>
+            <span class="fact-val">English, Konkani (KN), Hindi, Kannada</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">Curriculum</span>
+            <span class="fact-val">Edexcel GCSE & KSEAB</span>
+          </div>
+        </div>
+      </section>
 
-          <div class="info-box">
-            <h3>High School Diploma (Edexcel IGCSE)</h3>
-            <h4>St. Mary's Catholic High School, Dubai (2015 – 2026)</h4>
-            <p><strong>Grades:</strong> Biology (9), Chemistry (9), Physics (9), Mathematics (9), Religious Studies (9), Psychology (7), Computer Science (7), English Language (6), Spoken English (Distinction).</p>
-            
-            <div class="btn-group">
-              <button class="action-btn" onclick="openModal('report9Modal')">📄 View Grade 9 Report</button>
-              <button class="action-btn" onclick="openModal('report10Modal')">📄 View Grade 10 Report</button>
-              <button class="action-btn" onclick="openModal('report11Modal')">📄 View Grade 11 Report</button>
+      <!-- PROJECTS CARD -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>Key Projects</h2>
+          <div class="card-icon">⚡</div>
+        </div>
+        <div class="proj-grid">
+          <div class="proj-card">
+            <h4>Recycling Drive</h4>
+            <p>Collected 500+ printer toners across households and offices for safe e-waste recycling.</p>
+          </div>
+          <div class="proj-card">
+            <h4>GCSE Study Drive</h4>
+            <p>Built comprehensive revision hubs with notes and past papers for core sciences & maths.</p>
+          </div>
+          <div class="proj-card">
+            <h4>Solar Orbit Model</h4>
+            <p>Engineered a mechanical gear model calculating real planetary orbital periods.</p>
+          </div>
+          <div class="proj-card">
+            <h4>ADNOC STEM</h4>
+            <p>Completed Formula Ethara & COP28 Digital Energy sustainability challenges.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VOLUNTEERING CARD -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>Volunteering</h2>
+          <div class="card-icon">🤝</div>
+        </div>
+        <div class="item-box">
+          <div class="item-title">St. Mary's Catholic Church, Dubai</div>
+          <div class="item-sub">Jesus Youth Teens Core Member</div>
+          <p class="item-desc">Served as Altar Server, Usher, Konkani (KN) and English Lector, and Choir Musician for parish youth activities.</p>
+        </div>
+        <div class="item-box">
+          <div class="item-title">St. Francis Xavier, Mudarangandi</div>
+          <div class="item-sub">Young Christian Students (YCS) Member</div>
+          <p class="item-desc">Led youth initiatives and served as Konkani (KN) community Lector.</p>
+        </div>
+      </section>
+
+      <!-- CONTACT CARD -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>Contact Links</h2>
+          <div class="card-icon">📬</div>
+        </div>
+        <div class="btn-group">
+          <a class="neu-btn" href="mailto:anort.mendonca@gmail.com">✉️ Email</a>
+          <a class="neu-btn" href="tel:+971589101067">📞 Phone</a>
+          <a class="neu-btn" href="https://linkedin.com/in/anormendonca" target="_blank">🔗 LinkedIn</a>
+          <a class="neu-btn" href="https://instagram.com/anormendonca" target="_blank">📸 Instagram</a>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT SIDE COLUMN -->
+    <div class="right-col">
+
+      <!-- EDUCATION & SCHOOL REPORTS -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>Education & Academic Reports</h2>
+          <div class="card-icon">🎓</div>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Pre-University Course (PUC) — PCMB + ES</div>
+              <div class="item-sub">Jnanasudha Pre-University College, Udupi</div>
             </div>
+            <div class="item-date">May 2026 – Present</div>
           </div>
+          <p class="item-desc">Karnataka State Board (KSEAB) study in Physics, Chemistry, Mathematics, Biology, English, and Sanskrit. Dedicated focus on NEET-UG medical entrance preparation.</p>
         </div>
 
-        <div class="info-box" style="margin-top: 12px;">
-          <h3>Trinity College London Examinations</h3>
-          <h4>Music Performance & Theory (Sep 2015 – Present)</h4>
-          <p>Achieved Trinity Examination Grades: Piano Grade 6, Violin Grade 4, Music Theory Grade 4, Keyboard Grade 3. Currently preparing Grade 8 Piano and Grade 6 Violin under self-directed study and mentorship of late Kresitha Gabil Momin.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 003: EXPERIENCE -->
-    <div class="file-card">
-      <div class="card-tab">
-        <div class="tab-left">
-          <span class="tab-num">003</span>
-          <span class="tab-title">Work & Leadership Experience</span>
-        </div>
-        <span class="tab-hint">Hover to expand 📂</span>
-      </div>
-      <div class="card-content">
-        <div class="grid-two">
-          <div class="info-box">
-            <h3>Music Teacher</h3>
-            <h4>Freelance · Dubai, UAE (Jan 2024 – Present)</h4>
-            <p>Delivers individual piano, violin, keyboard, and music theory lessons for beginner to intermediate students. Guides learners through Trinity College London syllabus requirements.</p>
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">High School Diploma — Edexcel GCSE / IGCSE</div>
+              <div class="item-sub">St. Mary's Catholic High School, Dubai</div>
+            </div>
+            <div class="item-date">2015 – 2026</div>
           </div>
-          <div class="info-box">
-            <h3>Graphic Designer</h3>
-            <h4>Jesus Youth Teens · Dubai / Remote (Sep 2025 – May 2026)</h4>
-            <p>Created event branding, promotional posters, digital visual media, and social graphics for youth regional gatherings and programs.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 004: PROJECTS -->
-    <div class="file-card">
-      <div class="card-tab">
-        <div class="tab-left">
-          <span class="tab-num">004</span>
-          <span class="tab-title">Projects & Technical Works</span>
-        </div>
-        <span class="tab-hint">Hover to expand 📂</span>
-      </div>
-      <div class="card-content">
-        <div class="grid-two">
-          <div class="info-box">
-            <h3>Neighborhood Recycling Initiative</h3>
-            <p>Collected 500+ used printer toners across community households and offices to reduce e-waste and support sustainable disposal.</p>
-          </div>
-          <div class="info-box">
-            <h3>GCSE / IGCSE Revision Hub</h3>
-            <p>Built a structured digital repository covering core sciences, mathematics, computer science, and psychology with revision sheets and past paper breakdowns.</p>
-          </div>
-          <div class="info-box">
-            <h3>Mechanical Solar System Model</h3>
-            <p>Engineered a mechanical gear-driven model replicating orbital periods of planets to demonstrate physical and astronomical laws.</p>
-          </div>
-          <div class="info-box">
-            <h3>Abu Dhabi National Oil Company (ADNOC) STEM Challenges</h3>
-            <p>Completed Formula Ethara, COP28 Energy Challenge, and Digital Energy e-learning modules focusing on sustainability.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 005: BASKETBALL & AWARDS -->
-    <div class="file-card">
-      <div class="card-tab">
-        <div class="tab-left">
-          <span class="tab-num">005</span>
-          <span class="tab-title">Basketball Achievements & Gallery</span>
-        </div>
-        <span class="tab-hint">Hover to expand 📂</span>
-      </div>
-      <div class="card-content">
-        <div class="info-box" style="margin-bottom: 12px;">
-          <h3>Competitive Varsity Basketball Captain</h3>
-          <h4>SaintZ, Roces, GiantZ, & Unnati / Jnanasudha (UJS)</h4>
-          <p>Captain of Under-2009 team, mentor for Under-2010 division. Led teams through regional school tournaments and leagues.</p>
+          <p class="item-desc">Biology (9), Chemistry (9), Physics (9), Mathematics (9), Religious Studies (9), Psychology (7), Computer Science (7), English Language (6), Spoken English (Distinction).</p>
           
           <div class="btn-group">
-            <button class="action-btn" onclick="openModal('basketballModal')">🏆 View All Basketball Award Titles</button>
+            <button class="neu-btn neu-btn-gold" onclick="openModal('report9Modal')">📄 Grade 9 Report</button>
+            <button class="neu-btn neu-btn-gold" onclick="openModal('report10Modal')">📄 Grade 10 Report</button>
+            <button class="neu-btn neu-btn-gold" onclick="openModal('report11Modal')">📄 Grade 11 Report</button>
           </div>
         </div>
 
-        <h3 style="font-size: 1rem; margin-top: 12px;">Certificates & Gallery</h3>
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Trinity College London Examinations</div>
+              <div class="item-sub">Music Performance & Theory</div>
+            </div>
+            <div class="item-date">Sep 2015 – Jan 2025</div>
+          </div>
+          <p class="item-desc">Piano Grade 6, Violin Grade 4, Music Theory Grade 4, Keyboard Grade 3. Currently preparing Grade 8 Piano and Grade 6 Violin under self-directed study and mentorship of the late Kresitha Gabil Momin.</p>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>Experience</h2>
+          <div class="card-icon">💼</div>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Music Teacher</div>
+              <div class="item-sub">Freelance · Dubai, UAE</div>
+            </div>
+            <div class="item-date">Jan 2024 – Present</div>
+          </div>
+          <p class="item-desc">Instructing piano, violin, keyboard, and music theory students for Trinity College London examinations.</p>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Graphic Designer</div>
+              <div class="item-sub">Jesus Youth Teens · Dubai / Remote</div>
+            </div>
+            <div class="item-date">Sep 2025 – May 2026</div>
+          </div>
+          <p class="item-desc">Designed posters, digital branding, social content, and event materials for youth programs.</p>
+        </div>
+      </section>
+
+      <!-- BASKETBALL & ATHLETICS -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>Basketball & Athletic Achievements</h2>
+          <div class="card-icon">🏆</div>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Varsity Basketball Captain</div>
+              <div class="item-sub">SaintZ, Roces, GiantZ, & Unnati / Jnanasudha (UJS)</div>
+            </div>
+            <div class="item-date">2021 – Present</div>
+          </div>
+          <p class="item-desc">Captain of Under-2009 team and mentor to Under-2010 squad. Multi-championship winner across regional UAE & Karnataka leagues.</p>
+          
+          <div class="btn-group">
+            <button class="neu-btn neu-btn-gold" onclick="openModal('basketballModal')">🏆 View Tournament Record & Medals</button>
+          </div>
+        </div>
+
+        <div class="card-head" style="margin-top: 10px;">
+          <h3 style="font-size: 1rem;">Certificates & Gallery</h3>
+        </div>
+
         <div class="gallery-grid">
-          <div class="gallery-item" onclick="openImageModal('https://drive.google.com/uc?id=1aXiRsvLexW8CaNbwmXVH06SmqFBaFCmA', 'School Basketball Team')">
-            <img src="https://drive.google.com/uc?id=1aXiRsvLexW8CaNbwmXVH06SmqFBaFCmA" alt="Basketball Team">
+          <div class="gallery-thumb" onclick="openImageModal('https://drive.google.com/uc?id=1aXiRsvLexW8CaNbwmXVH06SmqFBaFCmA', 'School Basketball Team')">
+            <img src="https://drive.google.com/uc?id=1aXiRsvLexW8CaNbwmXVH06SmqFBaFCmA" alt="Basketball">
             <span>Basketball Team</span>
           </div>
-          <div class="gallery-item" onclick="openImageModal('https://drive.google.com/uc?id=1WWrgDCq7Dy1nB5YVkFlHlyhXr8J9XJe7', 'SaintZ Model United Nations Award')">
-            <img src="https://drive.google.com/uc?id=1WWrgDCq7Dy1nB5YVkFlHlyhXr8J9XJe7" alt="MUN Award">
-            <span>SaintZ MUN Award</span>
+          <div class="gallery-thumb" onclick="openImageModal('https://drive.google.com/uc?id=1WWrgDCq7Dy1nB5YVkFlHlyhXr8J9XJe7', 'SaintZ Model United Nations Award')">
+            <img src="https://drive.google.com/uc?id=1WWrgDCq7Dy1nB5YVkFlHlyhXr8J9XJe7" alt="MUN">
+            <span>SaintZ MUN</span>
           </div>
-          <div class="gallery-item" onclick="openImageModal('https://drive.google.com/uc?id=1oZaCTBh8zvC7E6oJgcs11CrU3kfvMp5R', 'Altar Servers Accompaniment')">
-            <img src="https://drive.google.com/uc?id=1oZaCTBh8zvC7E6oJgcs11CrU3kfvMp5R" alt="Keyboard Accompaniment">
+          <div class="gallery-thumb" onclick="openImageModal('https://drive.google.com/uc?id=1oZaCTBh8zvC7E6oJgcs11CrU3kfvMp5R', 'Altar Servers Accompaniment')">
+            <img src="https://drive.google.com/uc?id=1oZaCTBh8zvC7E6oJgcs11CrU3kfvMp5R" alt="Keyboard">
             <span>Church Musician</span>
           </div>
-          <div class="gallery-item" onclick="openImageModal('https://drive.google.com/uc?id=1nSKsgovbFVzyJFfCo_KLsS9dH5LJnwkc', 'Varsity Basketball')">
-            <img src="https://drive.google.com/uc?id=1nSKsgovbFVzyJFfCo_KLsS9dH5LJnwkc" alt="Varsity Basketball">
+          <div class="gallery-thumb" onclick="openImageModal('https://drive.google.com/uc?id=1nSKsgovbFVzyJFfCo_KLsS9dH5LJnwkc', 'Varsity Basketball')">
+            <img src="https://drive.google.com/uc?id=1nSKsgovbFVzyJFfCo_KLsS9dH5LJnwkc" alt="Varsity">
             <span>Varsity Play</span>
           </div>
-          <div class="gallery-item" onclick="openImageModal('https://drive.google.com/uc?id=1XCbYvz7Gb4w3crUsVErCe49LGQsuPIfw', 'Sparkle Mind Maths Olympiad')">
-            <img src="https://drive.google.com/uc?id=1XCbYvz7Gb4w3crUsVErCe49LGQsuPIfw" alt="Maths Olympiad">
+          <div class="gallery-thumb" onclick="openImageModal('https://drive.google.com/uc?id=1XCbYvz7Gb4w3crUsVErCe49LGQsuPIfw', 'Sparkle Mind Maths Olympiad')">
+            <img src="https://drive.google.com/uc?id=1XCbYvz7Gb4w3crUsVErCe49LGQsuPIfw" alt="Maths">
             <span>Maths Olympiad</span>
           </div>
         </div>
-      </div>
+      </section>
+
     </div>
 
-    <!-- CARD 006: VOLUNTEERING -->
-    <div class="file-card">
-      <div class="card-tab">
-        <div class="tab-left">
-          <span class="tab-num">006</span>
-          <span class="tab-title">Volunteering & Community</span>
-        </div>
-        <span class="tab-hint">Hover to expand 📂</span>
-      </div>
-      <div class="card-content">
-        <div class="grid-two">
-          <div class="info-box">
-            <h3>St. Mary's Catholic Church, Dubai</h3>
-            <h4>Jesus Youth Teens Core Team</h4>
-            <p>Active altar server, usher, Konkani (KN) and English lector, choir vocalist, and instrumentalist for church events.</p>
-          </div>
-          <div class="info-box">
-            <h3>St. Francis Xavier Church, Mudarangandi</h3>
-            <h4>Young Christian Students (YCS)</h4>
-            <p>Member of Young Christian Students movement. Conducted community readings in Konkani (KN) and led youth activities.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 007: CONTACT -->
-    <div class="file-card">
-      <div class="card-tab">
-        <div class="tab-left">
-          <span class="tab-num">007</span>
-          <span class="tab-title">Contact & Social Links</span>
-        </div>
-        <span class="tab-hint">Hover to expand 📂</span>
-      </div>
-      <div class="card-content">
-        <div class="info-box">
-          <h3>Get in Touch</h3>
-          <p>Available for academic, medical aspirants collaboration, and music performance inquiries.</p>
-          <div class="btn-group" style="margin-top: 14px;">
-            <a class="action-btn" href="mailto:anort.mendonca@gmail.com">✉️ Email Me</a>
-            <a class="action-btn" href="tel:+971589101067">📞 +971 589101067</a>
-            <a class="action-btn" href="https://linkedin.com/in/anormendonca" target="_blank">🔗 LinkedIn</a>
-            <a class="action-btn" href="https://instagram.com/anormendonca" target="_blank">📸 Instagram</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
+  </main>
 </div>
 
-<!-- POPUP MODALS -->
+<!-- GLOBAL POPUP OVERLAY & MODALS -->
 <div class="popup-overlay" id="popupOverlay" onclick="closeAllModals()"></div>
 
 <!-- Grade 9 Report Modal -->
 <div class="modal-box" id="report9Modal">
   <iframe src="https://drive.google.com/file/d/1oZya6UrianhHwpaz97p2ARbL6AdducIE/preview"></iframe>
-  <div class="modal-close-text">Click outside to close</div>
+  <div class="modal-close-hint">Click outside to close</div>
 </div>
 
 <!-- Grade 10 Report Modal -->
 <div class="modal-box" id="report10Modal">
   <iframe src="https://drive.google.com/file/d/11lavWog1DA3vGptl4vB7K5GiTzFKcqQs/preview"></iframe>
-  <div class="modal-close-text">Click outside to close</div>
+  <div class="modal-close-hint">Click outside to close</div>
 </div>
 
 <!-- Grade 11 Report Modal -->
 <div class="modal-box" id="report11Modal">
   <iframe src="https://drive.google.com/file/d/1kUDYSCrsC_-6n1zZF9QliUA_KntgMexL/preview"></iframe>
-  <div class="modal-close-text">Click outside to close</div>
+  <div class="modal-close-hint">Click outside to close</div>
 </div>
 
-<!-- Basketball Awards Modal -->
+<!-- Basketball Tournament Record Modal -->
 <div class="modal-box" id="basketballModal">
-  <h2 style="font-family:'Syne', sans-serif; color:var(--accent-gold); margin-bottom:16px;">Tournament Honors & Medals</h2>
+  <h3 style="font-family:'Syne', sans-serif; color:var(--accent-gold); font-size: 1.3rem; margin-bottom:14px;">Tournament Highlights & Honors</h3>
   
-  <h4 style="color:#fff; margin-bottom:6px;">🥇 1st Place / Champions</h4>
-  <ul style="color:var(--text-muted); padding-left:20px; margin-bottom:16px; line-height:1.7;">
+  <h4 style="color:var(--text-main); margin-bottom:6px; font-size: 0.95rem;">🥇 Champions / 1st Place</h4>
+  <ul style="color:var(--text-muted); padding-left:18px; margin-bottom:14px; font-size: 0.86rem; line-height: 1.7;">
     <li>11th SaintZ Basketball Tournament (2025–2026)</li>
     <li>9th SaintZ Basketball Tournament (2023–2024)</li>
-    <li>5th Gems Modern Academy (GMA) Under-17 Tournament (2023–2024)</li>
+    <li>5th Gems Modern Academy (GMA) Under-17 (2023–2024)</li>
     <li>15th Indian Basketball League Under-13 (2022)</li>
-    <li>10th Gems Modern Academy Tournament (2021–2022)</li>
+    <li>10th Gems Modern Academy (2021–2022)</li>
   </ul>
 
-  <h4 style="color:#fff; margin-bottom:6px;">🥈 2nd Place / Runners Up</h4>
-  <ul style="color:var(--text-muted); padding-left:20px; margin-bottom:16px; line-height:1.7;">
-    <li>Delhi Private School (DPS) Sharjah Sundeep Batavia Under-18 (2023–2024)</li>
-    <li>11th Gems Modern Academy Tournament (2022–2023)</li>
-    <li>Sports and Basketball Athletic Association (SBAA) Boys Division 3A Season 3 (2022)</li>
+  <h4 style="color:var(--text-main); margin-bottom:6px; font-size: 0.95rem;">🥈 Runners Up / 2nd Place</h4>
+  <ul style="color:var(--text-muted); padding-left:18px; margin-bottom:14px; font-size: 0.86rem; line-height: 1.7;">
+    <li>DPS Sharjah Sundeep Batavia Under-18 (2023–2024)</li>
+    <li>11th Gems Modern Academy (2022–2023)</li>
+    <li>SBAA Boys Division 3A Season 3 (2022)</li>
   </ul>
 
-  <h4 style="color:#fff; margin-bottom:6px;">🥉 3rd Place & Participation</h4>
-  <ul style="color:var(--text-muted); padding-left:20px; line-height:1.7;">
+  <h4 style="color:var(--text-main); margin-bottom:6px; font-size: 0.95rem;">🥉 Bronze & Notable Finishes</h4>
+  <ul style="color:var(--text-muted); padding-left:18px; font-size: 0.86rem; line-height: 1.7;">
     <li>10th SaintZ Tournament (2024–2025) – Bronze Medal</li>
     <li>Jazzville Boys Under-2009 (2023, 2024) – Bronze Medal</li>
     <li>Dubai School Games by Dubai Sports Council (2023)</li>
-    <li>The Millennium School (TMS) & DPS Tournaments (2024–2026)</li>
+    <li>TMS & DPS Tournaments (2024–2026)</li>
   </ul>
 
-  <div class="modal-close-text">Click outside to close</div>
+  <div class="modal-close-hint">Click outside to close</div>
 </div>
 
 <!-- Image Viewer Modal -->
 <div class="modal-box" id="imageModal" style="text-align: center;">
-  <img id="imageModalImg" src="" style="width:100%; border-radius:12px; max-height: 500px; object-fit: contain;">
-  <p id="imageModalCaption" style="margin-top: 12px; font-weight:600; color:#fff;"></p>
-  <div class="modal-close-text">Click outside to close</div>
+  <img id="imageModalImg" src="" style="width:100%; border-radius:16px; max-height: 480px; object-fit: contain;">
+  <p id="imageModalCaption" style="margin-top: 10px; font-weight:600; font-size: 0.9rem; color: var(--text-main);"></p>
+  <div class="modal-close-hint">Click outside to close</div>
 </div>
 
 <script>
