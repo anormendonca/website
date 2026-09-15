@@ -80,31 +80,35 @@
         .desktop-icons {
             position: fixed;
             right: 20px;
-            top: 50px;
+            top: 45px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 14px;
             z-index: 10;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding-right: 4px;
         }
 
         .icon-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             cursor: pointer;
-            width: 70px;
+            width: 75px;
             background: transparent;
             border: none;
             color: var(--text-main);
             font-family: var(--font-mono);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
+            text-align: center;
         }
 
         .icon-box {
-            width: 50px;
-            height: 50px;
+            width: 46px;
+            height: 46px;
             background: var(--window-bg);
             border: 2.5px solid var(--border-color);
             box-shadow: var(--shadow);
@@ -112,7 +116,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             transition: transform 0.1s, box-shadow 0.1s;
         }
 
@@ -233,7 +237,7 @@
             max-height: 70vh;
         }
 
-        /* --- Custom Controls inside Windows --- */
+        /* --- Custom Retro Controls --- */
         .btn-retro {
             background: var(--window-bg);
             border: 2px solid var(--border-color);
@@ -262,10 +266,67 @@
             border: 2px solid var(--border-color);
             padding: 6px;
             font-family: var(--font-mono);
+            font-size: 0.75rem;
             font-weight: 700;
-            text-align: center;
-            width: 70px;
             outline: none;
+            width: 100%;
+        }
+
+        /* --- Custom Tables & Lists --- */
+        .retro-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7rem;
+            margin-top: 10px;
+        }
+
+        .retro-table th, .retro-table td {
+            border: 2px solid var(--border-color);
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        .retro-table th {
+            background: var(--bg-cream);
+            font-weight: 700;
+        }
+
+        .retro-table tr:nth-child(even) {
+            background: #fff;
+        }
+
+        .grounding-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border: 2px solid var(--border-color);
+            background: #fff;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+        }
+
+        .grounding-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-teal);
+            cursor: pointer;
+        }
+
+        .horizon-card {
+            border: 2px solid var(--border-color);
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        .horizon-title {
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
         }
 
         /* --- App Specific Styles --- */
@@ -382,12 +443,26 @@
             <span>Calendar</span>
         </button>
 
+        <button class="icon-btn" onclick="openWindow('win-grounding')">
+            <div class="icon-box"><i class="fa-solid fa-seedling"></i></div>
+            <span>Daily Grounding</span>
+        </button>
+
+        <button class="icon-btn" onclick="openWindow('win-horizon')">
+            <div class="icon-box"><i class="fa-solid fa-compass"></i></div>
+            <span>The Horizon</span>
+        </button>
+
+        <button class="icon-btn" onclick="openWindow('win-markscard')">
+            <div class="icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span>Master Marks</span>
+        </button>
+
         <button class="icon-btn" onclick="openWindow('win-spotify')">
             <div class="icon-box"><i class="fa-solid fa-music"></i></div>
             <span>Music</span>
         </button>
 
-        <!-- ADDED: Custom Site Desktop Icon -->
         <button class="icon-btn" onclick="openWindow('win-custom-site')">
             <div class="icon-box"><i class="fa-solid fa-globe"></i></div>
             <span>New Site</span>
@@ -417,8 +492,8 @@
         <div class="window-body" style="text-align: center;">
             <div id="timer-setup">
                 <div style="display: flex; gap: 10px; justify-content: center; align-items: center; margin-bottom: 15px;">
-                    <input type="number" id="t-min" class="input-retro" value="25" min="0"> <span style="font-size:0.7rem;">MIN</span>
-                    <input type="number" id="t-sec" class="input-retro" value="00" min="0" max="59"> <span style="font-size:0.7rem;">SEC</span>
+                    <input type="number" id="t-min" class="input-retro" value="25" min="0" style="width:70px; text-align:center;"> <span style="font-size:0.7rem;">MIN</span>
+                    <input type="number" id="t-sec" class="input-retro" value="00" min="0" max="59" style="width:70px; text-align:center;"> <span style="font-size:0.7rem;">SEC</span>
                 </div>
             </div>
             <div class="timer-display" id="timer-display">25:00</div>
@@ -470,7 +545,151 @@
         </div>
     </div>
 
-    <!-- WINDOW 4: Spotify / Music -->
+    <!-- WINDOW 4: The Daily Grounding -->
+    <div class="window" id="win-grounding" style="top: 110px; left: 290px; width: 420px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-grounding')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/mind - daily_grounding</div>
+            <div></div>
+        </div>
+        <div class="window-body">
+            <div style="font-size: 0.75rem; font-weight: 700; margin-bottom: 10px;">DAILY GROUNDING CHECKLIST</div>
+            
+            <div class="grounding-item">
+                <input type="checkbox" id="g1">
+                <label for="g1">5 things you can see around you</label>
+            </div>
+            <div class="grounding-item">
+                <input type="checkbox" id="g2">
+                <label for="g2">4 things you can physically touch</label>
+            </div>
+            <div class="grounding-item">
+                <input type="checkbox" id="g3">
+                <label for="g3">3 things you can hear right now</label>
+            </div>
+            <div class="grounding-item">
+                <input type="checkbox" id="g4">
+                <label for="g4">2 things you can smell</label>
+            </div>
+            <div class="grounding-item">
+                <input type="checkbox" id="g5">
+                <label for="g5">1 thing you are grateful for today</label>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <div style="font-size: 0.7rem; font-weight: 700; margin-bottom: 4px;">DAILY INTENTION / JOURNAL</div>
+                <textarea class="input-retro" rows="3" placeholder="Write today's focus or mindset statement..." style="resize: none;"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- WINDOW 5: The Horizon -->
+    <div class="window" id="win-horizon" style="top: 95px; left: 310px; width: 450px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-horizon')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/goals - the_horizon</div>
+            <div></div>
+        </div>
+        <div class="window-body">
+            <div style="font-size: 0.75rem; font-weight: 700; margin-bottom: 10px;">LONG-TERM TARGETS & VISION</div>
+            
+            <div class="horizon-card">
+                <div class="horizon-title">
+                    <span>ACADEMIC MILESTONE</span>
+                    <span style="color: var(--accent-teal);">90% COMPLETE</span>
+                </div>
+                <div style="font-size: 0.7rem;">Target GCSE Target Grades across all core subjects.</div>
+            </div>
+
+            <div class="horizon-card">
+                <div class="horizon-title">
+                    <span>PORTFOLIO & PROJECTS</span>
+                    <span style="color: var(--accent-teal);">IN PROGRESS</span>
+                </div>
+                <div style="font-size: 0.7rem;">Build and deploy custom retro desktop interactive web app.</div>
+            </div>
+
+            <div class="horizon-card">
+                <div class="horizon-title">
+                    <span>SKILL MASTERY</span>
+                    <span style="color: var(--accent-teal);">ONGOING</span>
+                </div>
+                <div style="font-size: 0.7rem;">Master frontend development & algorithmic problem solving.</div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <input type="text" class="input-retro" id="horizon-input" placeholder="Add new horizon goal...">
+                <button class="btn-retro" onclick="addHorizonGoal()">ADD</button>
+            </div>
+            <div id="horizon-custom-list" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <!-- WINDOW 6: Master Marks Card -->
+    <div class="window" id="win-markscard" style="top: 85px; left: 280px; width: 500px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-markscard')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/academics - master_marks_card</div>
+            <div></div>
+        </div>
+        <div class="window-body">
+            <div style="font-size: 0.75rem; font-weight: 700; margin-bottom: 8px;">MASTER MARKS CARD</div>
+            <table class="retro-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Target Grade</th>
+                        <th>Current Grade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="marks-table-body">
+                    <tr>
+                        <td>Mathematics</td>
+                        <td>9</td>
+                        <td>8</td>
+                        <td>On Track</td>
+                    </tr>
+                    <tr>
+                        <td>Computer Science</td>
+                        <td>9</td>
+                        <td>9</td>
+                        <td>Achieved</td>
+                    </tr>
+                    <tr>
+                        <td>Physics</td>
+                        <td>8</td>
+                        <td>8</td>
+                        <td>On Track</td>
+                    </tr>
+                    <tr>
+                        <td>Chemistry</td>
+                        <td>8</td>
+                        <td>7</td>
+                        <td>Needs Focus</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="display: flex; gap: 6px; margin-top: 12px;">
+                <input type="text" id="m-subj" class="input-retro" placeholder="Subject" style="flex: 2;">
+                <input type="text" id="m-target" class="input-retro" placeholder="Target" style="flex: 1;">
+                <input type="text" id="m-curr" class="input-retro" placeholder="Current" style="flex: 1;">
+                <button class="btn-retro" onclick="addMarkRow()">ADD</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WINDOW 7: Spotify / Music -->
     <div class="window" id="win-spotify" style="top: 120px; left: 300px; width: 420px;">
         <div class="window-header">
             <div class="window-controls">
@@ -485,7 +704,7 @@
         </div>
     </div>
 
-    <!-- ADDED WINDOW 5: Custom Embedded Site Window -->
+    <!-- WINDOW 8: Custom Embedded Site Window -->
     <div class="window" id="win-custom-site" style="top: 90px; left: 280px; width: 550px; height: 420px;">
         <div class="window-header">
             <div class="window-controls">
@@ -496,7 +715,6 @@
             <div></div>
         </div>
         <div class="window-body" style="padding: 0; height: calc(100% - 32px);">
-            <!-- Change 'src' below to the URL of the site you want to display -->
             <iframe src="https://example.com" style="width: 100%; height: 100%; border: none;" title="Custom Site"></iframe>
         </div>
     </div>
@@ -660,7 +878,7 @@
                 const text = document.getElementById('sw-display').textContent;
                 const div = document.createElement('div');
                 div.style.display = 'flex';
-                div.style.justifySpaceBetween = 'space-between';
+                div.style.justifyContent = 'space-between';
                 div.innerHTML = `<span>LAP</span><span>${text}</span>`;
                 document.getElementById('sw-laps').prepend(div);
             }
@@ -746,6 +964,47 @@
         }
 
         renderCalendar();
+
+        // --- HORIZON GOALS APP ---
+        function addHorizonGoal() {
+            const input = document.getElementById('horizon-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const card = document.createElement('div');
+            card.className = 'horizon-card';
+            card.innerHTML = `
+                <div class="horizon-title">
+                    <span>${val.toUpperCase()}</span>
+                    <span style="color: var(--accent-teal);">NEW TARGET</span>
+                </div>
+                <div style="font-size: 0.7rem;">Added to active horizon queue.</div>
+            `;
+            document.getElementById('horizon-custom-list').prepend(card);
+            input.value = '';
+        }
+
+        // --- MASTER MARKS CARD APP ---
+        function addMarkRow() {
+            const subj = document.getElementById('m-subj').value.trim();
+            const target = document.getElementById('m-target').value.trim();
+            const curr = document.getElementById('m-curr').value.trim();
+
+            if (!subj || !target || !curr) return;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${subj}</td>
+                <td>${target}</td>
+                <td>${curr}</td>
+                <td>Tracked</td>
+            `;
+            document.getElementById('marks-table-body').appendChild(tr);
+
+            document.getElementById('m-subj').value = '';
+            document.getElementById('m-target').value = '';
+            document.getElementById('m-curr').value = '';
+        }
     </script>
 </body>
 </html>
