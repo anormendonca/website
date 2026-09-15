@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2028 Aspirant | High Performance</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 
     <style>
         :root { 
             --bg: #000000; --surface: #09090b; --border: #27272a; 
             --text: #f4f4f5; --muted: #a1a1aa; --accent: #ffffff; --success: #34d399;
+            --danger: #ff3b3b; --modal-bg: rgba(5, 5, 5, 0.95);
         }
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
             background: var(--bg); color: var(--text); margin: 0; padding: 24px 16px; 
             display: flex; flex-direction: column; align-items: center; line-height: 1.4; 
         }
@@ -54,16 +55,78 @@
 
         .split-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: start; }
         .mock-input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-
-        /* Calendar performance rules */
-        .fc { --fc-page-bg-color: transparent; --fc-neutral-bg-color: var(--bg); --fc-border-color: var(--border); --fc-button-bg-color: var(--surface); --fc-button-border-color: var(--border); --fc-button-text-color: var(--text); --fc-today-bg-color: rgba(255,255,255,0.04); --fc-event-bg-color: var(--accent); --fc-event-text-color: var(--bg); }
-        .fc-theme-standard td, .fc-theme-standard th { border-color: var(--border); }
-        .fc-toolbar-title { font-size: 0.95rem !important; font-weight: 600; }
-        .fc-timegrid-slot { height: 38px !important; }
         .status-tag { font-size: 0.75rem; color: var(--success); text-transform: none; font-weight: 400; }
+
+        /* --- NTRXI Calendar Styling --- */
+        #warning-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-bg); display: flex; align-items: center; justify-content: center;
+            z-index: 2000; backdrop-filter: blur(10px);
+        }
+        .modal-content { text-align: center; padding: 2rem; }
+        .modal-content h2 { font-weight: 800; letter-spacing: 0.5rem; text-transform: uppercase; font-size: 1rem; color: var(--text); justify-content: center; }
+        .modal-content p { font-size: 0.75rem; letter-spacing: 0.2rem; opacity: 0.6; text-transform: uppercase; margin: 1rem 0 2rem 0; color: var(--text); }
+        .close-hint { font-size: 0.6rem; letter-spacing: 0.4rem; opacity: 0.3; text-transform: uppercase; color: var(--text); }
+
+        .calendar-title {
+            font-size: 4rem; font-weight: 800; letter-spacing: -0.2rem;
+            margin: 0; text-align: center; text-transform: uppercase; line-height: 1;
+        }
+        .calendar-container { width: 100%; margin-top: 1.5rem; }
+        .calendar-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem; border: 1px solid var(--border);
+            text-transform: uppercase; letter-spacing: 0.3rem; font-size: 0.8rem;
+        }
+        .nav-btn {
+            background: transparent; border: none; color: var(--text);
+            cursor: pointer; font-weight: 800; font-family: 'Inter', sans-serif;
+            font-size: 1rem; padding: 0 1rem; transition: opacity 0.3s;
+        }
+        .nav-btn:hover { opacity: 0.5; }
+        .grid {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            border-left: 1px solid var(--border); border-top: 1px solid var(--border);
+        }
+        .day-label {
+            padding: 1rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            text-align: center; font-size: 0.6rem; letter-spacing: 0.2rem; opacity: 0.3; text-transform: uppercase;
+        }
+        .cell {
+            min-height: 90px; padding: 8px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            transition: background 0.3s; cursor: pointer; position: relative; box-sizing: border-box;
+        }
+        .cell:hover { background: #111115; }
+        .cell.today { background: #18181b; }
+        .cell.today::after {
+            content: ''; position: absolute; top: 5px; right: 5px; width: 4px; height: 4px; background: white; border-radius: 50%;
+        }
+        .date-num { font-size: 0.7rem; opacity: 0.5; font-weight: 800; pointer-events: none; }
+        .event-item {
+            font-size: 0.55rem; background: white; color: black; margin-top: 4px;
+            padding: 4px 6px; text-transform: uppercase; font-weight: 800;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            transition: all 0.2s ease; border-radius: 2px;
+        }
+        .event-item:hover {
+            background: var(--danger); color: white; text-decoration: line-through;
+        }
+
+        @media (max-width: 768px) {
+            .calendar-title { font-size: 2.5rem; letter-spacing: -0.1rem; }
+            .cell { min-height: 60px; }
+        }
     </style>
 </head>
 <body>
+
+    <div id="warning-modal">
+        <div class="modal-content">
+            <h2>System Notice</h2>
+            <p>Calendar events are stored locally. Clearing cache will wipe your schedule.</p>
+            <div class="close-hint">Press [ X ] to acknowledge</div>
+        </div>
+    </div>
 
     <div class="container">
         
@@ -100,9 +163,19 @@
             </div>
         </div>
 
+        <!-- NTRXI Grid Calendar Integration -->
         <div class="section">
-            <h2>Time Blocking</h2>
-            <div id="calendar" style="min-height: 500px;"></div>
+            <h2>Schedule & Calendar</h2>
+            <h1 class="calendar-title" id="month-name">January</h1>
+            
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="nav-btn" onclick="changeMonth(-1)">[ &lt; ]</button>
+                    <span id="year-label">2026</span>
+                    <button class="nav-btn" onclick="changeMonth(1)">[ &gt; ]</button>
+                </div>
+                <div class="grid" id="calendar-grid"></div>
+            </div>
         </div>
 
         <div class="section">
@@ -127,9 +200,10 @@
 
     </div>
 
+    <!-- Firebase & Dynamic Dashboard Module Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBRehg17cWxXYC9u25lXyZOWVyHuejZ3EE",
@@ -151,7 +225,6 @@
             school: ["1st PUC: 1st Term", "1st PUC: Midterm", "1st PUC: 2nd Term", "1st PUC: Prep Exam", "2nd PUC: 1st Term", "2nd PUC: Midterm", "2nd PUC: 2nd Term", "2nd PUC: Prep I", "2nd PUC: Prep II", "2nd PUC: Prep III", "2nd PUC: Prep IV", "2nd PUC: Prep V"]
         };
 
-        // --- OPTIMIZED DOM GENERATION ---
         function renderTables() {
             Object.keys(syllabus).forEach(subject => {
                 let rows = [`<tr><th>Topic / Assessment</th><th style="width:90px;">Max</th><th style="width:90px;">Obtained</th></tr>`];
@@ -168,7 +241,6 @@
             });
         }
 
-        // Fast Event Delegation for Input Calculation
         document.body.addEventListener('input', (e) => {
             if (e.target.classList.contains('marks-input')) {
                 calcTotals(e.target.dataset.subject);
@@ -183,7 +255,6 @@
             document.getElementById(`total_obt_${subject}`).innerText = totalObt;
         }
 
-        // Tab Switching Delegation
         document.getElementById('tabHeader').addEventListener('click', (e) => {
             if (!e.target.classList.contains('tab-btn')) return;
             const tabId = e.target.dataset.tab;
@@ -195,7 +266,6 @@
             e.target.classList.add('active');
         });
 
-        // Cloud Operations with Error Handling
         document.getElementById('saveMarksBtn').addEventListener('click', async () => {
             const status = document.getElementById('syncStatus');
             status.innerText = "● Saving...";
@@ -226,50 +296,6 @@
             } catch(e) { console.error("Error loading marks:", e); }
         }
 
-        // --- OPTIMIZED CALENDAR ---
-        function initCalendar() {
-            const calendarEl = document.getElementById('calendar');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridWeek',
-                headerToolbar: { left: 'prev,next today', center: 'title', right: 'timeGridWeek,timeGridDay' },
-                slotMinTime: '06:00:00',
-                slotMaxTime: '23:00:00',
-                height: 550,
-                editable: true,
-                selectable: true,
-                events: async function(info, success, fail) {
-                    try {
-                        const snap = await getDocs(collection(db, "calendar_events"));
-                        success(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-                    } catch(e) { fail(e); }
-                },
-                select: async function(arg) {
-                    const title = prompt('Block Title:');
-                    if (title) {
-                        const eventId = Date.now().toString();
-                        calendar.addEvent({ id: eventId, title, start: arg.start, end: arg.end });
-                        await setDoc(doc(db, "calendar_events", eventId), {
-                            title, start: arg.startStr, end: arg.endStr
-                        });
-                    }
-                    calendar.unselect();
-                },
-                eventChange: async function(change) {
-                    await setDoc(doc(db, "calendar_events", change.event.id), {
-                        title: change.event.title, start: change.event.startStr, end: change.event.endStr
-                    }, { merge: true });
-                },
-                eventClick: async function(arg) {
-                    if (confirm(`Delete '${arg.event.title}'?`)) {
-                        arg.event.remove();
-                        await deleteDoc(doc(db, "calendar_events", arg.event.id));
-                    }
-                }
-            });
-            calendar.render();
-        }
-
-        // --- MOCK ANALYTICS ---
         document.getElementById('saveMockBtn').addEventListener('click', async () => {
             const type = document.getElementById('testType').value;
             const num = document.getElementById('testNumber').value;
@@ -321,14 +347,122 @@
             } catch(e) { console.error("Error loading mocks:", e); }
         }
 
-        // Fast Async Boot
         renderTables();
-        initCalendar();
         loadMarks();
         loadMockData();
     </script>
 
+    <!-- NTRXI Grid Calendar Script & Standard Page Features -->
     <script>
+        // Modal Event Listener
+        const modal = document.getElementById('warning-modal');
+        window.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'x' && modal) modal.style.display = 'none';
+        });
+
+        // Calendar State
+        let events = JSON.parse(localStorage.getItem('ntrxi_events')) || {};
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        let today = new Date();
+
+        function initCalendar() {
+            const monthLabel = document.getElementById('month-name');
+            const yearLabel = document.getElementById('year-label');
+            const grid = document.getElementById('calendar-grid');
+
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            monthLabel.textContent = monthNames[currentMonth];
+            yearLabel.textContent = currentYear;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            grid.innerHTML = '';
+
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            days.forEach(day => {
+                const label = document.createElement('div');
+                label.className = 'day-label';
+                label.textContent = day;
+                grid.appendChild(label);
+            });
+
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'cell';
+                grid.appendChild(empty);
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                
+                if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    cell.classList.add('today');
+                }
+                
+                const dateId = `${currentYear}-${currentMonth}-${d}`;
+                cell.innerHTML = `<div class="date-num">${d}</div>`;
+                
+                if (events[dateId]) {
+                    events[dateId].forEach((evText, index) => {
+                        const eventDiv = document.createElement('div');
+                        eventDiv.className = 'event-item';
+                        eventDiv.textContent = evText;
+                        eventDiv.onclick = (e) => {
+                            e.stopPropagation();
+                            if(confirm(`Delete "${evText}"?`)) {
+                                deleteEvent(dateId, index);
+                            }
+                        };
+                        cell.appendChild(eventDiv);
+                    });
+                }
+
+                cell.onclick = () => addEvent(dateId);
+                grid.appendChild(cell);
+            }
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            initCalendar();
+        }
+
+        function addEvent(dateId) {
+            const val = prompt("Enter event for this day:");
+            if (val) {
+                if (!events[dateId]) events[dateId] = [];
+                events[dateId].push(val);
+                saveAndRender();
+            }
+        }
+
+        function deleteEvent(dateId, index) {
+            events[dateId].splice(index, 1);
+            if(events[dateId].length === 0) delete events[dateId];
+            saveAndRender();
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('ntrxi_events', JSON.stringify(events));
+            initCalendar();
+        }
+
+        // Initialize Calendar Grid
+        initCalendar();
+
+        // Grounding Quotes & Horizon Logic
         const quotes = [
             '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
             '"We know that suffering produces perseverance; character; and hope." – Romans 5:3',
@@ -338,8 +472,8 @@
         document.getElementById('quoteDisplay').innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
         function updateCountdowns() {
-            const today = new Date().getTime();
-            const calcDays = (t) => Math.max(0, Math.ceil((new Date(t).getTime() - today) / 86400000));
+            const todayTime = new Date().getTime();
+            const calcDays = (t) => Math.max(0, Math.ceil((new Date(t).getTime() - todayTime) / 86400000));
             document.getElementById('neet').innerText = calcDays('May 5, 2028');
             document.getElementById('jee').innerText = calcDays('Jan 15, 2028');
             document.getElementById('boards').innerText = calcDays('Mar 1, 2028');
