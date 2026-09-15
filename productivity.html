@@ -3,614 +3,617 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>anor. | focus</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>/home/anor - desktop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #050505;
-            --text: #ffffff;
-            --secondary: #111111;
-            --border: #333333;
-            --accent: #ffffff;
-            --danger: #ff3b3b;
-            --sidebar-width: 300px;
-            --modal-bg: rgba(5, 5, 5, 0.95);
+            --bg-cream: #f4ead5;
+            --bg-teal: #a5cbd1;
+            --window-bg: #fdfbf7;
+            --border-color: #1a1a1a;
+            --accent-teal: #82b5ba;
+            --text-main: #1a1a1a;
+            --shadow: 4px 4px 0px #1a1a1a;
+            --font-mono: 'Space Mono', monospace;
+            --font-pixel: 'VT323', monospace;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            user-select: none;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--bg-cream);
+            background-image: 
+                radial-gradient(circle at 100% 100%, var(--bg-teal) 0%, var(--bg-teal) 35%, transparent 35%),
+                radial-gradient(circle at 0% 0%, var(--bg-teal) 0%, var(--bg-teal) 25%, transparent 25%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: var(--font-mono);
             height: 100vh;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            position: relative;
         }
 
-        /* --- System Notice Modal --- */
-        #warning-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--modal-bg); display: flex; align-items: center; justify-content: center;
-            z-index: 2000; backdrop-filter: blur(10px);
-        }
-        .modal-content { text-align: center; padding: 2rem; }
-        .modal-content h2 { font-weight: 800; letter-spacing: 0.5rem; text-transform: uppercase; font-size: 1rem; color: var(--text); justify-content: center; margin-bottom: 1rem; }
-        .modal-content p { font-size: 0.75rem; letter-spacing: 0.2rem; opacity: 0.6; text-transform: uppercase; margin: 1rem 0 2rem 0; color: var(--text); }
-        .close-hint { font-size: 0.6rem; letter-spacing: 0.4rem; opacity: 0.3; text-transform: uppercase; color: var(--text); }
-
-        /* --- Header / Logo --- */
-        header {
-            position: absolute;
+        /* --- Top Menu Bar --- */
+        .menu-bar {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 2rem 0;
-            text-align: center;
-            z-index: 60;
-            pointer-events: none;
-        }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 800;
-            letter-spacing: 0.1rem;
-            text-transform: lowercase;
-            pointer-events: auto; 
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-        .logo:hover { transform: scale(1.5); }
-
-        /* --- Vertical Side Triggers --- */
-        .side-triggers {
-            position: fixed;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            z-index: 100;
-            padding-left: 15px;
-        }
-
-        .trigger-btn {
-            background: transparent;
-            border: none;
-            color: var(--text);
-            opacity: 0.5;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-            font-size: 0.7rem;
-            letter-spacing: 0.2rem;
-            text-transform: uppercase;
-            font-weight: 800;
-        }
-
-        .trigger-btn:hover, .trigger-btn.active {
-            opacity: 1;
-            transform: rotate(180deg) translateX(-5px); 
-        }
-
-        /* --- Sidebar (Off-Canvas) --- */
-        .sidebar {
-            position: fixed;
-            left: -350px;
-            top: 0;
-            height: 100%;
-            width: var(--sidebar-width);
-            background: var(--bg);
-            border-right: 1px solid var(--border);
-            z-index: 90;
-            transition: left 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-        }
-        .sidebar.open { left: 0; }
-
-        .sidebar-header {
-            font-size: 1rem;
-            font-weight: 800;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
+            height: 32px;
+            background: var(--window-bg);
+            border-bottom: 2.5px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            text-transform: uppercase;
-            letter-spacing: 0.2rem;
+            padding: 0 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 9999;
         }
-        .close-btn { background: none; border: none; color: var(--text); font-size: 1.2rem; cursor: pointer; }
 
-        .sidebar-content { display: none; opacity: 0; transition: opacity 0.3s ease; }
-        .sidebar-content.active { display: block; opacity: 1; }
-
-        .social-link {
+        .menu-left, .menu-right {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--secondary);
-            text-decoration: none;
-            color: var(--text);
-            font-size: 0.9rem;
-            transition: 0.2s;
         }
-        .social-link:hover { padding-left: 10px; color: #aaa; }
 
-        /* --- MAIN CONTENT AREA --- */
-        main {
-            flex: 1;
-            position: relative;
+        .menu-item {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .menu-item:hover { opacity: 0.6; }
+
+        .app-logo-icon {
+            border: 2px solid var(--border-color);
+            padding: 1px 4px;
+            font-weight: 800;
+            background: var(--bg-cream);
+        }
+
+        /* --- Desktop Icons (Right Side) --- */
+        .desktop-icons {
+            position: fixed;
+            right: 20px;
+            top: 50px;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 10;
         }
 
-        .section {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
+        .icon-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
-            text-align: center;
-        }
-
-        .section.active-section {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* --- Typography & Displays --- */
-        .huge-display {
-            font-family: 'Inter', sans-serif;
-            font-size: 11rem;
-            font-weight: 800;
-            line-height: 1;
-            margin: 0;
-            letter-spacing: -0.4rem;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .subtitle {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4rem;
-            opacity: 0.4;
-            margin-top: 1rem;
-        }
-
-        /* Specific for Clock AM/PM */
-        .ampm-small {
-            font-size: 3rem;
-            letter-spacing: 0;
-            margin-left: 5px;
-            opacity: 0.5;
-            font-weight: 400;
-        }
-
-        /* --- Controls & Inputs --- */
-        .controls {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 3rem;
-        }
-
-        button.control-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.8rem 2.5rem;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.2rem;
+            gap: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 0;
-        }
-
-        button.control-btn:hover {
-            background: var(--text);
-            color: var(--bg);
-            border-color: var(--text);
-        }
-
-        /* Inputs for Timer */
-        .timer-setup { display: flex; gap: 10px; align-items: baseline; }
-        .input-wrapper { display: flex; flex-direction: column; align-items: center; }
-        .timer-input {
+            width: 70px;
             background: transparent;
             border: none;
-            border-bottom: 2px solid var(--border);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-size: 4rem;
-            font-weight: 800;
-            width: 120px;
-            text-align: center;
-            padding: 10px;
-        }
-        .timer-input:focus { outline: none; border-bottom-color: var(--text); }
-
-        /* --- Laps --- */
-        .laps-container {
-            margin-top: 30px;
-            max-height: 150px;
-            overflow-y: auto;
-            width: 300px;
-            border-top: 1px solid var(--border);
-            padding-top: 10px;
-        }
-        .lap-row {
-            display: flex;
-            justify-content: space-between;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: #666;
-            padding: 4px 0;
-            border-bottom: 1px solid #111;
-        }
-
-        /* --- GRID CALENDAR STYLES --- */
-        .calendar-title {
-            font-size: 3rem; font-weight: 800; letter-spacing: -0.1rem;
-            margin: 0 0 1rem 0; text-align: center; text-transform: uppercase; line-height: 1;
-        }
-        .calendar-container { width: 100%; max-width: 750px; padding: 0 10px; max-height: 60vh; overflow-y: auto; }
-        .calendar-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0.8rem 1rem; border: 1px solid var(--border);
-            text-transform: uppercase; letter-spacing: 0.2rem; font-size: 0.8rem;
-        }
-        .nav-btn {
-            background: transparent; border: none; color: var(--text);
-            cursor: pointer; font-weight: 800; font-family: 'Inter', sans-serif;
-            font-size: 0.9rem; padding: 0 0.8rem; transition: opacity 0.3s;
-        }
-        .nav-btn:hover { opacity: 0.5; }
-        .grid {
-            display: grid; grid-template-columns: repeat(7, 1fr);
-            border-left: 1px solid var(--border); border-top: 1px solid var(--border);
-        }
-        .day-label {
-            padding: 0.6rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-            text-align: center; font-size: 0.6rem; letter-spacing: 0.15rem; opacity: 0.4; text-transform: uppercase;
-        }
-        .cell {
-            min-height: 70px; padding: 6px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-            transition: background 0.3s; cursor: pointer; position: relative; box-sizing: border-box; text-align: left;
-        }
-        .cell:hover { background: #111115; }
-        .cell.today { background: #18181b; }
-        .cell.today::after {
-            content: ''; position: absolute; top: 5px; right: 5px; width: 4px; height: 4px; background: white; border-radius: 50%;
-        }
-        .date-num { font-size: 0.7rem; opacity: 0.5; font-weight: 800; pointer-events: none; }
-        .event-item {
-            font-size: 0.55rem; background: white; color: black; margin-top: 4px;
-            padding: 2px 4px; text-transform: uppercase; font-weight: 800;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            transition: all 0.2s ease; border-radius: 2px;
-        }
-        .event-item:hover {
-            background: var(--danger); color: white; text-decoration: line-through;
-        }
-
-        /* --- SPOTIFY CONTAINER --- */
-        .spotify-container {
-            width: 100%;
-            max-width: 500px;
-            padding: 0 20px;
-        }
-
-        /* --- Footer Navigation --- */
-        footer {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 3rem;
-            z-index: 50;
-        }
-
-        .nav-item {
+            color: var(--text-main);
+            font-family: var(--font-mono);
             font-size: 0.7rem;
-            font-weight: 800;
+            font-weight: 700;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .icon-btn:hover .icon-box {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--border-color);
+            background: var(--accent-teal);
+        }
+
+        /* --- Left Widget Panel --- */
+        .widget-panel {
+            position: fixed;
+            left: 20px;
+            top: 50px;
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 5;
+        }
+
+        .widget-card {
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .widget-clock {
+            text-align: center;
+        }
+
+        .widget-time {
+            font-family: var(--font-pixel);
+            font-size: 2.8rem;
+            line-height: 1;
+            margin: 8px 0;
+        }
+
+        .stat-bar {
+            margin: 6px 0;
+            font-size: 0.65rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.2rem;
-            color: #444;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            position: relative;
         }
 
-        .nav-item:hover { color: #888; }
-        
-        .nav-item.active { color: var(--text); }
-        .nav-item.active::after {
-            content: '';
+        .bar-outer {
+            height: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            background: #fff;
+            margin-top: 2px;
+        }
+
+        .bar-inner {
+            height: 100%;
+            background: var(--accent-teal);
+        }
+
+        /* --- Window System --- */
+        .window {
             position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
-            background: var(--text);
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 6px 6px 0px var(--border-color);
+            min-width: 320px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .window.active {
+            display: flex;
+        }
+
+        .window-header {
+            background: var(--window-bg);
+            border-bottom: 2.5px solid var(--border-color);
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: move;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .win-btn {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            background: var(--window-bg);
         }
 
-        /* Overlay */
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 80; opacity: 0;
-            pointer-events: none; transition: 0.3s;
-        }
-        .overlay.active { opacity: 1; pointer-events: auto; }
-        
-        /* Mobile adjust */
-        @media (max-width: 768px) {
-            .huge-display { font-size: 5rem; letter-spacing: -0.2rem; }
-            .timer-input { font-size: 3rem; width: 80px; }
-            footer { gap: 1.5rem; bottom: 20px; }
-            .nav-item { font-size: 0.6rem; letter-spacing: 0.1rem; }
-            .calendar-title { font-size: 2rem; }
-            .cell { min-height: 50px; }
-            .spotify-container { max-width: 100%; }
+        .win-btn.close:hover { background: #ff5f56; }
+        .win-btn.min:hover { background: #ffbd2e; }
+
+        .window-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: lowercase;
+            letter-spacing: 0.05rem;
         }
 
+        .window-body {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        /* --- Custom Controls inside Windows --- */
+        .btn-retro {
+            background: var(--window-bg);
+            border: 2px solid var(--border-color);
+            padding: 6px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px var(--border-color);
+            transition: all 0.1s;
+        }
+
+        .btn-retro:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0px var(--border-color);
+            background: var(--accent-teal);
+        }
+
+        .btn-retro:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--border-color);
+        }
+
+        .input-retro {
+            background: #fff;
+            border: 2px solid var(--border-color);
+            padding: 6px;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            text-align: center;
+            width: 70px;
+            outline: none;
+        }
+
+        /* --- App Specific Styles --- */
+        .timer-display {
+            font-family: var(--font-pixel);
+            font-size: 4.5rem;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border-top: 2px solid var(--border-color);
+            border-left: 2px solid var(--border-color);
+        }
+
+        .cal-cell {
+            border-right: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            min-height: 48px;
+            padding: 4px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        .cal-cell:hover { background: var(--bg-cream); }
+        .cal-cell.today { background: var(--accent-teal); font-weight: 800; }
+
+        .cal-header-cell {
+            border-right: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.65rem;
+            padding: 4px;
+            background: var(--bg-cream);
+        }
+
+        .cal-event {
+            background: var(--border-color);
+            color: #fff;
+            font-size: 0.55rem;
+            padding: 1px 3px;
+            margin-top: 2px;
+            border-radius: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lap-list {
+            max-height: 100px;
+            overflow-y: auto;
+            margin-top: 10px;
+            border-top: 2px solid var(--border-color);
+            padding-top: 5px;
+            font-size: 0.7rem;
+        }
     </style>
 </head>
 <body>
 
-    <div id="warning-modal">
-        <div class="modal-content">
-            <h2>System Notice</h2>
-            <p>Calendar events are stored locally. Clearing cache will wipe your schedule.</p>
-            <div class="close-hint">Press [ X ] to acknowledge</div>
+    <!-- Top Menu Bar -->
+    <div class="menu-bar">
+        <div class="menu-left">
+            <span class="app-logo-icon">a</span>
+            <span class="menu-item">Play</span>
+            <span class="menu-item">Edit</span>
+            <span class="menu-item">Window</span>
+            <span class="menu-item">Enjoy</span>
+        </div>
+        <div class="menu-right">
+            <span id="active-win-title">/home/fun - browser</span>
+            <span id="top-bar-clock">Sat Oct 16 11:28 AM</span>
         </div>
     </div>
 
-    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+    <!-- Left Widget Panel -->
+    <div class="widget-panel">
+        <div class="widget-card widget-clock">
+            <div style="font-size: 0.65rem; font-weight: 700;">SYSTEM TIME</div>
+            <div class="widget-time" id="side-clock">11:28 AM</div>
+            <div style="font-size: 0.6rem; opacity: 0.8;" id="side-date">OCTOBER 16, 2026</div>
+        </div>
 
-    <header>
-        <div class="logo">anor.</div>
-    </header>
+        <div class="widget-card">
+            <div class="stat-bar">vol <div class="bar-outer"><div class="bar-inner" style="width: 75%;"></div></div></div>
+            <div class="stat-bar">cpu <div class="bar-outer"><div class="bar-inner" style="width: 40%;"></div></div></div>
+            <div class="stat-bar">ram <div class="bar-outer"><div class="bar-inner" style="width: 60%;"></div></div></div>
+        </div>
 
-    <div class="side-triggers">
-        <button class="trigger-btn" onclick="openSidebar('socials', this)">Socials</button>
+        <div class="widget-card" style="font-size: 0.65rem;">
+            <div style="font-weight: 700; margin-bottom: 4px;">NOW PLAYING</div>
+            <div style="opacity: 0.7;">Focus Audio - Lofi Beats</div>
+        </div>
     </div>
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span id="sidebar-title">Menu</span>
-            <button class="close-btn" onclick="closeSidebar()">✕</button>
-        </div>
+    <!-- Desktop Icons (Right Side Launchers) -->
+    <div class="desktop-icons">
+        <button class="icon-btn" onclick="openWindow('win-timer')">
+            <div class="icon-box"><i class="fa-solid fa-hourglass-start"></i></div>
+            <span>Timer</span>
+        </button>
 
-        <div id="content-socials" class="sidebar-content">
-            <a href="https://drive.google.com/drive/folders/1pxtHUOgAenDyaFPaF6kgvqEw4yA_6lqf?usp=sharing" target="_blank" class="social-link">Google Drive ↗</a>
-            <a href="http://discord.gg/b67X2Gdkw7/" target="_blank" class="social-link">Discord ↗</a>
-        </div>
-    </aside>
+        <button class="icon-btn" onclick="openWindow('win-stopwatch')">
+            <div class="icon-box"><i class="fa-solid fa-stopwatch"></i></div>
+            <span>Stopwatch</span>
+        </button>
 
-    <main>
-        
-        <div id="section-clock" class="section active-section">
-            <div class="huge-display" id="clock-time">12:00<span class="ampm-small">AM</span></div>
-            <div class="subtitle" id="clock-date">LOADING DATE</div>
-        </div>
+        <button class="icon-btn" onclick="openWindow('win-calendar')">
+            <div class="icon-box"><i class="fa-solid fa-calendar-days"></i></div>
+            <span>Calendar</span>
+        </button>
 
-        <div id="section-timer" class="section">
-            <div class="timer-setup" id="timer-setup">
-                <div class="input-wrapper">
-                    <input type="number" id="t-min" class="timer-input" placeholder="25" value="25">
-                    <span style="font-size:0.8rem; color:#444; margin-top:5px;">MIN</span>
+        <button class="icon-btn" onclick="openWindow('win-spotify')">
+            <div class="icon-box"><i class="fa-solid fa-music"></i></div>
+            <span>Music</span>
+        </button>
+
+        <button class="icon-btn" onclick="window.open('https://drive.google.com/drive/folders/1pxtHUOgAenDyaFPaF6kgvqEw4yA_6lqf?usp=sharing', '_blank')">
+            <div class="icon-box"><i class="fa-solid fa-folder-open"></i></div>
+            <span>GCSE Drive</span>
+        </button>
+
+        <button class="icon-btn" onclick="window.open('https://anormendonca.github.io/website', '_blank')">
+            <div class="icon-box"><i class="fa-solid fa-user-astronaut"></i></div>
+            <span>Portfolio</span>
+        </button>
+    </div>
+
+    <!-- WINDOW 1: Focus Timer -->
+    <div class="window active" id="win-timer" style="top: 100px; left: 270px; width: 360px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-timer')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/apps - focus_timer</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="text-align: center;">
+            <div id="timer-setup">
+                <div style="display: flex; gap: 10px; justify-content: center; align-items: center; margin-bottom: 15px;">
+                    <input type="number" id="t-min" class="input-retro" value="25" min="0"> <span style="font-size:0.7rem;">MIN</span>
+                    <input type="number" id="t-sec" class="input-retro" value="00" min="0" max="59"> <span style="font-size:0.7rem;">SEC</span>
                 </div>
-                <div class="input-wrapper">
-                    <input type="number" id="t-sec" class="timer-input" placeholder="00" value="00">
-                    <span style="font-size:0.8rem; color:#444; margin-top:5px;">SEC</span>
-                </div>
             </div>
-
-            <div id="timer-display" class="huge-display" style="display:none;">25:00</div>
-            <div class="subtitle" id="timer-status">SESSION CONFIG</div>
-
-            <div class="controls">
-                <button class="control-btn" id="timer-start" onclick="startTimer()">Start</button>
-                <button class="control-btn" onclick="resetTimer()">Reset</button>
+            <div class="timer-display" id="timer-display">25:00</div>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <button class="btn-retro" id="timer-start-btn" onclick="startTimer()">START</button>
+                <button class="btn-retro" onclick="resetTimer()">RESET</button>
             </div>
         </div>
+    </div>
 
-        <div id="section-stopwatch" class="section">
-            <div class="huge-display" id="sw-display">00:00</div>
-            <div class="subtitle" id="sw-ms" style="font-family:'JetBrains Mono'; letter-spacing:0;">.00</div>
-            
-            <div class="controls">
-                <button class="control-btn" id="sw-start-btn" onclick="toggleStopwatch()">Start</button>
-                <button class="control-btn" onclick="lapStopwatch()">Lap</button>
-                <button class="control-btn" onclick="resetStopwatch()">Reset</button>
+    <!-- WINDOW 2: Stopwatch -->
+    <div class="window" id="win-stopwatch" style="top: 140px; left: 320px; width: 340px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-stopwatch')"></div>
+                <div class="win-btn min"></div>
             </div>
-            
-            <div class="laps-container" id="sw-laps"></div>
+            <div class="window-title">/home/apps - stopwatch</div>
+            <div></div>
         </div>
-        
-        <div id="section-calendar" class="section">
-            <h1 class="calendar-title" id="month-name">January</h1>
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <button class="nav-btn" onclick="changeMonth(-1)">[ &lt; ]</button>
-                    <span id="year-label">2026</span>
-                    <button class="nav-btn" onclick="changeMonth(1)">[ &gt; ]</button>
-                </div>
-                <div class="grid" id="calendar-grid"></div>
+        <div class="window-body" style="text-align: center;">
+            <div class="timer-display" id="sw-display">00:00<span id="sw-ms" style="font-size: 2rem;">.00</span></div>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
+                <button class="btn-retro" id="sw-start-btn" onclick="toggleStopwatch()">START</button>
+                <button class="btn-retro" onclick="lapStopwatch()">LAP</button>
+                <button class="btn-retro" onclick="resetStopwatch()">RESET</button>
             </div>
+            <div class="lap-list" id="sw-laps"></div>
         </div>
+    </div>
 
-        <div id="section-spotify" class="section">
-            <div class="spotify-container">
-                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2ZqCkf2cWWFbB6ORZnmUlt?utm_source=generator&theme=0&si=0bb1abd280b848c4" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <!-- WINDOW 3: Calendar -->
+    <div class="window" id="win-calendar" style="top: 80px; left: 260px; width: 480px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-calendar')"></div>
+                <div class="win-btn min"></div>
             </div>
+            <div class="window-title">/home/apps - calendar</div>
+            <div></div>
         </div>
+        <div class="window-body">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <button class="btn-retro" onclick="changeMonth(-1)">&lt;</button>
+                <span id="cal-month-year" style="font-weight: 700; font-size: 0.85rem;">OCTOBER 2026</span>
+                <button class="btn-retro" onclick="changeMonth(1)">&gt;</button>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+    </div>
 
-    </main>
-
-    <footer>
-        <div class="nav-item active" onclick="switchSection('clock', this)">Clock</div>
-        <div class="nav-item" onclick="switchSection('timer', this)">Timer</div>
-        <div class="nav-item" onclick="switchSection('stopwatch', this)">Stopwatch</div>
-        <div class="nav-item" onclick="switchSection('calendar', this)">Calendar</div>
-        <div class="nav-item" onclick="switchSection('spotify', this)">Spotify</div>
-    </footer>
+    <!-- WINDOW 4: Spotify / Music -->
+    <div class="window" id="win-spotify" style="top: 120px; left: 300px; width: 420px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-spotify')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/fun - audio_player</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="padding: 0;">
+            <iframe style="border-radius: 0; display: block;" src="https://open.spotify.com/embed/playlist/2ZqCkf2cWWFbB6ORZnmUlt?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </div>
 
     <script>
-        // --- SYSTEM NOTICE MODAL ---
-        const warningModal = document.getElementById('warning-modal');
-        window.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'x' && warningModal) {
-                warningModal.style.display = 'none';
-            }
-        });
+        // --- WINDOW DRAGGING SYSTEM ---
+        let topZIndex = 100;
 
-        // --- CLOCK ---
-        function updateClock() {
+        function makeDraggable(win) {
+            const header = win.querySelector('.window-header');
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            header.onmousedown = (e) => {
+                e.preventDefault();
+                topZIndex++;
+                win.style.zIndex = topZIndex;
+                document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = () => {
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                };
+                document.onmousemove = (e) => {
+                    e.preventDefault();
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    win.style.top = (win.offsetTop - pos2) + "px";
+                    win.style.left = (win.offsetLeft - pos1) + "px";
+                };
+            };
+
+            win.addEventListener('mousedown', () => {
+                topZIndex++;
+                win.style.zIndex = topZIndex;
+                document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+            });
+        }
+
+        document.querySelectorAll('.window').forEach(makeDraggable);
+
+        function openWindow(id) {
+            const win = document.getElementById(id);
+            win.classList.add('active');
+            topZIndex++;
+            win.style.zIndex = topZIndex;
+            document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+        }
+
+        function closeWindow(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // --- CLOCK MANAGEMENT ---
+        function updateClocks() {
             const now = new Date();
             let hours = now.getHours();
             const minutes = now.getMinutes().toString().padStart(2, '0');
             const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
+            hours = hours % 12 || 12;
+
+            const timeStr = `${hours}:${minutes} ${ampm}`;
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             
-            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).toUpperCase();
+            const topStr = `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()} ${timeStr}`;
             
-            document.getElementById('clock-time').innerHTML = `${hours}:${minutes}<span class="ampm-small">${ampm}</span>`;
-            document.getElementById('clock-date').textContent = dateStr;
+            document.getElementById('top-bar-clock').textContent = topStr;
+            document.getElementById('side-clock').textContent = timeStr;
+            document.getElementById('side-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateClocks, 1000);
+        updateClocks();
 
-        // --- NAVIGATION ---
-        function switchSection(id, btn) {
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            btn.classList.add('active');
-            
-            document.querySelectorAll('.section').forEach(el => el.classList.remove('active-section'));
-            document.getElementById(`section-${id}`).classList.add('active-section');
-        }
-
-        // --- SIDEBAR ---
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const sbTitle = document.getElementById('sidebar-title');
-
-        function openSidebar(type, btn) {
-            document.querySelectorAll('.trigger-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            document.querySelectorAll('.sidebar-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(`content-${type}`).classList.add('active');
-            sbTitle.innerText = type.toUpperCase();
-            
-            sidebar.classList.add('open');
-            overlay.classList.add('active');
-        }
-
-        function closeSidebar() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('active');
-            document.querySelectorAll('.trigger-btn').forEach(b => b.classList.remove('active'));
-        }
-
-        // --- TIMER ---
+        // --- TIMER APP ---
         let timerInt, totalSec = 0, isTimerRunning = false;
 
         function startTimer() {
             const display = document.getElementById('timer-display');
-            const setup = document.getElementById('timer-setup');
-            const status = document.getElementById('timer-status');
-            const btn = document.getElementById('timer-start');
+            const btn = document.getElementById('timer-start-btn');
 
             if (!isTimerRunning) {
-                if (display.style.display === 'none') {
+                if (totalSec === 0) {
                     const m = parseInt(document.getElementById('t-min').value) || 0;
                     const s = parseInt(document.getElementById('t-sec').value) || 0;
                     totalSec = m * 60 + s;
-                    if(totalSec <= 0) return;
-                    setup.style.display = 'none';
-                    display.style.display = 'block';
-                    status.textContent = "FOCUS ACTIVE";
                 }
-                
+                if (totalSec <= 0) return;
+
                 isTimerRunning = true;
                 btn.textContent = 'PAUSE';
-                
+
                 timerInt = setInterval(() => {
                     if (totalSec <= 0) {
                         clearInterval(timerInt);
                         isTimerRunning = false;
                         btn.textContent = 'START';
-                        status.textContent = "SESSION COMPLETE";
+                        display.textContent = "00:00";
                     } else {
                         totalSec--;
-                        const tm = Math.floor(totalSec/60).toString().padStart(2,'0');
-                        const ts = (totalSec%60).toString().padStart(2,'0');
+                        const tm = Math.floor(totalSec / 60).toString().padStart(2, '0');
+                        const ts = (totalSec % 60).toString().padStart(2, '0');
                         display.textContent = `${tm}:${ts}`;
-                        document.title = `${tm}:${ts} | Focus`;
                     }
                 }, 1000);
             } else {
                 clearInterval(timerInt);
                 isTimerRunning = false;
                 btn.textContent = 'RESUME';
-                status.textContent = "PAUSED";
             }
         }
 
         function resetTimer() {
             clearInterval(timerInt);
             isTimerRunning = false;
-            document.getElementById('timer-start').textContent = 'START';
-            document.getElementById('timer-display').style.display = 'none';
-            document.getElementById('timer-setup').style.display = 'flex';
-            document.getElementById('timer-status').textContent = 'SESSION CONFIG';
-            document.title = "anor. | focus";
+            totalSec = 0;
+            document.getElementById('timer-start-btn').textContent = 'START';
+            document.getElementById('timer-display').textContent = '25:00';
         }
 
-        // --- STOPWATCH ---
-        let swInt, swTime=0, swRunning=false;
+        // --- STOPWATCH APP ---
+        let swInt, swTime = 0, swRunning = false;
 
         function toggleStopwatch() {
             const btn = document.getElementById('sw-start-btn');
-            if(!swRunning) {
+            if (!swRunning) {
                 swRunning = true;
                 btn.textContent = 'STOP';
                 const startT = Date.now() - swTime;
                 swInt = setInterval(() => {
                     swTime = Date.now() - startT;
                     const date = new Date(swTime);
-                    const m = date.getUTCMinutes().toString().padStart(2,'0');
-                    const s = date.getUTCSeconds().toString().padStart(2,'0');
-                    const ms = Math.floor(date.getUTCMilliseconds()/10).toString().padStart(2,'0');
-                    document.getElementById('sw-display').textContent = `${m}:${s}`;
+                    const m = date.getUTCMinutes().toString().padStart(2, '0');
+                    const s = date.getUTCSeconds().toString().padStart(2, '0');
+                    const ms = Math.floor(date.getUTCMilliseconds() / 10).toString().padStart(2, '0');
+                    document.getElementById('sw-display').childNodes[0].nodeValue = `${m}:${s}`;
                     document.getElementById('sw-ms').textContent = `.${ms}`;
                 }, 10);
             } else {
@@ -624,127 +627,103 @@
             swRunning = false;
             clearInterval(swInt);
             swTime = 0;
-            document.getElementById('sw-display').textContent = "00:00";
+            document.getElementById('sw-display').childNodes[0].nodeValue = "00:00";
             document.getElementById('sw-ms').textContent = ".00";
             document.getElementById('sw-start-btn').textContent = "START";
             document.getElementById('sw-laps').innerHTML = "";
         }
 
         function lapStopwatch() {
-            if(swRunning) {
-                const main = document.getElementById('sw-display').textContent;
-                const sub = document.getElementById('sw-ms').textContent;
+            if (swRunning) {
+                const text = document.getElementById('sw-display').textContent;
                 const div = document.createElement('div');
-                div.className = 'lap-row';
-                div.innerHTML = `<span>LAP</span><span>${main}${sub}</span>`;
+                div.style.display = 'flex';
+                div.style.justifySpaceBetween = 'space-between';
+                div.innerHTML = `<span>LAP</span><span>${text}</span>`;
                 document.getElementById('sw-laps').prepend(div);
             }
         }
 
-        // --- GRID CALENDAR LOGIC ---
-        let events = JSON.parse(localStorage.getItem('ntrxi_events')) || {};
+        // --- CALENDAR APP ---
+        let events = JSON.parse(localStorage.getItem('desktop_events')) || {};
         let currentDate = new Date();
         let currentMonth = currentDate.getMonth();
         let currentYear = currentDate.getFullYear();
-        let today = new Date();
 
         function renderCalendar() {
-            const monthLabel = document.getElementById('month-name');
-            const yearLabel = document.getElementById('year-label');
+            const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+            document.getElementById('cal-month-year').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
             const grid = document.getElementById('calendar-grid');
-
-            if (!monthLabel || !yearLabel || !grid) return;
-
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            
-            monthLabel.textContent = monthNames[currentMonth];
-            yearLabel.textContent = currentYear;
-            
-            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
             grid.innerHTML = '';
 
-            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            days.forEach(day => {
-                const label = document.createElement('div');
-                label.className = 'day-label';
-                label.textContent = day;
-                grid.appendChild(label);
+            const days = ["S", "M", "T", "W", "T", "F", "S"];
+            days.forEach(d => {
+                const cell = document.createElement('div');
+                cell.className = 'cal-header-cell';
+                cell.textContent = d;
+                grid.appendChild(cell);
             });
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date();
 
             for (let i = 0; i < firstDay; i++) {
                 const empty = document.createElement('div');
-                empty.className = 'cell';
+                empty.className = 'cal-cell';
                 grid.appendChild(empty);
             }
 
             for (let d = 1; d <= daysInMonth; d++) {
                 const cell = document.createElement('div');
-                cell.className = 'cell';
-                
+                cell.className = 'cal-cell';
                 if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
                     cell.classList.add('today');
                 }
-                
+
+                cell.innerHTML = `<div>${d}</div>`;
                 const dateId = `${currentYear}-${currentMonth}-${d}`;
-                cell.innerHTML = `<div class="date-num">${d}</div>`;
-                
+
                 if (events[dateId]) {
-                    events[dateId].forEach((evText, index) => {
-                        const eventDiv = document.createElement('div');
-                        eventDiv.className = 'event-item';
-                        eventDiv.textContent = evText;
-                        eventDiv.onclick = (e) => {
+                    events[dateId].forEach((ev, idx) => {
+                        const evDiv = document.createElement('div');
+                        evDiv.className = 'cal-event';
+                        evDiv.textContent = ev;
+                        evDiv.onclick = (e) => {
                             e.stopPropagation();
-                            if(confirm(`Delete "${evText}"?`)) {
-                                deleteEvent(dateId, index);
+                            if(confirm(`Delete "${ev}"?`)) {
+                                events[dateId].splice(idx, 1);
+                                localStorage.setItem('desktop_events', JSON.stringify(events));
+                                renderCalendar();
                             }
                         };
-                        cell.appendChild(eventDiv);
+                        cell.appendChild(evDiv);
                     });
                 }
 
-                cell.onclick = () => addEvent(dateId);
+                cell.onclick = () => {
+                    const task = prompt("New event:");
+                    if (task) {
+                        if (!events[dateId]) events[dateId] = [];
+                        events[dateId].push(task);
+                        localStorage.setItem('desktop_events', JSON.stringify(events));
+                        renderCalendar();
+                    }
+                };
+
                 grid.appendChild(cell);
             }
         }
 
-        function changeMonth(delta) {
-            currentMonth += delta;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            } else if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
+        function changeMonth(dir) {
+            currentMonth += dir;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
             renderCalendar();
         }
 
-        function addEvent(dateId) {
-            const val = prompt("Enter event for this day:");
-            if (val) {
-                if (!events[dateId]) events[dateId] = [];
-                events[dateId].push(val);
-                saveAndRender();
-            }
-        }
-
-        function deleteEvent(dateId, index) {
-            events[dateId].splice(index, 1);
-            if(events[dateId].length === 0) delete events[dateId];
-            saveAndRender();
-        }
-
-        function saveAndRender() {
-            localStorage.setItem('ntrxi_events', JSON.stringify(events));
-            renderCalendar();
-        }
-
-        // Initialize Calendar
         renderCalendar();
-
     </script>
 </body>
 </html>
