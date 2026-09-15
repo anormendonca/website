@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anor Teran Mendonca — Dark Monochromatic Dashboard</title>
+  <title>Anor Teran Mendonca — Portfolio Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
@@ -47,7 +47,7 @@
       gap: 24px;
     }
 
-    /* Top Dashboard Header */
+    /* Header Panel */
     .neu-header {
       background: var(--card-bg);
       box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
@@ -57,7 +57,7 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 20px;
     }
 
     .header-profile {
@@ -67,8 +67,8 @@
     }
 
     .avatar-box {
-      width: 56px;
-      height: 56px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: var(--card-bg);
       box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
@@ -77,14 +77,14 @@
       justify-content: center;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       color: var(--text-main);
       letter-spacing: 0.05em;
     }
 
     .header-title h1 {
       font-family: 'Syne', sans-serif;
-      font-size: 1.65rem;
+      font-size: 1.7rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
@@ -95,34 +95,49 @@
       margin-top: 2px;
     }
 
-    .status-badge {
+    .social-contacts {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
       background: var(--card-bg);
-      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
     }
 
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--text-main);
-      border-radius: 50%;
-      box-shadow: 0 0 6px var(--text-main);
+    .icon-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
     }
 
-    /* Main 2-Column Layout */
+    .icon-btn:hover {
+      border-color: var(--border-subtle);
+    }
+
+    .icon-btn:active {
+      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+    }
+
+    /* 2-Column Layout */
     .dashboard-grid {
       display: grid;
       grid-template-columns: 380px 1fr;
       gap: 24px;
     }
 
-    /* Neumorphic Card Base */
+    /* Card Base */
     .neu-card {
       background: var(--card-bg);
       box-shadow: 10px 10px 22px var(--shadow-dark), -10px -10px 22px var(--shadow-light);
@@ -148,14 +163,14 @@
 
     .card-head h2 {
       font-family: 'Syne', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--text-main);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
-    /* Fact Table */
+    /* Tables / Key Facts */
     .fact-list {
       display: flex;
       flex-direction: column;
@@ -166,7 +181,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       padding: 10px 14px;
       border-radius: 12px;
       background: var(--card-bg);
@@ -176,41 +191,7 @@
     .fact-label { color: var(--text-dim); }
     .fact-val { color: var(--text-main); font-weight: 500; text-align: right; }
 
-    /* Neumorphic Buttons */
-    .neu-btn {
-      background: var(--card-bg);
-      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
-      border: 1px solid transparent;
-      border-radius: 14px;
-      color: var(--text-main);
-      padding: 10px 18px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .neu-btn:hover {
-      border-color: var(--border-subtle);
-    }
-
-    .neu-btn:active {
-      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
-      transform: translateY(1px);
-    }
-
-    .btn-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    /* List Items inside Right Column */
+    /* Item Box Container */
     .item-box {
       background: var(--card-bg);
       box-shadow: inset 4px 4px 9px var(--shadow-dark), inset -4px -4px 9px var(--shadow-light);
@@ -254,6 +235,40 @@
       font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.5;
+    }
+
+    /* Neumorphic Buttons */
+    .neu-btn {
+      background: var(--card-bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+      border: 1px solid transparent;
+      border-radius: 14px;
+      color: var(--text-main);
+      padding: 10px 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .neu-btn:hover {
+      border-color: var(--border-subtle);
+    }
+
+    .neu-btn:active {
+      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+      transform: translateY(1px);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
     }
 
     /* Project Grid */
@@ -349,7 +364,7 @@
       top: 50%; left: 50%;
       transform: translate(-50%, -45%) scale(0.95);
       width: 90%;
-      max-width: 700px;
+      max-width: 720px;
       max-height: 85vh;
       background: var(--card-bg);
       box-shadow: 15px 15px 35px var(--shadow-dark), -15px -15px 35px var(--shadow-light);
@@ -385,10 +400,9 @@
       letter-spacing: 0.05em;
     }
 
-    /* List styling inside modal */
     .modal-section-title {
       color: var(--text-main);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -407,7 +421,6 @@
       line-height: 1.7;
     }
 
-    /* Responsive Design */
     @media (max-width: 900px) {
       .dashboard-grid {
         grid-template-columns: 1fr;
@@ -419,46 +432,56 @@
 
 <div class="dashboard-container">
 
-  <!-- TOP HEADER CONTROL PANEL -->
+  <!-- HEADER CONTROL PANEL -->
   <header class="neu-header">
     <div class="header-profile">
       <div class="avatar-box">AM</div>
       <div class="header-title">
         <h1>Anor Teran Mendonca</h1>
-        <p>Aspiring Medic & Student · SaintZ ’26</p>
+        <p>17 | Roman Catholic | Indian | Dubai, UAE & Udupi, India</p>
       </div>
     </div>
-    <div class="status-badge">
-      <span class="status-dot"></span> Dubai, UAE / Udupi, Karnataka (KN), India
+    
+    <!-- SOCIAL ICONS -->
+    <div class="social-contacts">
+      <a class="icon-btn" href="mailto:anort.mendonca@gmail.com" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
+      <a class="icon-btn" href="tel:+971589101067" title="Phone">
+        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      </a>
+      <a class="icon-btn" href="https://linkedin.com/in/anormendonca" target="_blank" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.75a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2z"/></svg>
+      </a>
+      <a class="icon-btn" href="https://instagram.com/anormendonca" target="_blank" title="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
     </div>
   </header>
 
-  <!-- MAIN 2-COLUMN DASHBOARD LAYOUT -->
+  <!-- 2-COLUMN DASHBOARD GRID -->
   <main class="dashboard-grid">
 
-    <!-- LEFT SIDE COLUMN -->
+    <!-- LEFT COLUMN -->
     <div class="left-col">
 
-      <!-- ABOUT ME CARD -->
+      <!-- CAREER OBJECTIVE & PROFILE -->
       <section class="neu-card">
         <div class="card-head">
-          <h2>About Me</h2>
+          <h2>Career Objective</h2>
         </div>
         <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.6;">
-          Year 11 Karnataka State Education Examination and Assessment Board (KSEAB) Pre-University Course (PUC) student and National Eligibility cum Entrance Test - Undergraduate (NEET-UG) medical aspirant.
-        </p>
-        <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.6;">
-          Pianist, violinist, varsity basketball team captain, youth leader in Model United Nations (MUN), Toastmasters, and graphic designer for Jesus Youth Teens.
+          NEET-UG Aspirant targeting Family Medicine or Pediatrics, with a long-term goal of completing medical residency in the United States or the United Kingdom.
         </p>
         
         <div class="fact-list">
           <div class="fact-row">
-            <span class="fact-label">School</span>
-            <span class="fact-val">Jnanasudha PUC, Udupi</span>
+            <span class="fact-label">Age / Background</span>
+            <span class="fact-val">17 · Roman Catholic · Indian</span>
           </div>
           <div class="fact-row">
-            <span class="fact-label">Background</span>
-            <span class="fact-val">Indian · Roman Catholic</span>
+            <span class="fact-label">Locations</span>
+            <span class="fact-val">Dubai, UAE | Udupi, India</span>
           </div>
           <div class="fact-row">
             <span class="fact-label">Languages</span>
@@ -466,97 +489,106 @@
           </div>
           <div class="fact-row">
             <span class="fact-label">Curriculum</span>
-            <span class="fact-val">Edexcel GCSE & KSEAB</span>
+            <span class="fact-val">Edexcel IGCSE & KSEAB Board</span>
           </div>
         </div>
       </section>
 
-      <!-- PROJECTS CARD -->
+      <!-- COMMUNITY PROJECTS & FAITH -->
       <section class="neu-card">
         <div class="card-head">
-          <h2>Key Projects</h2>
+          <h2>Community Impact & Faith</h2>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Neighborhood Recycling Initiative</div>
+              <div class="item-sub">EEG Recycling Campaign Lead</div>
+            </div>
+            <div class="item-date">2020 – Present</div>
+          </div>
+          <p class="item-desc">Collected 500+ used printer toners across households and offices. Coordinated pickups, pitched to residents, and featured in school newsletter and EEG social media.</p>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">GCSE & IGCSE Resource Drive</div>
+              <div class="item-sub">Digital Study Hub Developer</div>
+            </div>
+            <div class="item-date">2024 – 2026</div>
+          </div>
+          <p class="item-desc">Created a Google Drive revision hub covering core sciences, maths, psychology, English, CS, and RS with active-recall sheets, past paper databases, and study planners.</p>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Faith & Ministry Roles</div>
+              <div class="item-sub">St. Mary's Dubai & St. Francis Xavier Mudarangandi</div>
+            </div>
+          </div>
+          <p class="item-desc">YCS Core Team Member, Jesus Youth Teens Leader & Graphic Designer (branding, posters, digital media), Lector (English and Konkani scripture reading), Altar Server, Usher, and Choir Musician.</p>
+        </div>
+      </section>
+
+      <!-- TECHNOLOGY & STEM -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>Technology & STEM</h2>
         </div>
         <div class="proj-grid">
           <div class="proj-card">
-            <h4>Recycling Drive</h4>
-            <p>Collected 500+ printer toners across households and offices for safe e-waste recycling.</p>
+            <h4>Web Development</h4>
+            <p>Full-stack developer building personal/business portfolios, calculators, clocks, UI/UX planners, and revision trackers (2020–Present).</p>
           </div>
           <div class="proj-card">
-            <h4>GCSE Study Drive</h4>
-            <p>Built comprehensive revision hubs with notes and past papers for core sciences & maths.</p>
+            <h4>STEM Engineering</h4>
+            <p>Built a functional gear-based solar system orrery using custom gear ratios to demonstrate planetary orbital physics.</p>
           </div>
           <div class="proj-card">
-            <h4>Solar Orbit Model</h4>
-            <p>Engineered a mechanical gear model calculating real planetary orbital periods.</p>
+            <h4>ADNOC STEM Challenges</h4>
+            <p>Completed Formula Ethara 2022, COP28 UAE Challenge, Mission Digital Energy, Energy Camp, Ready Set Data!, Zero Waste, Weather, & Pi Day (2020–2023).</p>
           </div>
           <div class="proj-card">
-            <h4>ADNOC STEM</h4>
-            <p>Completed Formula Ethara & COP28 Digital Energy sustainability challenges.</p>
+            <h4>Minecraft Server Admin</h4>
+            <p>Hosted, optimized, and moderated a server for 200+ active and 500+ lifetime players with backups, permissions, and plugin integration (2020–2023).</p>
           </div>
-        </div>
-      </section>
-
-      <!-- VOLUNTEERING CARD -->
-      <section class="neu-card">
-        <div class="card-head">
-          <h2>Volunteering</h2>
-        </div>
-        <div class="item-box">
-          <div class="item-title">St. Mary's Catholic Church, Dubai</div>
-          <div class="item-sub">Jesus Youth Teens Core Member</div>
-          <p class="item-desc">Served as Altar Server, Usher, Konkani (KN) and English Lector, and Choir Musician for parish youth activities.</p>
-        </div>
-        <div class="item-box">
-          <div class="item-title">St. Francis Xavier, Mudarangandi</div>
-          <div class="item-sub">Young Christian Students (YCS) Member</div>
-          <p class="item-desc">Led youth initiatives and served as Konkani (KN) community Lector.</p>
-        </div>
-      </section>
-
-      <!-- CONTACT CARD -->
-      <section class="neu-card">
-        <div class="card-head">
-          <h2>Contact Links</h2>
-        </div>
-        <div class="btn-group">
-          <a class="neu-btn" href="mailto:anort.mendonca@gmail.com">Email</a>
-          <a class="neu-btn" href="tel:+971589101067">Phone</a>
-          <a class="neu-btn" href="https://linkedin.com/in/anormendonca" target="_blank">LinkedIn</a>
-          <a class="neu-btn" href="https://instagram.com/anormendonca" target="_blank">Instagram</a>
         </div>
       </section>
 
     </div>
 
-    <!-- RIGHT SIDE COLUMN -->
+    <!-- RIGHT COLUMN -->
     <div class="right-col">
 
-      <!-- EDUCATION & SCHOOL REPORTS -->
+      <!-- ACADEMICS & HONORS -->
       <section class="neu-card">
         <div class="card-head">
-          <h2>Education & Academic Reports</h2>
+          <h2>Academics & Academic Honors</h2>
         </div>
 
         <div class="item-box">
           <div class="item-top">
             <div>
-              <div class="item-title">Pre-University Course (PUC) — PCMB + ES</div>
-              <div class="item-sub">Jnanasudha Pre-University College, Udupi</div>
+              <div class="item-title">Pre-University Course (PUC) — PCMB</div>
+              <div class="item-sub">Jnanasudha PU College, Udupi (KSEAB)</div>
             </div>
-            <div class="item-date">May 2026 – Present</div>
+            <div class="item-date">May 2026 – May 2028</div>
           </div>
-          <p class="item-desc">Karnataka State Board (KSEAB) study in Physics, Chemistry, Mathematics, Biology, English, and Sanskrit. Dedicated focus on NEET-UG medical entrance preparation.</p>
+          <p class="item-desc">Studying Physics, Chemistry, Mathematics, Biology, English, and Sanskrit alongside intensive NEET-UG medical entrance preparation.</p>
         </div>
 
         <div class="item-box">
           <div class="item-top">
             <div>
-              <div class="item-title">High School Diploma — Edexcel GCSE / IGCSE</div>
+              <div class="item-title">Edexcel IGCSE Foundation Education</div>
               <div class="item-sub">St. Mary's Catholic High School, Dubai</div>
             </div>
             <div class="item-date">2015 – 2026</div>
           </div>
-          <p class="item-desc">Biology (9), Chemistry (9), Physics (9), Mathematics (9), Religious Studies (9), Psychology (7), Computer Science (7), English Language (6), Spoken English (Distinction).</p>
+          <p class="item-desc">Grade 9s: Biology, Chemistry, Physics, Mathematics, Religious Studies.<br>Grade 7s: Psychology, Computer Science.<br>Grade 6: English Language. Distinction: Spoken English.</p>
           
           <div class="btn-group">
             <button class="neu-btn" onclick="openModal('report9Modal')">Grade 9 Report</button>
@@ -568,62 +600,86 @@
         <div class="item-box">
           <div class="item-top">
             <div>
-              <div class="item-title">Trinity College London Examinations</div>
-              <div class="item-sub">Music Performance & Theory</div>
+              <div class="item-title">Academic Awards & Competitions</div>
             </div>
-            <div class="item-date">Sep 2015 – Jan 2025</div>
           </div>
-          <p class="item-desc">Piano Grade 6, Violin Grade 4, Music Theory Grade 4, Keyboard Grade 3. Currently preparing Grade 8 Piano and Grade 6 Violin under self-directed study and mentorship of the late Kresitha Gabil Momin.</p>
+          <p class="item-desc"><strong>SMMC Dubai Certificate of Academic Excellence (Sep 2026):</strong> Issued by St. Mary's Catholic Mangalorean Community for outstanding performance.<br><strong>UAE Math Olympiad Participant (May 2024):</strong> Passed Rounds 1 & 2 of Sparkler Minds Memoriad UAE high-speed quantitative problem solving.</p>
         </div>
       </section>
 
-      <!-- EXPERIENCE -->
+      <!-- LEADERSHIP & PUBLIC SPEAKING -->
       <section class="neu-card">
         <div class="card-head">
-          <h2>Experience</h2>
+          <h2>Leadership & Public Speaking</h2>
         </div>
 
         <div class="item-box">
           <div class="item-top">
             <div>
-              <div class="item-title">Music Teacher</div>
-              <div class="item-sub">Freelance · Dubai, UAE</div>
+              <div class="item-title">SaintZ MUN 2025 — Honourable Mention</div>
+              <div class="item-sub">French Delegation · Commission on the Status of Women (CSW)</div>
+            </div>
+          </div>
+          <p class="item-desc">Researched international policy, delivered impromptu speeches during formal debate, negotiated compromises, and sponsored committee resolutions.</p>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Toastmasters Youth Leadership & Sandesha Foundation</div>
+              <div class="item-sub">District 127 Toastmasters</div>
+            </div>
+            <div class="item-date">Jun 2026</div>
+          </div>
+          <p class="item-desc">Completed public speaking training; served as Secretary, Timer, and Ah-Counter. Trainee at Sandesha Foundation for leadership and communication development.</p>
+        </div>
+      </section>
+
+      <!-- MUSIC & PERFORMING ARTS -->
+      <section class="neu-card">
+        <div class="card-head">
+          <h2>Music & Performing Arts</h2>
+        </div>
+
+        <div class="item-box">
+          <div class="item-top">
+            <div>
+              <div class="item-title">Trinity College London Music Certification</div>
+              <div class="item-sub">Mentored by late Kresitha Gabil Momin</div>
             </div>
             <div class="item-date">Jan 2024 – Present</div>
           </div>
-          <p class="item-desc">Instructing piano, violin, keyboard, and music theory students for Trinity College London examinations.</p>
+          <p class="item-desc">Piano Grade 6 (preparing Grade 8), Violin Grade 5 (preparing Grade 6), Music Theory Grade 4, Keyboard Grade 3. Freelance private music tutor instructing Trinity syllabus.</p>
         </div>
 
         <div class="item-box">
           <div class="item-top">
             <div>
-              <div class="item-title">Graphic Designer</div>
-              <div class="item-sub">Jesus Youth Teens · Dubai / Remote</div>
+              <div class="item-title">Performances & Dramatic Arts</div>
             </div>
-            <div class="item-date">Sep 2025 – May 2026</div>
           </div>
-          <p class="item-desc">Designed posters, digital branding, social content, and event materials for youth programs.</p>
+          <p class="item-desc"><strong>Violin Performance:</strong> Played "Mary, Did You Know?" (featured in school newsletter).<br><strong>Kaavy Prayog:</strong> Main character in Konkani dramatic poetry at Kavitha Suvad.<br><strong>Noktiram Recital:</strong> Selected works from Kiran Nirkan's anthology.<br><strong>SaintZ Talent Show:</strong> 3rd Place finish.</p>
         </div>
       </section>
 
-      <!-- BASKETBALL & ATHLETICS -->
+      <!-- ATHLETICS & TRACK -->
       <section class="neu-card">
         <div class="card-head">
-          <h2>Basketball & Athletic Achievements</h2>
+          <h2>Athletics & Basketball Achievements</h2>
         </div>
 
         <div class="item-box">
           <div class="item-top">
             <div>
-              <div class="item-title">Varsity Basketball Captain</div>
-              <div class="item-sub">SaintZ, Roces, GiantZ, & Unnati / Jnanasudha (UJS)</div>
+              <div class="item-title">Basketball Leadership & Track & Field</div>
+              <div class="item-sub">Captain (U2009) & Coach (U2010) · SaintZ, GiantZ, Roces, UJS</div>
             </div>
-            <div class="item-date">2021 – Present</div>
+            <div class="item-date">2020 – Present</div>
           </div>
-          <p class="item-desc">Captain of Under-2009 team and mentor to Under-2010 squad. Multi-championship winner across regional UAE & Karnataka leagues.</p>
+          <p class="item-desc"><strong>Track & Field (2022-2023 Meet):</strong> 1st Place 200m, 1st Place Relay, 3rd Place 800m.</p>
           
           <div class="btn-group">
-            <button class="neu-btn" onclick="openModal('basketballModal')">View Tournament Record & Medals</button>
+            <button class="neu-btn" onclick="openModal('basketballModal')">View Basketball Tournament Record</button>
           </div>
         </div>
 
@@ -660,7 +716,7 @@
   </main>
 </div>
 
-<!-- GLOBAL POPUP OVERLAY & MODALS -->
+<!-- POPUP OVERLAY & MODALS -->
 <div class="popup-overlay" id="popupOverlay" onclick="closeAllModals()"></div>
 
 <!-- Grade 9 Report Modal -->
@@ -681,32 +737,38 @@
   <div class="modal-close-hint">Click outside to close</div>
 </div>
 
-<!-- Basketball Tournament Record Modal -->
+<!-- Basketball Record Modal -->
 <div class="modal-box" id="basketballModal">
-  <h3 style="font-family:'Syne', sans-serif; color:var(--text-main); font-size: 1.2rem; margin-bottom:16px; text-transform: uppercase; letter-spacing: 0.05em;">Tournament Highlights & Honors</h3>
+  <h3 style="font-family:'Syne', sans-serif; color:var(--text-main); font-size: 1.1rem; margin-bottom:16px; text-transform: uppercase; letter-spacing: 0.05em;">Complete Basketball Record</h3>
   
-  <div class="modal-section-title">1st Place / Champions</div>
+  <div class="modal-section-title">Winners / 1st Place</div>
   <ul class="modal-list" style="margin-bottom: 16px;">
-    <li>11th SaintZ Basketball Tournament (2025–2026)</li>
-    <li>9th SaintZ Basketball Tournament (2023–2024)</li>
-    <li>5th Gems Modern Academy (GMA) Under-17 (2023–2024)</li>
-    <li>15th Indian Basketball League Under-13 (2022)</li>
-    <li>10th Gems Modern Academy (2021–2022)</li>
+    <li>10th GMA (2021–2022)</li>
+    <li>15th Indian Basketball League U13 (2022) — 4 PPG, 5 RPG</li>
+    <li>5th GMA U17 (2023–2024)</li>
+    <li>9th SaintZ Tournament (2023–2024)</li>
+    <li>11th SaintZ Tournament (2025–2026)</li>
   </ul>
 
-  <div class="modal-section-title">2nd Place / Runners Up</div>
+  <div class="modal-section-title">Runners Up / 2nd Place</div>
   <ul class="modal-list" style="margin-bottom: 16px;">
-    <li>DPS Sharjah Sundeep Batavia Under-18 (2023–2024)</li>
-    <li>11th Gems Modern Academy (2022–2023)</li>
-    <li>SBAA Boys Division 3A Season 3 (2022)</li>
+    <li>SBAA Boys Div 3A Season 3 (2022)</li>
+    <li>11th GMA (2022–2023)</li>
+    <li>DPS Sharjah Sundeep Batavia U18 (2023–2024)</li>
   </ul>
 
-  <div class="modal-section-title">3rd Place & Notable Finishes</div>
+  <div class="modal-section-title">Bronze / 3rd Place</div>
+  <ul class="modal-list" style="margin-bottom: 16px;">
+    <li>Jazzville B2009 (2023 & 2024)</li>
+    <li>10th SaintZ (2024–2025) — 5 PPG, 5 RPG, 3 APG</li>
+  </ul>
+
+  <div class="modal-section-title">Other Participations</div>
   <ul class="modal-list">
-    <li>10th SaintZ Tournament (2024–2025) – Bronze Medal</li>
-    <li>Jazzville Boys Under-2009 (2023, 2024) – Bronze Medal</li>
-    <li>Dubai School Games by Dubai Sports Council (2023)</li>
-    <li>TMS & DPS Tournaments (2024–2026)</li>
+    <li>TMS Tournament</li>
+    <li>12th GMA U17 — 10 PPG, 5 RPG, 3 APG</li>
+    <li>DPS Tournament</li>
+    <li>Dubai School Games by Dubai Sports Council</li>
   </ul>
 
   <div class="modal-close-hint">Click outside to close</div>
