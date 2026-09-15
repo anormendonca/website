@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/home/anor - desktop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-cream: #f4ead5;
+            --bg-teal: #a5cbd1;
+            --window-bg: #fdfbf7;
+            --border-color: #1a1a1a;
+            --accent-teal: #82b5ba;
+            --text-main: #1a1a1a;
+            --shadow: 4px 4px 0px #1a1a1a;
+            --font-mono: 'Space Mono', monospace;
+            --font-pixel: 'VT323', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            background-image: 
+                radial-gradient(circle at 100% 100%, var(--bg-teal) 0%, var(--bg-teal) 35%, transparent 35%),
+                radial-gradient(circle at 0% 0%, var(--bg-teal) 0%, var(--bg-teal) 25%, transparent 25%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- Top Menu Bar --- */
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 32px;
+            background: var(--window-bg);
+            border-bottom: 2.5px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 9999;
+        }
+
+        .menu-left, .menu-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-item {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .menu-item:hover { opacity: 0.6; }
+
+        .app-logo-icon {
+            border: 2px solid var(--border-color);
+            padding: 1px 4px;
+            font-weight: 800;
+            background: var(--bg-cream);
+        }
+
+        /* --- Desktop Icons (Right Side) --- */
+        .desktop-icons {
+            position: fixed;
+            right: 20px;
+            top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            width: 70px;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .icon-btn:hover .icon-box {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--border-color);
+            background: var(--accent-teal);
+        }
+
+        /* --- Left Widget Panel --- */
+        .widget-panel {
+            position: fixed;
+            left: 20px;
+            top: 50px;
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 5;
+        }
+
+        .widget-card {
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            box-shadow: var(--shadow);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .widget-clock {
+            text-align: center;
+        }
+
+        .widget-time {
+            font-family: var(--font-pixel);
+            font-size: 2.8rem;
+            line-height: 1;
+            margin: 8px 0;
+        }
+
+        .stat-bar {
+            margin: 6px 0;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .bar-outer {
+            height: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            background: #fff;
+            margin-top: 2px;
+        }
+
+        .bar-inner {
+            height: 100%;
+            background: var(--accent-teal);
+        }
+
+        /* --- Window System --- */
+        .window {
+            position: absolute;
+            background: var(--window-bg);
+            border: 2.5px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 6px 6px 0px var(--border-color);
+            min-width: 320px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .window.active {
+            display: flex;
+        }
+
+        .window-header {
+            background: var(--window-bg);
+            border-bottom: 2.5px solid var(--border-color);
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: move;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .win-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            background: var(--window-bg);
+        }
+
+        .win-btn.close:hover { background: #ff5f56; }
+        .win-btn.min:hover { background: #ffbd2e; }
+
+        .window-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: lowercase;
+            letter-spacing: 0.05rem;
+        }
+
+        .window-body {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+
+        /* --- Custom Controls inside Windows --- */
+        .btn-retro {
+            background: var(--window-bg);
+            border: 2px solid var(--border-color);
+            padding: 6px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px var(--border-color);
+            transition: all 0.1s;
+        }
+
+        .btn-retro:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0px var(--border-color);
+            background: var(--accent-teal);
+        }
+
+        .btn-retro:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--border-color);
+        }
+
+        .input-retro {
+            background: #fff;
+            border: 2px solid var(--border-color);
+            padding: 6px;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            text-align: center;
+            width: 70px;
+            outline: none;
+        }
+
+        /* --- App Specific Styles --- */
+        /* Timer */
+        .timer-display {
+            font-family: var(--font-pixel);
+            font-size: 4.5rem;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        /* Calendar Grid */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border-top: 2px solid var(--border-color);
+            border-left: 2px solid var(--border-color);
+        }
+
+        .cal-cell {
+            border-right: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            min-height: 48px;
+            padding: 4px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        .cal-cell:hover { background: var(--bg-cream); }
+        .cal-cell.today { background: var(--accent-teal); font-weight: 800; }
+
+        .cal-header-cell {
+            border-right: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.65rem;
+            padding: 4px;
+            background: var(--bg-cream);
+        }
+
+        .cal-event {
+            background: var(--border-color);
+            color: #fff;
+            font-size: 0.55rem;
+            padding: 1px 3px;
+            margin-top: 2px;
+            border-radius: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Laps */
+        .lap-list {
+            max-height: 100px;
+            overflow-y: auto;
+            margin-top: 10px;
+            border-top: 2px solid var(--border-color);
+            padding-top: 5px;
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Menu Bar -->
+    <div class="menu-bar">
+        <div class="menu-left">
+            <span class="app-logo-icon">a</span>
+            <span class="menu-item">Play</span>
+            <span class="menu-item">Edit</span>
+            <span class="menu-item">Window</span>
+            <span class="menu-item">Enjoy</span>
+        </div>
+        <div class="menu-right">
+            <span id="active-win-title">/home/fun - browser</span>
+            <span id="top-bar-clock">Sat Oct 16 11:28 AM</span>
+        </div>
+    </div>
+
+    <!-- Left Widget Panel -->
+    <div class="widget-panel">
+        <div class="widget-card widget-clock">
+            <div style="font-size: 0.65rem; font-weight: 700;">SYSTEM TIME</div>
+            <div class="widget-time" id="side-clock">11:28 AM</div>
+            <div style="font-size: 0.6rem; opacity: 0.8;" id="side-date">OCTOBER 16, 2026</div>
+        </div>
+
+        <div class="widget-card">
+            <div class="stat-bar">vol <div class="bar-outer"><div class="bar-inner" style="width: 75%;"></div></div></div>
+            <div class="stat-bar">cpu <div class="bar-outer"><div class="bar-inner" style="width: 40%;"></div></div></div>
+            <div class="stat-bar">ram <div class="bar-outer"><div class="bar-inner" style="width: 60%;"></div></div></div>
+        </div>
+
+        <div class="widget-card" style="font-size: 0.65rem;">
+            <div style="font-weight: 700; margin-bottom: 4px;">NOW PLAYING</div>
+            <div style="opacity: 0.7;">Focus Audio - Lofi Beats</div>
+        </div>
+    </div>
+
+    <!-- Desktop Icons (Right Side Launchers) -->
+    <div class="desktop-icons">
+        <button class="icon-btn" onclick="openWindow('win-timer')">
+            <div class="icon-box"><i class="fa-solid fa-hourglass-start"></i></div>
+            <span>Timer</span>
+        </button>
+
+        <button class="icon-btn" onclick="openWindow('win-stopwatch')">
+            <div class="icon-box"><i class="fa-solid fa-stopwatch"></i></div>
+            <span>Stopwatch</span>
+        </button>
+
+        <button class="icon-btn" onclick="openWindow('win-calendar')">
+            <div class="icon-box"><i class="fa-solid fa-calendar-days"></i></div>
+            <span>Calendar</span>
+        </button>
+
+        <button class="icon-btn" onclick="openWindow('win-spotify')">
+            <div class="icon-box"><i class="fa-solid fa-music"></i></div>
+            <span>Music</span>
+        </button>
+
+        <button class="icon-btn" onclick="window.open('https://drive.google.com', '_blank')">
+            <div class="icon-box"><i class="fa-solid fa-folder"></i></div>
+            <span>Drive</span>
+        </button>
+
+        <button class="icon-btn" onclick="window.open('https://discord.com', '_blank')">
+            <div class="icon-box"><i class="fa-brands fa-discord"></i></div>
+            <span>Discord</span>
+        </button>
+    </div>
+
+    <!-- WINDOW 1: Focus Timer -->
+    <div class="window active" id="win-timer" style="top: 100px; left: 270px; width: 360px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-timer')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/apps - focus_timer</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="text-align: center;">
+            <div id="timer-setup">
+                <div style="display: flex; gap: 10px; justify-content: center; align-items: center; margin-bottom: 15px;">
+                    <input type="number" id="t-min" class="input-retro" value="25" min="0"> <span style="font-size:0.7rem;">MIN</span>
+                    <input type="number" id="t-sec" class="input-retro" value="00" min="0" max="59"> <span style="font-size:0.7rem;">SEC</span>
+                </div>
+            </div>
+            <div class="timer-display" id="timer-display">25:00</div>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <button class="btn-retro" id="timer-start-btn" onclick="startTimer()">START</button>
+                <button class="btn-retro" onclick="resetTimer()">RESET</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WINDOW 2: Stopwatch -->
+    <div class="window" id="win-stopwatch" style="top: 140px; left: 320px; width: 340px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-stopwatch')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/apps - stopwatch</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="text-align: center;">
+            <div class="timer-display" id="sw-display">00:00<span id="sw-ms" style="font-size: 2rem;">.00</span></div>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
+                <button class="btn-retro" id="sw-start-btn" onclick="toggleStopwatch()">START</button>
+                <button class="btn-retro" onclick="lapStopwatch()">LAP</button>
+                <button class="btn-retro" onclick="resetStopwatch()">RESET</button>
+            </div>
+            <div class="lap-list" id="sw-laps"></div>
+        </div>
+    </div>
+
+    <!-- WINDOW 3: Calendar -->
+    <div class="window" id="win-calendar" style="top: 80px; left: 260px; width: 480px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-calendar')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/apps - calendar</div>
+            <div></div>
+        </div>
+        <div class="window-body">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <button class="btn-retro" onclick="changeMonth(-1)">&lt;</button>
+                <span id="cal-month-year" style="font-weight: 700; font-size: 0.85rem;">OCTOBER 2026</span>
+                <button class="btn-retro" onclick="changeMonth(1)">&gt;</button>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+    </div>
+
+    <!-- WINDOW 4: Spotify / Music -->
+    <div class="window" id="win-spotify" style="top: 120px; left: 300px; width: 420px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-spotify')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/fun - audio_player</div>
+            <div></div>
+        </div>
+        <div class="window-body" style="padding: 0;">
+            <iframe style="border-radius: 0; display: block;" src="https://open.spotify.com/embed/playlist/2ZqCkf2cWWFbB6ORZnmUlt?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // --- WINDOW DRAGGING SYSTEM ---
+        let topZIndex = 100;
+
+        function makeDraggable(win) {
+            const header = win.querySelector('.window-header');
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            header.onmousedown = (e) => {
+                e.preventDefault();
+                // Bring window to front
+                topZIndex++;
+                win.style.zIndex = topZIndex;
+                document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = () => {
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                };
+                document.onmousemove = (e) => {
+                    e.preventDefault();
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    win.style.top = (win.offsetTop - pos2) + "px";
+                    win.style.left = (win.offsetLeft - pos1) + "px";
+                };
+            };
+
+            win.addEventListener('mousedown', () => {
+                topZIndex++;
+                win.style.zIndex = topZIndex;
+                document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+            });
+        }
+
+        document.querySelectorAll('.window').forEach(makeDraggable);
+
+        function openWindow(id) {
+            const win = document.getElementById(id);
+            win.classList.add('active');
+            topZIndex++;
+            win.style.zIndex = topZIndex;
+            document.getElementById('active-win-title').textContent = win.querySelector('.window-title').textContent;
+        }
+
+        function closeWindow(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // --- CLOCK MANAGEMENT ---
+        function updateClocks() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+
+            const timeStr = `${hours}:${minutes} ${ampm}`;
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            const topStr = `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()} ${timeStr}`;
+            
+            document.getElementById('top-bar-clock').textContent = topStr;
+            document.getElementById('side-clock').textContent = timeStr;
+            document.getElementById('side-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
+        }
+        setInterval(updateClocks, 1000);
+        updateClocks();
+
+        // --- TIMER APP ---
+        let timerInt, totalSec = 0, isTimerRunning = false;
+
+        function startTimer() {
+            const display = document.getElementById('timer-display');
+            const btn = document.getElementById('timer-start-btn');
+
+            if (!isTimerRunning) {
+                if (totalSec === 0) {
+                    const m = parseInt(document.getElementById('t-min').value) || 0;
+                    const s = parseInt(document.getElementById('t-sec').value) || 0;
+                    totalSec = m * 60 + s;
+                }
+                if (totalSec <= 0) return;
+
+                isTimerRunning = true;
+                btn.textContent = 'PAUSE';
+
+                timerInt = setInterval(() => {
+                    if (totalSec <= 0) {
+                        clearInterval(timerInt);
+                        isTimerRunning = false;
+                        btn.textContent = 'START';
+                        display.textContent = "00:00";
+                    } else {
+                        totalSec--;
+                        const tm = Math.floor(totalSec / 60).toString().padStart(2, '0');
+                        const ts = (totalSec % 60).toString().padStart(2, '0');
+                        display.textContent = `${tm}:${ts}`;
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timerInt);
+                isTimerRunning = false;
+                btn.textContent = 'RESUME';
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInt);
+            isTimerRunning = false;
+            totalSec = 0;
+            document.getElementById('timer-start-btn').textContent = 'START';
+            document.getElementById('timer-display').textContent = '25:00';
+        }
+
+        // --- STOPWATCH APP ---
+        let swInt, swTime = 0, swRunning = false;
+
+        function toggleStopwatch() {
+            const btn = document.getElementById('sw-start-btn');
+            if (!swRunning) {
+                swRunning = true;
+                btn.textContent = 'STOP';
+                const startT = Date.now() - swTime;
+                swInt = setInterval(() => {
+                    swTime = Date.now() - startT;
+                    const date = new Date(swTime);
+                    const m = date.getUTCMinutes().toString().padStart(2, '0');
+                    const s = date.getUTCSeconds().toString().padStart(2, '0');
+                    const ms = Math.floor(date.getUTCMilliseconds() / 10).toString().padStart(2, '0');
+                    document.getElementById('sw-display').childNodes[0].nodeValue = `${m}:${s}`;
+                    document.getElementById('sw-ms').textContent = `.${ms}`;
+                }, 10);
+            } else {
+                swRunning = false;
+                btn.textContent = 'START';
+                clearInterval(swInt);
+            }
+        }
+
+        function resetStopwatch() {
+            swRunning = false;
+            clearInterval(swInt);
+            swTime = 0;
+            document.getElementById('sw-display').childNodes[0].nodeValue = "00:00";
+            document.getElementById('sw-ms').textContent = ".00";
+            document.getElementById('sw-start-btn').textContent = "START";
+            document.getElementById('sw-laps').innerHTML = "";
+        }
+
+        function lapStopwatch() {
+            if (swRunning) {
+                const text = document.getElementById('sw-display').textContent;
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.justifySpaceBetween = 'space-between';
+                div.innerHTML = `<span>LAP</span><span>${text}</span>`;
+                document.getElementById('sw-laps').prepend(div);
+            }
+        }
+
+        // --- CALENDAR APP ---
+        let events = JSON.parse(localStorage.getItem('desktop_events')) || {};
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        function renderCalendar() {
+            const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+            document.getElementById('cal-month-year').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            const days = ["S", "M", "T", "W", "T", "F", "S"];
+            days.forEach(d => {
+                const cell = document.createElement('div');
+                cell.className = 'cal-header-cell';
+                cell.textContent = d;
+                grid.appendChild(cell);
+            });
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date();
+
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'cal-cell';
+                grid.appendChild(empty);
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cell = document.createElement('div');
+                cell.className = 'cal-cell';
+                if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    cell.classList.add('today');
+                }
+
+                cell.innerHTML = `<div>${d}</div>`;
+                const dateId = `${currentYear}-${currentMonth}-${d}`;
+
+                if (events[dateId]) {
+                    events[dateId].forEach((ev, idx) => {
+                        const evDiv = document.createElement('div');
+                        evDiv.className = 'cal-event';
+                        evDiv.textContent = ev;
+                        evDiv.onclick = (e) => {
+                            e.stopPropagation();
+                            if(confirm(`Delete "${ev}"?`)) {
+                                events[dateId].splice(idx, 1);
+                                localStorage.setItem('desktop_events', JSON.stringify(events));
+                                renderCalendar();
+                            }
+                        };
+                        cell.appendChild(evDiv);
+                    });
+                }
+
+                cell.onclick = () => {
+                    const task = prompt("New event:");
+                    if (task) {
+                        if (!events[dateId]) events[dateId] = [];
+                        events[dateId].push(task);
+                        localStorage.setItem('desktop_events', JSON.stringify(events));
+                        renderCalendar();
+                    }
+                };
+
+                grid.appendChild(cell);
+            }
+        }
+
+        function changeMonth(dir) {
+            currentMonth += dir;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        }
+
+        renderCalendar();
+    </script>
+</body>
+</html>
