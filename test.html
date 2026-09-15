@@ -13,7 +13,6 @@
             --window-bg: #fdfbf7;
             --border-color: #1a1a1a;
             --accent-teal: #82b5ba;
-            --accent-orange: #f2a679;
             --text-main: #1a1a1a;
             --shadow: 4px 4px 0px #1a1a1a;
             --font-mono: 'Space Mono', monospace;
@@ -84,7 +83,7 @@
             top: 50px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
             z-index: 10;
         }
 
@@ -128,13 +127,14 @@
             position: fixed;
             left: 20px;
             top: 50px;
-            width: 240px;
+            width: 230px;
+            max-height: calc(100vh - 70px);
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 12px;
             z-index: 5;
-            max-height: calc(100vh - 60px);
-            overflow-y: auto;
+            padding-right: 4px;
         }
 
         .widget-card {
@@ -153,7 +153,7 @@
             font-family: var(--font-pixel);
             font-size: 2.8rem;
             line-height: 1;
-            margin: 6px 0;
+            margin: 8px 0;
         }
 
         .stat-bar {
@@ -177,43 +177,41 @@
             background: var(--accent-teal);
         }
 
-        /* Grounding & Horizon Specific Widgets */
-        .grounding-box {
-            background: #fff8e7;
-            border: 2px dashed var(--border-color);
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            line-height: 1.3;
-        }
-
-        .grounding-title {
-            font-weight: 800;
-            font-size: 0.65rem;
-            letter-spacing: 0.05rem;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            text-transform: uppercase;
-        }
-
-        .horizon-timer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-cream);
+        /* --- Countdown & Quote Widget --- */
+        .timer-box {
+            background: #fff;
             border: 2px solid var(--border-color);
-            padding: 6px 8px;
             border-radius: 6px;
-            margin-top: 6px;
+            padding: 6px;
+            text-align: center;
+            margin-bottom: 6px;
         }
 
-        .horizon-val {
+        .timer-box .number {
+            display: block;
             font-family: var(--font-pixel);
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #d9534f;
+            font-size: 2.2rem;
+            line-height: 1;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .timer-box .label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        .motivation {
+            font-size: 0.65rem;
+            line-height: 1.35;
+            background: var(--bg-cream);
+            border: 2px dashed var(--border-color);
+            padding: 8px;
+            border-radius: 6px;
+            font-style: italic;
+            margin-top: 8px;
         }
 
         /* --- Window System --- */
@@ -275,7 +273,6 @@
             max-height: 70vh;
         }
 
-        /* Custom Controls inside Windows */
         .btn-retro {
             background: var(--window-bg);
             border: 2px solid var(--border-color);
@@ -294,6 +291,11 @@
             background: var(--accent-teal);
         }
 
+        .btn-retro:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--border-color);
+        }
+
         .input-retro {
             background: #fff;
             border: 2px solid var(--border-color);
@@ -305,49 +307,12 @@
             outline: none;
         }
 
-        /* --- App Specific Styles --- */
         .timer-display {
             font-family: var(--font-pixel);
             font-size: 4.5rem;
             text-align: center;
             margin: 10px 0;
         }
-
-        /* Marks Card Table */
-        .marks-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.7rem;
-            margin-top: 10px;
-        }
-
-        .marks-table th, .marks-table td {
-            border: 2px solid var(--border-color);
-            padding: 6px 8px;
-            text-align: left;
-        }
-
-        .marks-table th {
-            background: var(--accent-teal);
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .marks-table tr:nth-child(even) {
-            background: #f9f6f0;
-        }
-
-        .tag-status {
-            font-weight: 700;
-            padding: 1px 4px;
-            border-radius: 3px;
-            border: 1px solid var(--border-color);
-            font-size: 0.6rem;
-        }
-
-        .status-done { background: #b4e197; }
-        .status-rev { background: #ffe194; }
-        .status-pending { background: #ffb3b3; }
 
         .calendar-grid {
             display: grid;
@@ -410,65 +375,55 @@
             <span class="menu-item">Play</span>
             <span class="menu-item">Edit</span>
             <span class="menu-item">Window</span>
-            <span class="menu-item">Jnanasudha</span>
+            <span class="menu-item">Enjoy</span>
         </div>
         <div class="menu-right">
-            <span id="active-win-title">/home/jnanasudha - marks_card</span>
+            <span id="active-win-title">/home/fun - browser</span>
             <span id="top-bar-clock">Sat Oct 16 11:28 AM</span>
         </div>
     </div>
 
-    <!-- Left Widget Panel (OPEN BY DEFAULT: Daily Grounding & Horizon Timers) -->
+    <!-- Left Widget Panel (Always Visible Side) -->
     <div class="widget-panel">
-        
-        <!-- SYSTEM TIME -->
         <div class="widget-card widget-clock">
             <div style="font-size: 0.65rem; font-weight: 700;">SYSTEM TIME</div>
             <div class="widget-time" id="side-clock">11:28 AM</div>
             <div style="font-size: 0.6rem; opacity: 0.8;" id="side-date">OCTOBER 16, 2026</div>
         </div>
 
-        <!-- DAILY GROUNDING WIDGET (Open Side Thing) -->
+        <!-- Academic Horizons & Target Countdowns -->
         <div class="widget-card">
-            <div class="grounding-title"><i class="fa-solid fa-quote-left"></i> Daily Grounding</div>
-            <div class="grounding-box">
-                <p id="daily-quote" style="font-style: italic; margin-bottom: 6px;">"Success is not final, failure is not fatal: it is the courage to continue that counts."</p>
-                <div style="text-align: right; font-weight: 700; font-size: 0.6rem;">- Jnanasudha Thought</div>
+            <div style="font-weight: 700; font-size: 0.65rem; margin-bottom: 8px; text-transform: uppercase;">Target Horizons</div>
+            <div class="timer-box">
+                <span class="number" id="neet">--</span>
+                <span class="label">Days to NEET 2028</span>
             </div>
-        </div>
-
-        <!-- HORIZON COUNTDOWNS (NEET & BOARDS TIMER) -->
-        <div class="widget-card">
-            <div class="grounding-title"><i class="fa-solid fa-compass"></i> Horizon Timers</div>
+            <div class="timer-box">
+                <span class="number" id="jee">--</span>
+                <span class="label">Days to JEE Mains</span>
+            </div>
+            <div class="timer-box">
+                <span class="number" id="boards">--</span>
+                <span class="label">Days to Boards</span>
+            </div>
             
-            <div style="font-size: 0.65rem; font-weight: 700; margin-top: 4px;">BOARDS EXAM</div>
-            <div class="horizon-timer">
-                <span style="font-size: 0.65rem; font-weight: 700;">DAYS LEFT</span>
-                <span class="horizon-val" id="boards-countdown">--</span>
-            </div>
-
-            <div style="font-size: 0.65rem; font-weight: 700; margin-top: 8px;">NEET UG EXAM</div>
-            <div class="horizon-timer">
-                <span style="font-size: 0.65rem; font-weight: 700;">DAYS LEFT</span>
-                <span class="horizon-val" id="neet-countdown">--</span>
-            </div>
+            <div id="quoteDisplay" class="motivation">Loading...</div>
         </div>
 
-        <!-- SYSTEM STATS -->
         <div class="widget-card">
             <div class="stat-bar">vol <div class="bar-outer"><div class="bar-inner" style="width: 75%;"></div></div></div>
             <div class="stat-bar">cpu <div class="bar-outer"><div class="bar-inner" style="width: 40%;"></div></div></div>
             <div class="stat-bar">ram <div class="bar-outer"><div class="bar-inner" style="width: 60%;"></div></div></div>
         </div>
+
+        <div class="widget-card" style="font-size: 0.65rem;">
+            <div style="font-weight: 700; margin-bottom: 4px;">NOW PLAYING</div>
+            <div style="opacity: 0.7;">Focus Audio - Lofi Beats</div>
+        </div>
     </div>
 
     <!-- Desktop Icons (Right Side Launchers) -->
     <div class="desktop-icons">
-        <button class="icon-btn" onclick="openWindow('win-markscard')">
-            <div class="icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
-            <span>Marks Card</span>
-        </button>
-
         <button class="icon-btn" onclick="openWindow('win-timer')">
             <div class="icon-box"><i class="fa-solid fa-hourglass-start"></i></div>
             <span>Timer</span>
@@ -500,85 +455,8 @@
         </button>
     </div>
 
-    <!-- MASTER CARD: MARKS CARD WINDOW (OPEN BY DEFAULT) -->
-    <div class="window active" id="win-markscard" style="top: 60px; left: 280px; width: 560px;">
-        <div class="window-header">
-            <div class="window-controls">
-                <div class="win-btn close" onclick="closeWindow('win-markscard')"></div>
-                <div class="win-btn min"></div>
-            </div>
-            <div class="window-title">/home/jnanasudha - master_marks_card</div>
-            <div></div>
-        </div>
-        <div class="window-body">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 8px;">
-                <div>
-                    <div style="font-weight: 800; font-size: 0.9rem;">JNANASUDHA ACADEMIC MARKS & SYLLABUS</div>
-                    <div style="font-size: 0.65rem; opacity: 0.8;">Target: NEET & Board Examinations</div>
-                </div>
-                <div style="text-align: right; font-weight: bold; font-size: 0.75rem; background: var(--bg-cream); border: 1.5px solid var(--border-color); padding: 4px 8px;">
-                    SCORE: 670 / 720
-                </div>
-            </div>
-
-            <table class="marks-table">
-                <thead>
-                    <tr>
-                        <th>Subject / Topic</th>
-                        <th>Boards (%)</th>
-                        <th>NEET Score</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Physics:</strong> Mechanics & Electrodynamics</td>
-                        <td>94%</td>
-                        <td>165 / 180</td>
-                        <td><span class="tag-status status-done">COMPLETED</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Physics:</strong> Optics & Modern Physics</td>
-                        <td>88%</td>
-                        <td>150 / 180</td>
-                        <td><span class="tag-status status-rev">REVISION</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Chemistry:</strong> Organic Chemistry</td>
-                        <td>92%</td>
-                        <td>170 / 180</td>
-                        <td><span class="tag-status status-done">COMPLETED</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Chemistry:</strong> Physical & Inorganic</td>
-                        <td>85%</td>
-                        <td>155 / 180</td>
-                        <td><span class="tag-status status-rev">REVISION</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Biology:</strong> Genetics & Evolution</td>
-                        <td>98%</td>
-                        <td>175 / 180</td>
-                        <td><span class="tag-status status-done">COMPLETED</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Biology:</strong> Human Physiology & Plant Bio</td>
-                        <td>90%</td>
-                        <td>160 / 180</td>
-                        <td><span class="tag-status status-pending">PENDING</span></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div style="margin-top: 12px; font-size: 0.65rem; display: flex; justify-content: space-between;">
-                <span>Last Updated: Today</span>
-                <span style="font-weight: bold; text-decoration: underline; cursor: pointer;" onclick="alert('Jnanasudha topic breakdown updated!')">Sync Marks Data</span>
-            </div>
-        </div>
-    </div>
-
     <!-- WINDOW 1: Focus Timer -->
-    <div class="window" id="win-timer" style="top: 120px; left: 340px; width: 360px;">
+    <div class="window active" id="win-timer" style="top: 100px; left: 280px; width: 360px;">
         <div class="window-header">
             <div class="window-controls">
                 <div class="win-btn close" onclick="closeWindow('win-timer')"></div>
@@ -603,7 +481,7 @@
     </div>
 
     <!-- WINDOW 2: Stopwatch -->
-    <div class="window" id="win-stopwatch" style="top: 140px; left: 380px; width: 340px;">
+    <div class="window" id="win-stopwatch" style="top: 140px; left: 320px; width: 340px;">
         <div class="window-header">
             <div class="window-controls">
                 <div class="win-btn close" onclick="closeWindow('win-stopwatch')"></div>
@@ -624,7 +502,7 @@
     </div>
 
     <!-- WINDOW 3: Calendar -->
-    <div class="window" id="win-calendar" style="top: 100px; left: 320px; width: 480px;">
+    <div class="window" id="win-calendar" style="top: 80px; left: 280px; width: 480px;">
         <div class="window-header">
             <div class="window-controls">
                 <div class="win-btn close" onclick="closeWindow('win-calendar')"></div>
@@ -644,7 +522,7 @@
     </div>
 
     <!-- WINDOW 4: Spotify / Music -->
-    <div class="window" id="win-spotify" style="top: 160px; left: 360px; width: 420px;">
+    <div class="window" id="win-spotify" style="top: 120px; left: 300px; width: 420px;">
         <div class="window-header">
             <div class="window-controls">
                 <div class="win-btn close" onclick="closeWindow('win-spotify')"></div>
@@ -659,6 +537,26 @@
     </div>
 
     <script>
+        // --- GROUNDING QUOTES & HORIZON LOGIC ---
+        const quotes = [
+            '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
+            '"We know that suffering produces perseverance; character; and hope." – Romans 5:3',
+            '"The impediment to action advances action. What stands in the way becomes the way." – Marcus Aurelius',
+            '"Pray as though everything depended on God. Work as though everything depended on you." – St. Augustine'
+        ];
+        
+        document.getElementById('quoteDisplay').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+        function updateCountdowns() {
+            const todayTime = new Date().getTime();
+            const calcDays = (t) => Math.max(0, Math.ceil((new Date(t).getTime() - todayTime) / 86400000));
+            
+            document.getElementById('neet').innerText = calcDays('May 5, 2028');
+            document.getElementById('jee').innerText = calcDays('Jan 15, 2028');
+            document.getElementById('boards').innerText = calcDays('Mar 1, 2028');
+        }
+        updateCountdowns();
+
         // --- WINDOW DRAGGING SYSTEM ---
         let topZIndex = 100;
 
@@ -710,39 +608,6 @@
             document.getElementById(id).classList.remove('active');
         }
 
-        // --- HORIZON COUNTDOWNS (NEET & BOARDS) ---
-        function updateHorizonCountdowns() {
-            const now = new Date();
-            
-            // Exam Target Dates (Adjust year/month if needed)
-            const boardsDate = new Date(now.getFullYear(), 2, 1); // March 1st
-            if (now > boardsDate) boardsDate.setFullYear(boardsDate.getFullYear() + 1);
-            
-            const neetDate = new Date(now.getFullYear(), 4, 3); // May 3rd
-            if (now > neetDate) neetDate.setFullYear(neetDate.getFullYear() + 1);
-
-            const diffBoards = Math.ceil((boardsDate - now) / (1000 * 60 * 60 * 24));
-            const diffNeet = Math.ceil((neetDate - now) / (1000 * 60 * 60 * 24));
-
-            document.getElementById('boards-countdown').textContent = diffBoards + 'd';
-            document.getElementById('neet-countdown').textContent = diffNeet + 'd';
-        }
-
-        // --- JNANASUDHA DAILY GROUNDING QUOTES ---
-        const groundingQuotes = [
-            '"Knowledge with action creates true power." - Jnanasudha',
-            '"Consistency turns average efforts into extraordinary results."',
-            '"Focus on understanding concepts, marks will follow naturally."',
-            '"Your potential is determined by your daily discipline."',
-            '"Small daily improvements over time lead to stunning results."'
-        ];
-
-        function setDailyGrounding() {
-            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-            const quoteIndex = dayOfYear % groundingQuotes.length;
-            document.getElementById('daily-quote').textContent = groundingQuotes[quoteIndex];
-        }
-
         // --- CLOCK MANAGEMENT ---
         function updateClocks() {
             const now = new Date();
@@ -761,11 +626,8 @@
             document.getElementById('side-clock').textContent = timeStr;
             document.getElementById('side-date').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
         }
-
         setInterval(updateClocks, 1000);
         updateClocks();
-        updateHorizonCountdowns();
-        setDailyGrounding();
 
         // --- TIMER APP ---
         let timerInt, totalSec = 0, isTimerRunning = false;
