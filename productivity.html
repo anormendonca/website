@@ -83,7 +83,7 @@
             top: 50px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
             z-index: 10;
         }
 
@@ -122,7 +122,7 @@
             background: var(--accent-teal);
         }
 
-        /* --- Left Widget Panel --- */
+        /* --- Left Fixed Panel --- */
         .widget-panel {
             position: fixed;
             left: 20px;
@@ -130,7 +130,7 @@
             width: 220px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             z-index: 5;
         }
 
@@ -174,6 +174,50 @@
             background: var(--accent-teal);
         }
 
+        /* --- Horizontal Timer Grid inside Draggable Window --- */
+        .timers-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .timer-box {
+            flex: 1;
+            background: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 4px;
+            text-align: center;
+        }
+
+        .timer-box .number {
+            display: block;
+            font-family: var(--font-pixel);
+            font-size: 2.2rem;
+            line-height: 1;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .timer-box .label {
+            font-size: 0.58rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0.85;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .motivation {
+            font-size: 0.68rem;
+            line-height: 1.35;
+            background: var(--bg-cream);
+            border: 2px dashed var(--border-color);
+            padding: 10px;
+            border-radius: 6px;
+            font-style: italic;
+        }
+
         /* --- Window System --- */
         .window {
             position: absolute;
@@ -181,7 +225,7 @@
             border: 2.5px solid var(--border-color);
             border-radius: 10px;
             box-shadow: 6px 6px 0px var(--border-color);
-            min-width: 320px;
+            min-width: 300px;
             display: none;
             flex-direction: column;
             overflow: hidden;
@@ -227,13 +271,12 @@
         }
 
         .window-body {
-            padding: 16px;
+            padding: 14px;
             flex: 1;
             overflow-y: auto;
             max-height: 70vh;
         }
 
-        /* --- Custom Controls inside Windows --- */
         .btn-retro {
             background: var(--window-bg);
             border: 2px solid var(--border-color);
@@ -268,7 +311,6 @@
             outline: none;
         }
 
-        /* --- App Specific Styles --- */
         .timer-display {
             font-family: var(--font-pixel);
             font-size: 4.5rem;
@@ -340,7 +382,7 @@
             <span class="menu-item">Enjoy</span>
         </div>
         <div class="menu-right">
-            <span id="active-win-title">/home/fun - browser</span>
+            <span id="active-win-title">/home/apps - target_horizons</span>
             <span id="top-bar-clock">Sat Oct 16 11:28 AM</span>
         </div>
     </div>
@@ -367,6 +409,11 @@
 
     <!-- Desktop Icons (Right Side Launchers) -->
     <div class="desktop-icons">
+        <button class="icon-btn" onclick="openWindow('win-horizons')">
+            <div class="icon-box"><i class="fa-solid fa-bullseye"></i></div>
+            <span>Targets</span>
+        </button>
+
         <button class="icon-btn" onclick="openWindow('win-timer')">
             <div class="icon-box"><i class="fa-solid fa-hourglass-start"></i></div>
             <span>Timer</span>
@@ -398,8 +445,40 @@
         </button>
     </div>
 
-    <!-- WINDOW 1: Focus Timer -->
-    <div class="window active" id="win-timer" style="top: 100px; left: 270px; width: 360px;">
+    <!-- DRAGGABLE WINDOW: Target Horizons & Motivational Quotes (Starts Next To Clock) -->
+    <div class="window active" id="win-horizons" style="top: 50px; left: 265px; width: 380px;">
+        <div class="window-header">
+            <div class="window-controls">
+                <div class="win-btn close" onclick="closeWindow('win-horizons')"></div>
+                <div class="win-btn min"></div>
+            </div>
+            <div class="window-title">/home/apps - target_horizons</div>
+            <div></div>
+        </div>
+        <div class="window-body">
+            <!-- 3 Timers Arranged Side-by-Side Horizontal Row -->
+            <div class="timers-row">
+                <div class="timer-box">
+                    <span class="number" id="neet">--</span>
+                    <span class="label">NEET '28</span>
+                </div>
+                <div class="timer-box">
+                    <span class="number" id="jee">--</span>
+                    <span class="label">JEE MAINS</span>
+                </div>
+                <div class="timer-box">
+                    <span class="number" id="boards">--</span>
+                    <span class="label">BOARDS</span>
+                </div>
+            </div>
+
+            <!-- Motivational Quote Display Panel -->
+            <div id="quoteDisplay" class="motivation">Loading...</div>
+        </div>
+    </div>
+
+    <!-- WINDOW: Focus Timer -->
+    <div class="window" id="win-timer" style="top: 160px; left: 300px; width: 360px;">
         <div class="window-header">
             <div class="window-controls">
                 <div class="win-btn close" onclick="closeWindow('win-timer')"></div>
@@ -423,8 +502,8 @@
         </div>
     </div>
 
-    <!-- WINDOW 2: Stopwatch -->
-    <div class="window" id="win-stopwatch" style="top: 140px; left: 320px; width: 340px;">
+    <!-- WINDOW: Stopwatch -->
+    <div class="window" id="win-stopwatch" style="top: 180px; left: 340px; width: 340px;">
         <div class="window-header">
             <div class="window-controls">
                 <div class="win-btn close" onclick="closeWindow('win-stopwatch')"></div>
@@ -444,8 +523,8 @@
         </div>
     </div>
 
-    <!-- WINDOW 3: Calendar -->
-    <div class="window" id="win-calendar" style="top: 80px; left: 260px; width: 480px;">
+    <!-- WINDOW: Calendar -->
+    <div class="window" id="win-calendar" style="top: 100px; left: 320px; width: 480px;">
         <div class="window-header">
             <div class="window-controls">
                 <div class="win-btn close" onclick="closeWindow('win-calendar')"></div>
@@ -464,8 +543,8 @@
         </div>
     </div>
 
-    <!-- WINDOW 4: Spotify / Music -->
-    <div class="window" id="win-spotify" style="top: 120px; left: 300px; width: 420px;">
+    <!-- WINDOW: Spotify / Music -->
+    <div class="window" id="win-spotify" style="top: 120px; left: 350px; width: 420px;">
         <div class="window-header">
             <div class="window-controls">
                 <div class="win-btn close" onclick="closeWindow('win-spotify')"></div>
@@ -480,6 +559,26 @@
     </div>
 
     <script>
+        // --- QUOTES & HORIZON LOGIC ---
+        const quotes = [
+            '"If God sends you many sufferings, it is a sign that He has great plans for you." – St. Ignatius',
+            '"We know that suffering produces perseverance; character; and hope." – Romans 5:3',
+            '"The impediment to action advances action. What stands in the way becomes the way." – Marcus Aurelius',
+            '"Pray as though everything depended on God. Work as though everything depended on you." – St. Augustine'
+        ];
+        
+        document.getElementById('quoteDisplay').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+        function updateCountdowns() {
+            const todayTime = new Date().getTime();
+            const calcDays = (t) => Math.max(0, Math.ceil((new Date(t).getTime() - todayTime) / 86400000));
+            
+            document.getElementById('neet').innerText = calcDays('May 5, 2028');
+            document.getElementById('jee').innerText = calcDays('Jan 15, 2028');
+            document.getElementById('boards').innerText = calcDays('Mar 1, 2028');
+        }
+        updateCountdowns();
+
         // --- WINDOW DRAGGING SYSTEM ---
         let topZIndex = 100;
 
@@ -638,7 +737,7 @@
                 const text = document.getElementById('sw-display').textContent;
                 const div = document.createElement('div');
                 div.style.display = 'flex';
-                div.style.justifySpaceBetween = 'space-between';
+                div.style.justifyContent = 'space-between';
                 div.innerHTML = `<span>LAP</span><span>${text}</span>`;
                 document.getElementById('sw-laps').prepend(div);
             }
